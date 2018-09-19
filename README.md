@@ -17,8 +17,9 @@ A simple modal.
 
 ```javascript
 import React from "react"
-import SimpleModal from "@alexseitsinger/simple-modal"
+import PropTypes from "prop-types"
 import {connect} from "react-redux"
+import SimpleModal from "@alexseitsinger/simple-modal"
 import {setModalVisible} from "../actions/example"
 import style from "./style.css"
 
