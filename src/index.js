@@ -254,6 +254,30 @@ class SimpleModal extends React.Component {
             onOpen,
             isVisible,
         } = this.props
+        const modal = (
+            <Modal className={"modal"}
+                   ref={el => this.SELF = el}>
+                <ModalBackground backgroundShade={backgroundShade}/>
+                <ModalForeground>
+                    <ModalCloseButton backgroundShade={backgroundShade}
+                                      style={closeButtonStyle}
+                                      onClick={() => {
+                                          this.unfixScrolling(this.SELF)
+                                          if(_.isFunction(onClose)){
+                                              onClose()
+                                          }
+                                      }}>
+                        <FontAwesomeIcon icon={faTimes}
+                                         size={"2x"}/>
+                    </ModalCloseButton>
+                    <ModalWindow>
+                        <ModalWindowContent>
+                            {children}
+                        </ModalWindowContent>
+                    </ModalWindow>
+                </ModalForeground>
+            </Modal>
+        )
         // If the element is visible...
         if(isVisible) {
             // Fix scrolling for all elements except this one.
@@ -264,30 +288,6 @@ class SimpleModal extends React.Component {
             }
             if(typeof document == "undefined"){ return null }
             // Then, create the portal element in the DOM, under the BODY.
-            const modal = (
-                <Modal className={"modal"}
-                       ref={el => this.SELF = el}>
-                    <ModalBackground backgroundShade={backgroundShade}/>
-                    <ModalForeground>
-                        <ModalCloseButton backgroundShade={backgroundShade}
-                                          style={closeButtonStyle}
-                                          onClick={() => {
-                                              this.unfixScrolling(this.SELF)
-                                              if(_.isFunction(onClose)){
-                                                  onClose()
-                                              }
-                                          }}>
-                            <FontAwesomeIcon icon={faTimes}
-                                             size={"2x"}/>
-                        </ModalCloseButton>
-                        <ModalWindow>
-                            <ModalWindowContent>
-                                {children}
-                            </ModalWindowContent>
-                        </ModalWindow>
-                    </ModalForeground>
-                </Modal>
-            )
             return ReactDOM.createPortal(modal, document.body)
         }
         else {
