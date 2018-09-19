@@ -95,6 +95,58 @@ function removeStyle(element, style) {
     }
 }
 
+class SimpleModalActual extends React.Component {
+    constructor(props){
+        super(props)
+        this.MODAL = null
+    }
+    componentDidMount() {
+        const {
+            onDidMount
+        } = this.props
+        if(_.isFunction(onDidMount)){
+            onDidMount(this.MODAL)
+        }
+    }
+    componentWillUnmount() {
+        const {
+            onWillUnmount
+        } = this.props
+        if(_.isFunction(onWillUnmount)){
+            onWillUnmount(this.MODAL)
+        }
+    }
+    render() {
+        const {
+            backgroundShade,
+            closeButtonStyle,
+            onClickCloseButton,
+            children
+        } = this.props
+        return (
+            <Modal className={"modal"}
+                   innerRef={(el) => {
+                       this.MODAL = el
+                   }}>
+                <ModalBackground backgroundShade={backgroundShade}/>
+                <ModalForeground>
+                    <ModalCloseButton backgroundShade={backgroundShade}
+                                      style={closeButtonStyle}
+                                      onClick={onClickCloseButton}>
+                        <FontAwesomeIcon icon={faTimes}
+                                         size={"2x"}/>
+                    </ModalCloseButton>
+                    <ModalWindow>
+                        <ModalWindowContent>
+                            {children}
+                        </ModalWindowContent>
+                    </ModalWindow>
+                </ModalForeground>
+            </Modal>
+        )
+    }
+}
+
 
 class SimpleModal extends React.Component {
     static propTypes = {
@@ -105,12 +157,6 @@ class SimpleModal extends React.Component {
         isVisible: PropTypes.bool.isRequired,
         onEscapeKey: PropTypes.func
     };
-
-    constructor(props){
-        super(props)
-        // A variable for our REF to the container element of the modal.
-        this.SELF = null
-    }
 
     // When the document has a keydown event, debounce the event until the last
     // one. Then, check if it's the ESC key. If it is, check if we got a prop
@@ -150,15 +196,15 @@ class SimpleModal extends React.Component {
 
     // Return a list of elements that have the classname "modal". Exclude any
     // elements that match the element provided as "self" argument.
-    _getOtherModals = (self) => {
+    _getOtherModals = (modal) => {
         if(typeof document == "undefined"){ return }
         // Get all the elements on the page with the classname modal.
         const otherModals = [].slice.call(document.getElementsByClassName("modal"))
         // If we got ourselves as an argument, rmeove it from the list of
         // elements we return.
-        if(self){
+        if(modal){
             return otherModals.filter((el) => {
-                return (el !== self)
+                return (el !== modal)
             })
         }
         // Otherwise, return them all.
@@ -167,9 +213,9 @@ class SimpleModal extends React.Component {
 
     // Apply the fixed style to each modal in the list so its removed from the
     // scrollable area of the browser.
-    _unfixScrollingForOtherModals = (self) => {
+    _unfixScrollingForOtherModals = (modal) => {
         // For each other modal, excluding ourselves...
-        this._getOtherModals(self).forEach((otherModal) => {
+        this._getOtherModals(modal).forEach((otherModal) => {
             setTimeout(() => {
                 // Remove the fixed element styles from each.
                 removeStyle(otherModal, fixedEl)
@@ -181,7 +227,7 @@ class SimpleModal extends React.Component {
     // fixed element style from it to add it back to the scrollable content area.
     // Then, apply the top position as 0 to reset its position within the scrollable
     // area. Then, automatically scroll the window to the top position first recorded.
-    unfixScrolling = (self) => {
+    unfixScrolling = (modal) => {
         if(typeof document == "undefined"){ return }
         var mainEl = document.getElementsByTagName("main")[0]
         if(isPositionFixed(mainEl)){
@@ -200,14 +246,14 @@ class SimpleModal extends React.Component {
             window.scrollTo(0, previousTopPosition)
         }
         // Remove fixed styles on all other modals, excluding ourselves.
-        this._unfixScrollingForOtherModals(self)
+        this._unfixScrollingForOtherModals(modal)
     };
 
     // Apply position fixed to each modal in the list, if they dont have it already.
     // This removes the modal from the scrollable area in the browser.
-    _fixScrollingForOtherModals = (self) => {
+    _fixScrollingForOtherModals = (modal) => {
         // For each modal, excluding ourself...
-        this._getOtherModals(self).forEach((otherModal) => {
+        this._getOtherModals(modal).forEach((otherModal) => {
             setTimeout(() => {
                 // If its not fixed...
                 if(!isPositionFixed(otherModal)){
@@ -223,7 +269,7 @@ class SimpleModal extends React.Component {
     // position of the main element, if it's greater than 0, move the main element
     // top offset to be the inverse of that number to make it match the scroll
     // position of the widnow before the modal opened.
-    fixScrolling = (self) => {
+    fixScrolling = (modal) => {
         if(typeof document == "undefined"){ return }
         var mainEl = document.getElementsByTagName("main")[0]
         if(!isPositionFixed(mainEl)){
@@ -242,7 +288,7 @@ class SimpleModal extends React.Component {
                 })
             }
         }
-        this._fixScrollingForOtherModals(self)
+        this._fixScrollingForOtherModals(modal)
     };
 
     render() {
@@ -254,40 +300,26 @@ class SimpleModal extends React.Component {
             onOpen,
             isVisible,
         } = this.props
-        const modal = (
-            <Modal className={"modal"}
-                   ref={el => this.SELF = el}>
-                <ModalBackground backgroundShade={backgroundShade}/>
-                <ModalForeground>
-                    <ModalCloseButton backgroundShade={backgroundShade}
-                                      style={closeButtonStyle}
-                                      onClick={() => {
-                                          this.unfixScrolling(this.SELF)
-                                          if(_.isFunction(onClose)){
-                                              onClose()
-                                          }
-                                      }}>
-                        <FontAwesomeIcon icon={faTimes}
-                                         size={"2x"}/>
-                    </ModalCloseButton>
-                    <ModalWindow>
-                        <ModalWindowContent>
-                            {children}
-                        </ModalWindowContent>
-                    </ModalWindow>
-                </ModalForeground>
-            </Modal>
-        )
         // If the element is visible...
         if(isVisible) {
-            // Fix scrolling for all elements except this one.
-            this.fixScrolling(this.SELF)
-            // If theres an open callback provided, invoke it now.
-            if(_.isFunction(onOpen)){
-                onOpen()
-            }
             if(typeof document == "undefined"){ return null }
             // Then, create the portal element in the DOM, under the BODY.
+            const modal = (
+                <SimpleModalActual onDidMount={(modal) => {
+                                       this.fixScrolling(modal)
+                                       if(_.isFunction(onOpen)){
+                                           onOpen()
+                                       }
+                                   }}
+                                   onWillUnmount={(modal) => {
+                                       this.unfixScrolling()
+                                   }}
+                                   onClickCloseButton={onClose}
+                                   closeButtonStyle={closeButtonStyle}
+                                   backgroundShade={backgroundShade}>
+                    {children}
+                </SimpleModalActual>
+            )
             return ReactDOM.createPortal(modal, document.body)
         }
         else {
