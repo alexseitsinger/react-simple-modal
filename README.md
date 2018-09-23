@@ -4,14 +4,26 @@
 
 A simple modal.
 
+## Installation
+
+```
+npm install @alexseitsinger/simple-modal
+```
+
+or
+
+```
+yarn add @alexseitsinger/simple-modal
+```
+
 ## Props
 
-* backgroundShade (string/optional) - The shade of color (dark/light) to use for the modal background.
-* closeButtonStyle (object/optional) - Extra style to apply to the close button.
-* onClose (func/required) - Function to run when the modal is closed.
-* onOpen (func/optional) - Function to invoke when the modal is opened.
-* isVisible (bool/required) - Is this modal visible or not?
-* onEscapeKey (func/optional) - Function to run when escape key is pressed.
+* backgroundShade - (String, Optional) - The shade of color (dark/light) to use for the modal background.
+* closeButtonStyle - (Object, Optional) - Extra style to apply to the close button.
+* onClose - (Function, Required) - Function to run when the modal is closed.
+* onOpen - (Function, Optional) - Function to invoke when the modal is opened.
+* isVisible - (Boolean, Required) - Is this modal visible or not?
+* onEscapeKey - (Function, Optional) - Function to run when escape key is pressed.
 
 ## Usage
 
