@@ -3,5 +3,12 @@
         "env",
         "react",
         "stage-0"
-    ]
+    ],
+    "plugins": [
+        "emotion"
+    ],
+    "env": {
+        "production": [],
+        "development": []
+    }
 }

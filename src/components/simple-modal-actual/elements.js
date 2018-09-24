@@ -1,7 +1,7 @@
 import styled from "react-emotion"
 import {css} from "emotion"
 
-const Modal = styled.div`
+export const Modal = styled.div`
     position: absolute;
     min-height: 100%;
     width: 100%;
@@ -13,7 +13,7 @@ const Modal = styled.div`
     justify-content: center;
 `
 
-const ModalForeground = styled.div`
+export const ModalForeground = styled.div`
     z-index: 4;
     display: flex;
     flex-direction: row;
@@ -22,7 +22,7 @@ const ModalForeground = styled.div`
     height: 100%;
 `
 
-const ModalBackground = styled.div`
+export const ModalBackground = styled.div`
     position: absolute;
     width: 100%;
     min-height: 100%;
@@ -35,7 +35,7 @@ const ModalBackground = styled.div`
     `}
 `
 
-const ModalCloseButton = styled.button`
+export const ModalCloseButton = styled.button`
     position: fixed;
     top: 0;
     right: 0;
@@ -49,10 +49,11 @@ const ModalCloseButton = styled.button`
         color: #222;
     `}
 `
-const ModalWindow = styled.div`
+
+export const ModalWindow = styled.div`
     height: 100%;
     width: 100%;
 `
 
-const ModalWindowContent = styled.div`
+export const ModalWindowContent = styled.div`
 `
