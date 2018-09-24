@@ -1,161 +1,38 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
-import classNames from "classnames"
-import _ from "underscore"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faTimes} from "@fortawesome/free-solid-svg-icons"
 import {debounce} from "debounce"
-import styled, {css} from "styled-components"
-
-const Modal = styled.div`
-    position: absolute;
-    min-height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
-
-const ModalForeground = styled.div`
-    z-index: 4;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-`
-
-const ModalBackground = styled.div`
-    position: absolute;
-    width: 100%;
-    min-height: 100%;
-    z-index: 3;
-    ${props => (props.backgroundShade === "dark") && css`
-        background-color: rgba(22, 22, 22, 0.5);
-    `}
-    ${props => (props.backgroundShade === "light") && css`
-        background-color: rgba(255, 255, 255, 0.5);
-    `}
-`
-
-const ModalCloseButton = styled.button`
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    margin-right: 1.5rem;
-    margin-top: 1.5rem;
-    ${props => (props.backgroundShade == "dark") && css`
-        color: #EEE;
-    `}
-    ${props => (props.backgroundShade == "light") && css`
-        color: #222;
-    `}
-`
-const ModalWindow = styled.div`
-    height: 100%;
-    width: 100%;
-`
-
-const ModalWindowContent = styled.div`
-`
-
-const fixedEl = {
-    position: "fixed",
-    width: "100%"
-}
-
-function applyStyle(element, style) {
-    for(var key in style){
-        if(style.hasOwnProperty(key)){
-            var value = style[key]
-            element.style[key] = value
-        }
-    }
-}
-
-function isPositionFixed(el){
-    if(el.style &&
-       el.style.position &&
-       el.style.position === "fixed"){
-        return true
-    }
-    return false
-}
-
-function removeStyle(element, style) {
-    for(var key in style){
-        if(style.hasOwnProperty(key)){
-            element.style.removeProperty(key)
-        }
-    }
-}
-
-class SimpleModalActual extends React.Component {
-    constructor(props){
-        super(props)
-        this.MODAL = null
-    }
-    componentDidMount() {
-        const {
-            onDidMount
-        } = this.props
-        if(_.isFunction(onDidMount)){
-            onDidMount(this.MODAL)
-        }
-    }
-    componentWillUnmount() {
-        const {
-            onWillUnmount
-        } = this.props
-        if(_.isFunction(onWillUnmount)){
-            onWillUnmount(this.MODAL)
-        }
-    }
-    render() {
-        const {
-            backgroundShade,
-            closeButtonStyle,
-            onClickCloseButton,
-            children
-        } = this.props
-        return (
-            <Modal className={"modal"}
-                   innerRef={(el) => {
-                       this.MODAL = el
-                   }}>
-                <ModalBackground backgroundShade={backgroundShade}/>
-                <ModalForeground>
-                    <ModalCloseButton backgroundShade={backgroundShade}
-                                      style={closeButtonStyle}
-                                      onClick={onClickCloseButton}>
-                        <FontAwesomeIcon icon={faTimes}
-                                         size={"2x"}/>
-                    </ModalCloseButton>
-                    <ModalWindow>
-                        <ModalWindowContent>
-                            {children}
-                        </ModalWindowContent>
-                    </ModalWindow>
-                </ModalForeground>
-            </Modal>
-        )
-    }
-}
-
+import SimpleModalActual from "./components/simple-modal-actual"
+import {
+    fixedElStyle,
+    applyStyle,
+    removeStyle,
+    isPositionFixed,
+} from "./utils"
 
 class SimpleModal extends React.Component {
     static propTypes = {
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node
+        ]).isRequired,
         backgroundShade: PropTypes.string,
-        closeButtonStyle: PropTypes.object,
         onClose: PropTypes.func.isRequired,
+        closeButtonStyle: PropTypes.object,
         onOpen: PropTypes.func,
         isVisible: PropTypes.bool.isRequired,
         onEscapeKey: PropTypes.func
+    };
+
+    static defaultProps = {
+        backgroundShade: "dark",
+        closeButtonStyle: {},
+        onOpen: () => {
+            //...
+        },
+        onEscapeKey: () => {
+            //...
+        },
     };
 
     // When the document has a keydown event, debounce the event until the last
@@ -165,10 +42,7 @@ class SimpleModal extends React.Component {
         const key = event.which
         const ESCAPE_KEY_CODE = 27
         if(key === ESCAPE_KEY_CODE){
-            const onEscapeKey = this.props.onEscapeKey
-            if(_.isFunction(onEscapeKey)){
-                onEscapeKey()
-            }
+            this.props.onEscapeKey()
         }
     }, 500);
 
@@ -218,7 +92,7 @@ class SimpleModal extends React.Component {
         this._getOtherModals(modal).forEach((otherModal) => {
             setTimeout(() => {
                 // Remove the fixed element styles from each.
-                removeStyle(otherModal, fixedEl)
+                removeStyle(otherModal, fixedElStyle)
             })
         })
     };
@@ -235,7 +109,7 @@ class SimpleModal extends React.Component {
             // NOTE: Must be before everything else to capture the top position offset.)
             var previousTopPosition = Math.abs(Number.parseInt(mainEl.style.top))
             // Remove the styles for the fixed els.
-            removeStyle(mainEl, fixedEl)
+            removeStyle(mainEl, fixedElStyle)
             // Apply the style for top position reset.
             applyStyle(mainEl, {
                 "top": "0px",
@@ -258,7 +132,7 @@ class SimpleModal extends React.Component {
                 // If its not fixed...
                 if(!isPositionFixed(otherModal)){
                     // Apply the fixed element style to it.
-                    applyStyle(otherModal, fixedEl)
+                    applyStyle(otherModal, fixedElStyle)
                 }
             }, 100)
         })
@@ -277,7 +151,7 @@ class SimpleModal extends React.Component {
             // Record the window position before we fix the element.
             const yOffset = Math.abs(Number.parseInt(window.pageYOffset))
             // Fix the main element to remove scrolling.
-            applyStyle(mainEl, fixedEl)
+            applyStyle(mainEl, fixedElStyle)
             // Get the top position of the main element.
             const topPosition = parseInt(mainEl.style.top)
             // If the top position is greater than 0, apply a top offset to
@@ -293,30 +167,29 @@ class SimpleModal extends React.Component {
 
     render() {
         const {
+            children,
+            isVisible,
             backgroundShade,
+            onOpen,
             onClose,
             closeButtonStyle,
-            children,
-            onOpen,
-            isVisible,
         } = this.props
         // If the element is visible...
         if(isVisible) {
             if(typeof document == "undefined"){ return null }
             // Then, create the portal element in the DOM, under the BODY.
             const modal = (
-                <SimpleModalActual onDidMount={(modal) => {
-                                       this.fixScrolling(modal)
-                                       if(_.isFunction(onOpen)){
-                                           onOpen()
-                                       }
-                                   }}
-                                   onWillUnmount={(modal) => {
-                                       this.unfixScrolling()
-                                   }}
-                                   onClickCloseButton={onClose}
-                                   closeButtonStyle={closeButtonStyle}
-                                   backgroundShade={backgroundShade}>
+                <SimpleModalActual
+                    onDidMount={(modal) => {
+                        this.fixScrolling(modal)
+                        onOpen()
+                    }}
+                    onWillUnmount={(modal) => {
+                        this.unfixScrolling()
+                    }}
+                    onClickCloseButton={onClose}
+                    closeButtonStyle={closeButtonStyle}
+                    backgroundShade={backgroundShade}>
                     {children}
                 </SimpleModalActual>
             )
