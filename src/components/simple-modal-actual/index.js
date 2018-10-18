@@ -1,14 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/free-solid-svg-icons"
 import {
 	Modal,
 	ModalForeground,
 	ModalBackground,
 	ModalCloseButton,
-	ModalWindow,
-	ModalWindowContent
+	ModalContent,
+	ModalContentInner
 } from "./elements"
 
 class SimpleModalActual extends React.Component {
@@ -20,8 +19,12 @@ class SimpleModalActual extends React.Component {
 		onDidMount: PropTypes.func.isRequired,
 		onWillUnmount: PropTypes.func.isRequired,
 		backgroundShade: PropTypes.string.isRequired,
+		onClickBackground: PropTypes.func.isRequired,
+		onClickCloseButton: PropTypes.func.isRequired,
 		closeButtonStyle: PropTypes.object.isRequired,
-		onClickCloseButton: PropTypes.func.isRequired
+		closeButtonPosition: PropTypes.string.isRequired,
+		closeButtonIconSize: PropTypes.string.isRequired,
+		closeButtonIcon: PropTypes.object.isRequired
 	}
 	constructor(props) {
 		super(props)
@@ -37,26 +40,42 @@ class SimpleModalActual extends React.Component {
 		const {
 			children,
 			backgroundShade,
+			onClickBackground,
+			onClickCloseButton,
 			closeButtonStyle,
-			onClickCloseButton
+			closeButtonPosition,
+			closeButtonIconSize,
+			closeButtonIcon
 		} = this.props
+		const closeButton = (
+			<ModalCloseButton
+				position={closeButtonPosition}
+				backgroundShade={backgroundShade}
+				style={closeButtonStyle}
+				onClick={onClickCloseButton}>
+				<FontAwesomeIcon icon={closeButtonIcon} size={closeButtonIconSize} />
+			</ModalCloseButton>
+		)
 		return (
 			<Modal
 				className={"modal"}
 				innerRef={(el) => {
 					this.MODAL = el
 				}}>
-				<ModalBackground backgroundShade={backgroundShade} />
+				<ModalBackground
+					backgroundShade={backgroundShade}
+					onClick={onClickBackground}
+				/>
 				<ModalForeground>
-					<ModalCloseButton
-						backgroundShade={backgroundShade}
-						style={closeButtonStyle}
-						onClick={onClickCloseButton}>
-						<FontAwesomeIcon icon={faTimes} size={"2x"} />
-					</ModalCloseButton>
-					<ModalWindow>
-						<ModalWindowContent>{children}</ModalWindowContent>
-					</ModalWindow>
+					{closeButtonPosition === "foreground" ? closeButton : null}
+					<ModalContent>
+						{closeButtonPosition === "content"
+							? React.Children.count(children)
+								? closeButton
+								: null
+							: null}
+						<ModalContentInner>{children}</ModalContentInner>
+					</ModalContent>
 				</ModalForeground>
 			</Modal>
 		)

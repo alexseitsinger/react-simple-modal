@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { debounce } from "debounce"
 import SimpleModalActual from "./components/simple-modal-actual"
 import { fixedElStyle, applyStyle, removeStyle, isPositionFixed } from "./utils"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 class SimpleModal extends React.Component {
 	static propTypes = {
@@ -12,20 +13,30 @@ class SimpleModal extends React.Component {
 			PropTypes.node
 		]).isRequired,
 		backgroundShade: PropTypes.string,
-		onClose: PropTypes.func.isRequired,
 		closeButtonStyle: PropTypes.object,
+		closeButtonPosition: PropTypes.string,
+		closeButtonIconSize: PropTypes.string,
+		closeButtonIcon: PropTypes.object,
+		onClose: PropTypes.func.isRequired,
 		onOpen: PropTypes.func,
 		isVisible: PropTypes.bool.isRequired,
-		onEscapeKey: PropTypes.func
+		onEscapeKey: PropTypes.func,
+		onClickBackground: PropTypes.func
 	}
 
 	static defaultProps = {
 		backgroundShade: "dark",
 		closeButtonStyle: {},
+		closeButtonIcon: faTimes,
+		closeButtonIconSize: "2x",
+		closeButtonPosition: "foreground",
 		onOpen: () => {
 			//...
 		},
 		onEscapeKey: () => {
+			//...
+		},
+		onClickBackground: () => {
 			//...
 		}
 	}
@@ -181,7 +192,11 @@ class SimpleModal extends React.Component {
 			backgroundShade,
 			onOpen,
 			onClose,
-			closeButtonStyle
+			closeButtonStyle,
+			closeButtonPosition,
+			closeButtonIconSize,
+			closeButtonIcon,
+			onClickBackground
 		} = this.props
 		// If the element is visible...
 		if (isVisible) {
@@ -199,7 +214,11 @@ class SimpleModal extends React.Component {
 						this.unfixScrolling()
 					}}
 					onClickCloseButton={onClose}
+					onClickBackground={onClickBackground}
 					closeButtonStyle={closeButtonStyle}
+					closeButtonPosition={closeButtonPosition}
+					closeButtonIconSize={closeButtonIconSize}
+					closeButtonIcon={closeButtonIcon}
 					backgroundShade={backgroundShade}>
 					{children}
 				</SimpleModalActual>
