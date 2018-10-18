@@ -24,7 +24,8 @@ class SimpleModalActual extends React.Component {
 		closeButtonStyle: PropTypes.object.isRequired,
 		closeButtonPosition: PropTypes.string.isRequired,
 		closeButtonIconSize: PropTypes.string.isRequired,
-		closeButtonIcon: PropTypes.object.isRequired
+		closeButtonIcon: PropTypes.object.isRequired,
+		closeButtonVisible: PropTypes.bool.isRequired
 	}
 	constructor(props) {
 		super(props)
@@ -36,18 +37,20 @@ class SimpleModalActual extends React.Component {
 	componentWillUnmount() {
 		this.props.onWillUnmount(this.MODAL)
 	}
-	render() {
+	renderCloseButton = () => {
 		const {
-			children,
-			backgroundShade,
-			onClickBackground,
-			onClickCloseButton,
-			closeButtonStyle,
 			closeButtonPosition,
+			backgroundShade,
+			closeButtonStyle,
+			onClickCloseButton,
+			closeButtonIcon,
 			closeButtonIconSize,
-			closeButtonIcon
+			closeButtonVisible
 		} = this.props
-		const closeButton = (
+		if (!closeButtonVisible) {
+			return null
+		}
+		return (
 			<ModalCloseButton
 				position={closeButtonPosition}
 				backgroundShade={backgroundShade}
@@ -56,6 +59,15 @@ class SimpleModalActual extends React.Component {
 				<FontAwesomeIcon icon={closeButtonIcon} size={closeButtonIconSize} />
 			</ModalCloseButton>
 		)
+	}
+	render() {
+		const {
+			children,
+			backgroundShade,
+			onClickBackground,
+			closeButtonPosition
+		} = this.props
+		const renderedCloseButton = this.renderCloseButton()
 		return (
 			<Modal
 				className={"modal"}
@@ -67,14 +79,10 @@ class SimpleModalActual extends React.Component {
 					onClick={onClickBackground}
 				/>
 				<ModalForeground>
-					{closeButtonPosition === "foreground" ? closeButton : null}
+					{closeButtonPosition === "foreground" ? renderedCloseButton : null}
 					<ModalContent>
-						{closeButtonPosition === "content"
-							? React.Children.count(children)
-								? closeButton
-								: null
-							: null}
-						<ModalContentInner>{children}</ModalContentInner>
+						{closeButtonPosition === "content" ? renderedCloseButton : null}
+						{children}
 					</ModalContent>
 				</ModalForeground>
 			</Modal>

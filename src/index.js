@@ -13,6 +13,7 @@ class SimpleModal extends React.Component {
 			PropTypes.node
 		]).isRequired,
 		backgroundShade: PropTypes.string,
+		closeButtonVisible: PropTypes.bool,
 		closeButtonStyle: PropTypes.object,
 		closeButtonPosition: PropTypes.string,
 		closeButtonIconSize: PropTypes.string,
@@ -26,6 +27,7 @@ class SimpleModal extends React.Component {
 
 	static defaultProps = {
 		backgroundShade: "dark",
+		closeButtonVisible: true,
 		closeButtonStyle: {},
 		closeButtonIcon: faTimes,
 		closeButtonIconSize: "2x",
@@ -196,6 +198,7 @@ class SimpleModal extends React.Component {
 			closeButtonPosition,
 			closeButtonIconSize,
 			closeButtonIcon,
+			closeButtonVisible,
 			onClickBackground
 		} = this.props
 		// If the element is visible...
@@ -215,6 +218,7 @@ class SimpleModal extends React.Component {
 					}}
 					onClickCloseButton={onClose}
 					onClickBackground={onClickBackground}
+					closeButtonVisible={closeButtonVisible}
 					closeButtonStyle={closeButtonStyle}
 					closeButtonPosition={closeButtonPosition}
 					closeButtonIconSize={closeButtonIconSize}

@@ -89,7 +89,3 @@ export const ModalContent = styled.div`
 	width: 100%;
 	position: relative;
 `
-
-export const ModalContentInner = styled.div`
-	position: relative;
-`
