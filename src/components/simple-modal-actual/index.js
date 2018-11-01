@@ -25,7 +25,8 @@ class SimpleModalActual extends React.Component {
 		closeButtonPosition: PropTypes.string.isRequired,
 		closeButtonIconSize: PropTypes.string.isRequired,
 		closeButtonIcon: PropTypes.object.isRequired,
-		closeButtonVisible: PropTypes.bool.isRequired
+		closeButtonVisible: PropTypes.bool.isRequired,
+		modalClassName: PropTypes.string.isRequired
 	}
 	constructor(props) {
 		super(props)
@@ -65,12 +66,13 @@ class SimpleModalActual extends React.Component {
 			children,
 			backgroundShade,
 			onClickBackground,
-			closeButtonPosition
+			closeButtonPosition,
+			modalClassName
 		} = this.props
 		const renderedCloseButton = this.renderCloseButton()
 		return (
 			<Modal
-				className={"modal"}
+				className={modalClassName}
 				innerRef={(el) => {
 					this.MODAL = el
 				}}>

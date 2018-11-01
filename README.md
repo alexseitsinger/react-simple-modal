@@ -29,6 +29,7 @@ yarn add @alexseitsinger/simple-modal
 -   isVisible - (Boolean, Required) - Is this modal visible or not?
 -   onEscapeKey - (Function, Optional) - Function to run when escape key is pressed.
 -   onClickBackground - (Function, Optional) - The function to invoke when the modal background is clicked. Can be used to close the modal.
+-   modalClassName - (String, Optional) - The className to prepend to the class for use for all instances of this modal. Defaults to "SimpleModal".
 
 ## Usage
 

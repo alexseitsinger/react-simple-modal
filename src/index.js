@@ -22,10 +22,12 @@ class SimpleModal extends React.Component {
 		onOpen: PropTypes.func,
 		isVisible: PropTypes.bool.isRequired,
 		onEscapeKey: PropTypes.func,
-		onClickBackground: PropTypes.func
+		onClickBackground: PropTypes.func,
+		modalClassName: PropTypes.string
 	}
 
 	static defaultProps = {
+		modalClassName: "SimpleModal",
 		backgroundShade: "dark",
 		closeButtonVisible: true,
 		closeButtonStyle: {},
@@ -86,8 +88,11 @@ class SimpleModal extends React.Component {
 		if (typeof document == "undefined") {
 			return
 		}
+		const { modalClassName } = this.props
 		// Get all the elements on the page with the classname modal.
-		const otherModals = [].slice.call(document.getElementsByClassName("modal"))
+		const otherModals = [].slice.call(
+			document.getElementsByClassName(modalClassName)
+		)
 		// If we got ourselves as an argument, rmeove it from the list of
 		// elements we return.
 		if (modal) {
@@ -120,22 +125,24 @@ class SimpleModal extends React.Component {
 			return
 		}
 		var mainEl = document.getElementsByTagName("main")[0]
-		if (isPositionFixed(mainEl)) {
-			// Record the current top position of the main element.
-			// NOTE: Must be before everything else to capture the top position offset.)
-			var previousTopPosition = Math.abs(Number.parseInt(mainEl.style.top))
-			// Remove the styles for the fixed els.
-			removeStyle(mainEl, fixedElStyle)
-			// Apply the style for top position reset.
-			applyStyle(mainEl, {
-				top: "0px"
-			})
-			// Force the window to re-scroll to the original position.
-			// NOTE: Must be the last thing to run in order to reset scrolling.
-			if (typeof window === "undefined") {
-				return
+		if (mainEl) {
+			if (isPositionFixed(mainEl)) {
+				// Record the current top position of the main element.
+				// NOTE: Must be before everything else to capture the top position offset.)
+				var previousTopPosition = Math.abs(Number.parseInt(mainEl.style.top))
+				// Remove the styles for the fixed els.
+				removeStyle(mainEl, fixedElStyle)
+				// Apply the style for top position reset.
+				applyStyle(mainEl, {
+					top: "0px"
+				})
+				// Force the window to re-scroll to the original position.
+				// NOTE: Must be the last thing to run in order to reset scrolling.
+				if (typeof window === "undefined") {
+					return
+				}
+				window.scrollTo(0, previousTopPosition)
 			}
-			window.scrollTo(0, previousTopPosition)
 		}
 		// Remove fixed styles on all other modals, excluding ourselves.
 		this._unfixScrollingForOtherModals(modal)
@@ -166,22 +173,24 @@ class SimpleModal extends React.Component {
 			return
 		}
 		var mainEl = document.getElementsByTagName("main")[0]
-		if (!isPositionFixed(mainEl)) {
-			if (typeof window == "undefined") {
-				return
-			}
-			// Record the window position before we fix the element.
-			const yOffset = Math.abs(Number.parseInt(window.pageYOffset))
-			// Fix the main element to remove scrolling.
-			applyStyle(mainEl, fixedElStyle)
-			// Get the top position of the main element.
-			const topPosition = parseInt(mainEl.style.top)
-			// If the top position is greater than 0, apply a top offset to
-			// move it up when the modal is opened.
-			if (!(topPosition > 0)) {
-				applyStyle(mainEl, {
-					top: "-" + yOffset + "px"
-				})
+		if (mainEl) {
+			if (!isPositionFixed(mainEl)) {
+				if (typeof window == "undefined") {
+					return
+				}
+				// Record the window position before we fix the element.
+				const yOffset = Math.abs(Number.parseInt(window.pageYOffset))
+				// Fix the main element to remove scrolling.
+				applyStyle(mainEl, fixedElStyle)
+				// Get the top position of the main element.
+				const topPosition = parseInt(mainEl.style.top)
+				// If the top position is greater than 0, apply a top offset to
+				// move it up when the modal is opened.
+				if (!(topPosition > 0)) {
+					applyStyle(mainEl, {
+						top: "-" + yOffset + "px"
+					})
+				}
 			}
 		}
 		this._fixScrollingForOtherModals(modal)
@@ -199,7 +208,8 @@ class SimpleModal extends React.Component {
 			closeButtonIconSize,
 			closeButtonIcon,
 			closeButtonVisible,
-			onClickBackground
+			onClickBackground,
+			modalClassName
 		} = this.props
 		// If the element is visible...
 		if (isVisible) {
@@ -209,6 +219,7 @@ class SimpleModal extends React.Component {
 			// Then, create the portal element in the DOM, under the BODY.
 			const modal = (
 				<SimpleModalActual
+					modalClassName={modalClassName}
 					onDidMount={(modal) => {
 						this.fixScrolling(modal)
 						onOpen()
