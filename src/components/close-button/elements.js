@@ -25,14 +25,14 @@ export const Button = styled.button`
 		`
 	}
 	${(props) =>
-		props.position === "content" &&
+		props.position === "window" &&
 		props.shade === "dark" &&
 		css`
 			color: #222;
 		`
 	}
 	${(props) =>
-		props.position === "content" &&
+		props.position === "window" &&
 		props.shade === "light" &&
 		css`
 			color: #EEE;

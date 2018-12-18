@@ -3,7 +3,7 @@ const path = require("path")
 module.exports = {
 	entry: "./src/index.js",
 	mode: "production",
-	target: "web",
+	target: "node",
 	output: {
 		path: path.resolve("./dist"),
 		filename: "[name].js",
