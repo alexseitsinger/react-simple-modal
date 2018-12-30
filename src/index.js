@@ -4,9 +4,10 @@ import PropTypes from "prop-types"
 import { debounce } from "debounce"
 
 import {
-	documentExists,
-	windowExists,
-	fixedStyle,
+	getTopOffset,
+	getYOffset,
+	defaultFixedStyle,
+	getFixedStyle,
 	isFixed,
 	addStyle,
 	removeStyle,
@@ -80,33 +81,33 @@ class SimpleModal extends React.Component {
 
 	getLayerIndex = () => {
 		const { layerPosition, defaultIndex } = this.props
-		const totalElements = this.getElements().length
-		if (totalElements === 0) {
+		const totalInstances = this.getInstances().length
+		if (totalInstances === 0) {
 			return defaultIndex
 		}
 		if (layerPosition === "above") {
-			return defaultIndex + totalElements
+			return defaultIndex + totalInstances
 		}
 		if (layerPosition === "below") {
-			return defaultIndex - totalElements
+			return defaultIndex - totalInstances
 		}
 	}
 
 	// Return a list of elements that have the classname "modal". Exclude any
 	// elements that match the element provided as "self" argument.
-	getElements = (thisElement) => {
+	getInstances = (excludedInstance) => {
 		// Get all the elements on the page with the classname modal.
 		const { containerClassName } = this.props
-		const elements = getElementsByClassName(containerClassName)
+		const instances = getElementsByClassName(containerClassName)
 		// If we got ourselves as an argument, rmeove it from the list of
 		// elements we return.
-		if (thisElement) {
-			return elements.filter((element) => {
-				return thisElement !== element
+		if (excludedInstance) {
+			return instances.filter((instance) => {
+				return excludedInstance !== instance
 			})
 		}
 		// Otherwise, return them all.
-		return elements
+		return instances
 	}
 
 	getMainElement = () => {
@@ -119,20 +120,15 @@ class SimpleModal extends React.Component {
 		return getElement(mountPointSelector)
 	}
 
-	// If the main element is fixed, record its top position. Then, remove the
-	// fixed element style from it to add it back to the scrollable content area.
-	// Then, apply the top position as 0 to reset its position within the
-	// scrollable area. Then, automatically scroll the window to the top
-	// position first recorded.
-	unfixScrolling = (thisElement) => {
+	unfixMainElement = () => {
 		const mainEl = this.getMainElement()
 		if (mainEl) {
 			if (isFixed(mainEl)) {
 				// Record the current top position of the main element.
 				// NOTE: Must be before everything else to capture the top position offset.)
-				var top = Math.abs(Number.parseInt(mainEl.style.top))
+				const top = getTopOffset(mainEl)
 				// Remove the styles for the fixed els.
-				removeStyle(mainEl, fixedStyle)
+				removeStyle(mainEl, getFixedStyle(mainEl))
 				// Apply the style for top position reset.
 				addStyle(mainEl, {
 					top: "0px"
@@ -142,9 +138,50 @@ class SimpleModal extends React.Component {
 				scrollTo(top)
 			}
 		}
-		this.getElements(thisElement).forEach((thatElement) => {
-			if (isFixed(thatElement)) {
-				removeStyle(thatElement, fixedStyle)
+	}
+
+	// If the main element is fixed, record its top position. Then, remove the
+	// fixed element style from it to add it back to the scrollable content area.
+	// Then, apply the top position as 0 to reset its position within the
+	// scrollable area. Then, automatically scroll the window to the top
+	// position first recorded.
+	unfixScrolling = (thisInstance) => {
+		this.unfixMainElement()
+		this.unfixOtherInstances(thisInstance)
+	}
+
+	unfixOtherInstances = (thisInstance) => {
+		this.getInstances(thisInstance).forEach((thatInstance) => {
+			if (isFixed(thatInstance)) {
+				removeStyle(thatInstance, defaultFixedStyle)
+			}
+		})
+	}
+
+	fixMainElement = () => {
+		const mainEl = this.getMainElement()
+		if (mainEl) {
+			if (!isFixed(mainEl)) {
+				// Record the window position before we fix the element.
+				const yOffset = getYOffset()
+				// Fix the main element to remove scrolling.
+				addStyle(mainEl, getFixedStyle(mainEl))
+				// Get the top position of the main element.
+				const top = getTopOffset(mainEl)
+				// If the top position is not greater than 0, apply a negative top offset to move it up when the modal is opened.
+				if (!(top > 0)) {
+					addStyle(mainEl, {
+						top: "-" + yOffset + "px"
+					})
+				}
+			}
+		}
+	}
+
+	fixOtherInstances = (thisInstance) => {
+		this.getInstances(thisInstance).forEach((thatInstance) => {
+			if (!isFixed(thatInstance)) {
+				addStyle(thatInstance, defaultFixedStyle)
 			}
 		})
 	}
@@ -154,74 +191,55 @@ class SimpleModal extends React.Component {
 	// position of the main element, if it's greater than 0, move the main element
 	// top offset to be the inverse of that number to make it match the scroll
 	// position of the widnow before the modal opened.
-	fixScrolling = (thisElement) => {
-		const mainEl = this.getMainElement()
-		if (mainEl) {
-			if (!isFixed(mainEl)) {
-				// Record the window position before we fix the element.
-				const yOffset = windowExists
-					? Math.abs(Number.parseInt(window.pageYOffset))
-					: 0
-				// Fix the main element to remove scrolling.
-				addStyle(mainEl, fixedStyle)
-				// Get the top position of the main element.
-				const top = parseInt(mainEl.style.top)
-				// If the top position is not greater than 0, apply a negative top offset to move it up when the modal is opened.
-				if (!(top > 0)) {
-					addStyle(mainEl, {
-						top: "-" + yOffset + "px"
+	fixScrolling = (thisInstance) => {
+		this.fixMainElement()
+		this.fixOtherInstances(thisInstance)
+	}
+
+	renderBody = () => {
+		const {
+			containerClassName,
+			onOpen,
+			onClose,
+			onClickBackground,
+			closeButtonVisible,
+			closeButtonStyle,
+			closeButtonBody,
+			closeButtonPosition,
+			backgroundShade,
+			children
+		} = this.props
+		return (
+			<Body
+				onMount={(thisInstance) => {
+					this.fixScrolling(thisInstance)
+					addStyle(thisInstance, {
+						zIndex: this.getLayerIndex()
 					})
-				}
-			}
-		}
-		this.getElements(thisElement).forEach((thatElement) => {
-			if (!isFixed(thatElement)) {
-				addStyle(thatElement, fixedStyle)
-			}
-		})
+					onOpen()
+				}}
+				onUnmount={(thisInstance) => {
+					this.unfixScrolling()
+				}}
+				containerClassName={containerClassName}
+				onClickCloseButton={onClose}
+				onClickBackground={onClickBackground}
+				closeButtonVisible={closeButtonVisible}
+				closeButtonStyle={closeButtonStyle}
+				closeButtonBody={closeButtonBody}
+				closeButtonPosition={closeButtonPosition}
+				backgroundShade={backgroundShade}>
+				{children}
+			</Body>
+		)
 	}
 
 	render() {
-		const {
-			children,
-			isVisible,
-			containerClassName,
-			backgroundShade,
-			onOpen,
-			onClose,
-			closeButtonStyle,
-			closeButtonPosition,
-			closeButtonVisible,
-			closeButtonBody,
-			onClickBackground
-		} = this.props
+		const { isVisible } = this.props
 		if (isVisible) {
+			const body = this.renderBody()
 			const mountPoint = this.getMountPoint()
-			const modalBody = (
-				<Body
-					onMount={(thisElement) => {
-						this.fixScrolling(thisElement)
-						const layerIndex = this.getLayerIndex()
-						addStyle(thisElement, {
-							zIndex: layerIndex
-						})
-						onOpen()
-					}}
-					onUnmount={(thisElement) => {
-						this.unfixScrolling()
-					}}
-					containerClassName={containerClassName}
-					onClickCloseButton={onClose}
-					onClickBackground={onClickBackground}
-					closeButtonVisible={closeButtonVisible}
-					closeButtonStyle={closeButtonStyle}
-					closeButtonBody={closeButtonBody}
-					closeButtonPosition={closeButtonPosition}
-					backgroundShade={backgroundShade}>
-					{children}
-				</Body>
-			)
-			return ReactDOM.createPortal(modalBody, mountPoint)
+			return ReactDOM.createPortal(body, mountPoint)
 		} else {
 			// Remove fixed styles from all the elements.
 			this.unfixScrolling()
