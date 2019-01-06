@@ -20,6 +20,39 @@ import {
 } from "./utils"
 import Body from "./components/body"
 
+/**
+ * @name SimpleModal
+ * @description A modal that can be used with react redux.
+ * @param {object} props
+ * @param {Node|Array} props.children - The child elements to render.
+ * @param {String} [props.backgroundShade=dark] - The background shade to use.
+ * @param {Boolean} [props.closeButtonVisible=true] - Determine if the close button is visible.
+ * @param {Object} [props.closeButtonStyle={}] - Extra style to apply to the close button.
+ * @param {String} [props.closeButtonPosition=foreground] - The position of the close button.
+ * @param {Node|Array} [props.closeButtonBody=close] - The body of the close button.
+ * @param {Function} props.onClose - The function to invoke when the modal closes.
+ * @param {Function} [props.onOpen=() => {}] - The function to invoke when the modal opens.
+ * @param {Boolean} props.isVisible - Determines if the modal is rendered into the DOM.
+ * @param {Function} [props.onEscapeKey=() => {}] - The function to invoke when then esacpe key is pressed.
+ * @param {Function} [props.onClickBackground=() => {}] - The function to invoke when the background of the modal is clicked.
+ * @param {String} [props.containerClassName=SimpleModal] - The classname to use for the modal container element.
+ * @param {String} [props.layerPosition=above] - The layer position to use for the zIndex.
+ * @param {Number} [props.defaultIndex=100] - The default zIndex to start from.
+ * @param {String} [props.mainElementSelector=main] - The selector to use to find the main element in the DOM.
+ * @param {String} [props.mountPointSelector=body] - The selector to use to find the mount point element in the DOM>
+ * @example
+ * <SimpleModal
+ *   isVisible={true}
+ *   closeButtonPosition={"window"}
+ *   onClose={() => {
+ *     doClose()
+ *   }}
+ *   onEscapeKey={() => {
+ *     doClose()
+ *   }}>
+ *   <div>An example modal body</div>
+ * </SimpleModal>
+ */
 class SimpleModal extends React.Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([
