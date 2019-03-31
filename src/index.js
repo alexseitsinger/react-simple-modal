@@ -69,7 +69,7 @@ class SimpleModal extends React.Component {
 		]),
 		onClose: PropTypes.func.isRequired,
 		onOpen: PropTypes.func,
-		isVisible: PropTypes.bool.isRequired,
+		isVisible: PropTypes.bool,
 		onEscapeKey: PropTypes.func,
 		onClickBackground: PropTypes.func,
 		containerClassName: PropTypes.string,
@@ -80,6 +80,7 @@ class SimpleModal extends React.Component {
 	}
 
 	static defaultProps = {
+		isVisible: true,
 		mountPointSelector: "body",
 		mainElementSelector: "main",
 		containerClassName: "SimpleModal",
