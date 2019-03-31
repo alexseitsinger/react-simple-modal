@@ -87,12 +87,12 @@ class SimpleModal extends React.Component {
 		closeButtonVisible: true,
 		closeButtonStyle: {},
 		closeButtonPosition: "foreground",
+		closeButtonBody: "close",
 		onOpen: () => {},
 		onEscapeKey: () => {},
 		onClickBackground: () => {},
 		layerPosition: "above",
-		defaultIndex: 100,
-		closeButtonBody: "close"
+		defaultIndex: 100
 	}
 
 	// When the document has a keydown event, debounce the event until the last

@@ -41,47 +41,47 @@ const defaultProps = {
 
 describe("<SimpleModal/>", () => {
 	test("renders nothing", () => {
-		const props = Object.assign({}, defaultProps, {
+		const wrapper = setup({
+			...defaultProps,
 			isVisible: false
 		})
-		const wrapper = setup(props)
 		expect(wrapper.isEmptyRender()).toEqual(true)
 	})
 	test("renders without a close button", () => {
-		const props = Object.assign({}, defaultProps, {
+		const wrapper = setup({
+			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: false
 		})
-		const wrapper = setup(props)
 		expect(wrapper.find(CloseButton)).toHaveLength(0)
 	})
 	test("renders a close button in window", () => {
-		const props = Object.assign({}, defaultProps, {
+		const wrapper = setup({
+			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: true,
 			closeButtonPosition: "window"
 		})
-		const wrapper = setup(props)
 		const closeButton = wrapper.find(CloseButton)
 		const parent = closeButton.parents().first()
 		expect(parent.containsMatchingElement(Window)).toEqual(true)
 	})
 	test("renders a close button in foreground", () => {
-		const props = Object.assign({}, defaultProps, {
+		const wrapper = setup({
+			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: true,
 			closeButtonPosition: "foreground"
 		})
-		const wrapper = setup(props)
 		const closeButton = wrapper.find(CloseButton)
 		const parent = closeButton.parents().first()
 		expect(parent.containsMatchingElement(Foreground)).toEqual(true)
 	})
 	test("renders test content in the window", () => {
-		const props = Object.assign({}, defaultProps, {
+		const wrapper = setup({
+			...defaultProps,
 			isVisible: true
 		})
-		const wrapper = setup(props)
 		expect(wrapper.find(Window).contains(<div>test content</div>)).toEqual(true)
 	})
 })
