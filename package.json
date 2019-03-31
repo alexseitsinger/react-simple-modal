@@ -1,13 +1,12 @@
 {
 	"name": "@alexseitsinger/simple-modal",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "A simple modal.",
 	"main": "dist/main.js",
 	"homepage": "https://github.com/alexseitsinger/simple-modal#readme",
 	"author": {
 		"name": "Alex Seitsinger",
-		"email": "alexseitsinger@gmail.com",
-		"url": "https://www.alexseitsinger.com"
+		"email": "contact@alexseitsinger.com"
 	},
 	"license": "BSD-2-Clause",
 	"repository": {
@@ -20,28 +19,32 @@
 		"README.md"
 	],
 	"devDependencies": {
-		"@babel/core": "^7.2.2",
-		"@babel/plugin-proposal-class-properties": "^7.2.3",
-		"@babel/preset-env": "^7.2.3",
-		"@babel/preset-react": "^7.0.0",
+		"@babel/core": "7.4.0",
+		"@babel/plugin-proposal-class-properties": "7.4.0",
+		"@babel/preset-env": "7.4.2",
+		"@babel/preset-react": "7.0.0",
 		"babel-core": "7.0.0-bridge.0",
-		"babel-jest": "^23.6.0",
-		"babel-loader": "^8.0.5",
-		"babel-plugin-emotion": "^10.0.5",
-		"enzyme": "^3.8.0",
-		"enzyme-adapter-react-16": "^1.7.1",
-		"jest": "^23.6.0",
-		"jest-emotion": "^10.0.5",
-		"webpack": "^4.28.3",
-		"webpack-cli": "^3.2.0"
+		"babel-jest": "24.5.0",
+		"babel-loader": "8.0.5",
+		"babel-plugin-emotion": "10.0.9",
+		"enzyme": "3.9.0",
+		"enzyme-adapter-react-16": "1.11.2",
+		"jest": "24.5.0",
+		"jest-emotion": "10.0.10",
+		"react": "16.8.6",
+		"react-dom": "16.8.6",
+		"webpack": "4.29.6",
+		"webpack-cli": "3.3.0"
 	},
 	"dependencies": {
-		"@emotion/core": "^10.0.5",
-		"@emotion/styled": "^10.0.5",
-		"debounce": "^1.2.0",
-		"prop-types": "^15.6.2",
-		"react": "^16.7.0",
-		"react-dom": "^16.7.0"
+		"@emotion/core": "10.0.10",
+		"@emotion/styled": "10.0.10",
+		"debounce": "1.2.0",
+		"prop-types": "15.7.2"
+	},
+	"peerDependencies": {
+		"react": "16.8.6",
+		"react-dom": "16.8.6"
 	},
 	"scripts": {
 		"build": "./node_modules/.bin/webpack --config=webpack.config.js",
