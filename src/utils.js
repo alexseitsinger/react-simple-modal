@@ -1,4 +1,4 @@
-const documentExists = typeof document !== "undefined" ? true : null
+export const documentExists = typeof document !== "undefined" ? true : null
 
 const windowExists = typeof window !== "undefined" ? true : null
 

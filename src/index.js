@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { debounce } from "debounce"
 
 import {
+	documentExists,
 	getTopOffset,
 	getYOffset,
 	defaultFixedStyle,
@@ -271,9 +272,11 @@ class SimpleModal extends React.Component {
 	render() {
 		const { isVisible } = this.props
 		if (isVisible) {
-			const body = this.renderBody()
-			const mountPoint = this.getMountPoint()
-			return ReactDOM.createPortal(body, mountPoint)
+			if(documentExists){
+				const body = this.renderBody()
+				const mountPoint = this.getMountPoint()
+				return ReactDOM.createPortal(body, mountPoint)
+			}
 		} else {
 			// Remove fixed styles from all the elements.
 			this.unfixScrolling()
