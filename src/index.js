@@ -11,7 +11,7 @@ import {
 	isFixed,
 	addStyle,
 	removeStyle,
-	getElementsByClassName,
+	getElements,
 	getElement,
 	isEscapeKey,
 	addEventListener,
@@ -132,7 +132,7 @@ class SimpleModal extends React.Component {
 	getInstances = (excludedInstance) => {
 		// Get all the elements on the page with the classname modal.
 		const { containerClassName } = this.props
-		const instances = getElementsByClassName(containerClassName)
+		const instances = getElements(("." + containerClassName))
 		// If we got ourselves as an argument, rmeove it from the list of
 		// elements we return.
 		if (excludedInstance) {
@@ -151,8 +151,24 @@ class SimpleModal extends React.Component {
 
 	getMountPoint = () => {
 		const { mountPointSelector } = this.props
-		return getElement(mountPointSelector)
+		var el = this.mountPoint || getElement(mountPointSelector)
+		if(!el) {
+			el = document.createElement("div")
+			el.className = "ModalRoot"
+			this.mountPoint = el
+			document.body.appendChild(el)
+		}
+		return el
 	}
+
+	componentWillUnmount(){
+		if(this.mountPoint){
+			this.mountPoint.parentNode.removeChild(this.mountPoint)
+			this.mountPoint = null
+		}
+	}
+
+
 
 	unfixMainElement = () => {
 		const mainEl = this.getMainElement()

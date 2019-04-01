@@ -107,11 +107,11 @@ export function removeStyle(element, style) {
 	})
 }
 
-export function getElementsByClassName(className) {
+export function getElements(selector) {
 	if (!documentExists) {
 		return []
 	}
-	return [].slice.call(document.getElementsByClassName(className))
+	return document.querySelectorAll(selector)
 }
 
 export function getElement(selector) {
