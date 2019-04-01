@@ -2,10 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 import { debounce } from "debounce"
-import {
-	UniversalPortal,
-	prepareClientPortals
-} from  "@jesstelford/react-portal-universal";
+import { UniversalPortal } from  "@jesstelford/react-portal-universal"
 
 import {
 	documentExists,
@@ -289,8 +286,5 @@ class SimpleModal extends React.Component {
 		return null
 	}
 }
-
-// Remove static markup and allow React to render only actual components.
-prepareClientPortals()
 
 export default SimpleModal
