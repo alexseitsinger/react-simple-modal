@@ -151,24 +151,8 @@ class SimpleModal extends React.Component {
 
 	getMountPoint = () => {
 		const { mountPointSelector } = this.props
-		var el = this.mountPoint || getElement(mountPointSelector)
-		if(!el) {
-			el = document.createElement("div")
-			el.className = "ModalRoot"
-			this.mountPoint = el
-			document.body.appendChild(el)
-		}
-		return el
+		return getElement(mountPointSelector)
 	}
-
-	componentWillUnmount(){
-		if(this.mountPoint){
-			this.mountPoint.parentNode.removeChild(this.mountPoint)
-			this.mountPoint = null
-		}
-	}
-
-
 
 	unfixMainElement = () => {
 		const mainEl = this.getMainElement()
