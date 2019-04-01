@@ -111,7 +111,7 @@ export function getElements(selector) {
 	if (!documentExists) {
 		return []
 	}
-	return document.querySelectorAll(selector)
+	return [].slice.call(document.querySelectorAll(selector))
 }
 
 export function getElement(selector) {
