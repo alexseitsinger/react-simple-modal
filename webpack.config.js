@@ -18,6 +18,5 @@ module.exports = {
 				use: "babel-loader"
 			}
 		]
-	},
-	externals: ["@jesstelford/react-portal-universal"]
+	}
 }

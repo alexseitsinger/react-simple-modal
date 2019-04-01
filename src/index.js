@@ -2,10 +2,8 @@ import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 import { debounce } from "debounce"
-import { UniversalPortal } from  "@jesstelford/react-portal-universal"
 
 import {
-	documentExists,
 	getTopOffset,
 	getYOffset,
 	defaultFixedStyle,
@@ -78,12 +76,10 @@ class SimpleModal extends React.Component {
 		layerPosition: PropTypes.string,
 		defaultIndex: PropTypes.number,
 		mainElementSelector: PropTypes.string,
-		mountPointSelector: PropTypes.string
 	}
 
 	static defaultProps = {
 		isVisible: true,
-		mountPointSelector: "body",
 		mainElementSelector: "main",
 		containerClassName: "SimpleModal",
 		backgroundShade: "dark",
@@ -149,11 +145,6 @@ class SimpleModal extends React.Component {
 	getMainElement = () => {
 		const { mainElementSelector } = this.props
 		return getElement(mainElementSelector)
-	}
-
-	getMountPoint = () => {
-		const { mountPointSelector } = this.props
-		return getElement(mountPointSelector)
 	}
 
 	unfixMainElement = () => {
@@ -271,14 +262,9 @@ class SimpleModal extends React.Component {
 	}
 
 	render() {
-		const { isVisible, mountPointSelector } = this.props
+		const { isVisible } = this.props
 		if (isVisible) {
-			const body = this.renderBody()
-			return (
-				<UniversalPortal selector={mountPointSelector}>
-					{body}
-				</UniversalPortal>
-			)
+			return this.renderBody()
 		}
 		// Remove fixed styles from all the elements.
 		this.unfixScrolling()

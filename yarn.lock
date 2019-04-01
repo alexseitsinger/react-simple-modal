@@ -788,13 +788,6 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
   integrity sha512-n/VQ4mbfr81aqkx/XmVicOLjviMuy02eenSdJY33SVA7S2J42EU0P1H0mOogfYedb3wXA0d/LVtBrgTSm04WEA==
 
-"@jesstelford/react-portal-universal@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@jesstelford/react-portal-universal/-/react-portal-universal-1.0.6.tgz#ca073584691667de7301c982f09ddf6a7d03295d"
-  integrity sha512-AgkE7PNbTbynY2K5XY+rQvXwn0BBjtUTN8tjL5+p5Bk19tVwuYJLmErIIEBtHM6HM0ZnsGOOEWTZROvUuktOrw==
-  dependencies:
-    cheerio "^1.0.0-rc.2"
-
 "@jest/console@^24.3.0":
   version "24.3.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.3.0.tgz#7bd920d250988ba0bf1352c4493a48e1cb97671e"
