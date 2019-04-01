@@ -277,12 +277,12 @@ class SimpleModal extends React.Component {
 				const mountPoint = this.getMountPoint()
 				return ReactDOM.createPortal(body, mountPoint)
 			}
-		} else {
-			// Remove fixed styles from all the elements.
-			this.unfixScrolling()
-			// Dont return any rendered element since its not visible.
 			return null
 		}
+		// Remove fixed styles from all the elements.
+		this.unfixScrolling()
+		// Dont return any rendered element since its not visible.
+		return null
 	}
 }
 
