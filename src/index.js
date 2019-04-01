@@ -2,6 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 import { debounce } from "debounce"
+import {
+	UniversalPortal,
+	prepareClientPortals
+} from  "@jesstelford/react-portal-universal";
 
 import {
 	documentExists,
@@ -270,14 +274,14 @@ class SimpleModal extends React.Component {
 	}
 
 	render() {
-		const { isVisible } = this.props
+		const { isVisible, mountPointSelector } = this.props
 		if (isVisible) {
-			if(documentExists){
-				const body = this.renderBody()
-				const mountPoint = this.getMountPoint()
-				return ReactDOM.createPortal(body, mountPoint)
-			}
-			return null
+			const body = this.renderBody()
+			return (
+				<UniversalPortal selector={mountPointSelector}>
+					{body}
+				</UniversalPortal>
+			)
 		}
 		// Remove fixed styles from all the elements.
 		this.unfixScrolling()
@@ -285,5 +289,8 @@ class SimpleModal extends React.Component {
 		return null
 	}
 }
+
+// Remove static markup and allow React to render only actual components.
+prepareClientPortals()
 
 export default SimpleModal

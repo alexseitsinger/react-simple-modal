@@ -23,6 +23,7 @@
 		"@babel/plugin-proposal-class-properties": "7.4.0",
 		"@babel/preset-env": "7.4.2",
 		"@babel/preset-react": "7.0.0",
+		"@jesstelford/react-portal-universal": "^1.0.6",
 		"babel-core": "7.0.0-bridge.0",
 		"babel-jest": "24.5.0",
 		"babel-loader": "8.0.5",
@@ -43,6 +44,7 @@
 		"prop-types": "15.7.2"
 	},
 	"peerDependencies": {
+		"@jesstelford/react-portal-universal": "^1.0.6",
 		"react": "16.8.6",
 		"react-dom": "16.8.6"
 	},
