@@ -5,13 +5,6 @@ import SimpleModal from "./src"
 import CloseButton from "./src/components/close-button"
 import { Window, Foreground } from "./src/components/body/elements"
 
-function setup(props) {
-	return mount(
-		<SimpleModal {...props}>
-			<div>test content</div>
-		</SimpleModal>
-	)
-}
 
 const defaultProps = {
 	backgroundShade: "dark",
@@ -39,17 +32,27 @@ const defaultProps = {
 	mountPointSelector: "body"
 }
 
+function setup(props) {
+	const finalProps = {
+		...defaultProps,
+		...props,
+	}
+	return mount(
+		<SimpleModal {...finalProps}>
+			<div>test content</div>
+		</SimpleModal>
+	)
+}
+
 describe("<SimpleModal/>", () => {
-	test("renders nothing", () => {
+	test("renders nothing when not visible", () => {
 		const wrapper = setup({
-			...defaultProps,
-			isVisible: false
+			isVisible: false,
 		})
 		expect(wrapper.isEmptyRender()).toEqual(true)
 	})
 	test("renders without a close button", () => {
 		const wrapper = setup({
-			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: false
 		})
@@ -57,7 +60,6 @@ describe("<SimpleModal/>", () => {
 	})
 	test("renders a close button in window", () => {
 		const wrapper = setup({
-			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: true,
 			closeButtonPosition: "window"
@@ -68,7 +70,6 @@ describe("<SimpleModal/>", () => {
 	})
 	test("renders a close button in foreground", () => {
 		const wrapper = setup({
-			...defaultProps,
 			isVisible: true,
 			closeButtonVisible: true,
 			closeButtonPosition: "foreground"
@@ -79,7 +80,6 @@ describe("<SimpleModal/>", () => {
 	})
 	test("renders test content in the window", () => {
 		const wrapper = setup({
-			...defaultProps,
 			isVisible: true
 		})
 		expect(wrapper.find(Window).contains(<div>test content</div>)).toEqual(true)

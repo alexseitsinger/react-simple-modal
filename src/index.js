@@ -1,2 +1,1 @@
-export SimpleModalMountPoint from "./components/mount-point"
-export SimpleModal from "./components/instance"
+export default from "./components/instance"

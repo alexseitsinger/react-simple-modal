@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { debounce } from "debounce"
 
 import {
+	documentExists,
 	getTopOffset,
 	getYOffset,
 	defaultFixedStyle,
@@ -94,42 +95,124 @@ class SimpleModal extends React.Component {
 		defaultIndex: 100
 	}
 
-	constructor(props) {
-		super(props)
-		props.emitter.emit("SIMPLE_MODAL/ADD_INSTANCE", this)
-	}
-
 	// When the document has a keydown event, debounce the event until the last
 	// one. Then, check if it's the ESC key. If it is, check if we got a prop
 	// called onEscapeKey, and invoke it if so.
-	// handleKeyDown = debounce((event) => {
-	// 	if (isEscapeKey(event.which)) {
-	// 		this.props.onEscapeKey()
-	// 	}
-	// }, 500)
+	handleKeyDown = debounce((event) => {
+		if (isEscapeKey(event.which)) {
+			this.props.onEscapeKey()
+		}
+	}, 500)
 
 	componentWillUnmount() {
-		// removeEventListener("keydown", this.handleKeyDown)
-		this.props.emitter.emit("SIMPLE_MODAL/REMOVE_INSTANCE", this)
+		removeEventListener("keydown", this.handleKeyDown)
+		// instances.splice(instances.indexOf(this), 1)
 	}
 
-	// componentDidMount() {
-		// addEventListener("keydown", this.handleKeyDown)
-	// }
+	componentDidMount() {
+		addEventListener("keydown", this.handleKeyDown)
+		// instances.push(this)
+	}
 
-	// getLayerIndex = () => {
-	// 	const { layerPosition, defaultIndex } = this.props
-	// 	const totalInstances = this.getInstances().length
-	// 	if (totalInstances === 0) {
-	// 		return defaultIndex
-	// 	}
-	// 	if (layerPosition === "above") {
-	// 		return defaultIndex + totalInstances
-	// 	}
-	// 	if (layerPosition === "below") {
-	// 		return defaultIndex - totalInstances
-	// 	}
-	// }
+	getLayerIndex = () => {
+		const { layerPosition, defaultIndex } = this.props
+		const totalInstances = this.getInstances().length
+		if (totalInstances === 0) {
+			return defaultIndex
+		}
+		if (layerPosition === "above") {
+			return defaultIndex + totalInstances
+		}
+		if (layerPosition === "below") {
+			return defaultIndex - totalInstances
+		}
+	}
+
+	getMainElement = () => {
+		const { mainElementSelector } = this.props
+		return getElement(mainElementSelector)
+	}
+
+	enableScrollingOnMainElement = () => {
+		const mainEl = this.getMainElement()
+		if (mainEl) {
+			if (isFixed(mainEl)) {
+				// Record the current top position of the main element.
+				// NOTE: Must be before everything else to capture the top position offset.)
+				const top = getTopOffset(mainEl)
+				// Remove the styles for the fixed els.
+				removeStyle(mainEl, getFixedStyle(mainEl))
+				// Apply the style for top position reset.
+				addStyle(mainEl, {
+					top: "0px"
+				})
+				// Force the window to re-scroll to the original position.
+				// NOTE: Must be the last thing to run in order to reset scrolling.
+				scrollTo(top)
+			}
+		}
+	}
+
+	disableScrollingOnMainElement = () => {
+		const mainEl = this.getMainElement()
+		if (mainEl) {
+			if (!isFixed(mainEl)) {
+				// Record the window position before we fix the element.
+				const yOffset = getYOffset()
+				// Fix the main element to remove scrolling.
+				addStyle(mainEl, getFixedStyle(mainEl))
+				// Get the top position of the main element.
+				const top = getTopOffset(mainEl)
+				// If the top position is not greater than 0, apply a negative top offset to move it up when the modal is opened.
+				if (!(top > 0)) {
+					addStyle(mainEl, {
+						top: "-" + yOffset + "px"
+					})
+				}
+			}
+		}
+	}
+
+	getInstances = () => {
+		const { containerClassName } = this.props
+		return getElements(("." + containerClassName))
+	}
+
+	disableScrollingOnOtherInstances = (exclude) => {
+		this.getInstances()
+			.filter((inst) => {
+				return (inst !== exclude)
+			})
+			.forEach((inst) => {
+				// const el = ReactDOM.findDOMNode(inst)
+				if (!isFixed(inst)) {
+					addStyle(inst, defaultFixedStyle)
+				}
+			})
+	}
+
+	enableScrollingOnOtherInstances = (exclude) => {
+		this.getInstances()
+			.filter((inst) => {
+				return (inst !== exclude)
+			})
+			.forEach((inst) => {
+				// const el = ReactDOM.findDOMNode(inst)
+				if (isFixed(inst)) {
+					removeStyle(inst, defaultFixedStyle)
+				}
+			})
+	}
+
+	enableScrolling = (instance) => {
+		this.enableScrollingOnMainElement()
+		this.enableScrollingOnOtherInstances(instance)
+	}
+
+	disableScrolling = (instance) => {
+		this.disableScrollingOnMainElement()
+		this.disableScrollingOnOtherInstances(instance)
+	}
 
 	renderBody = () => {
 		const {
@@ -142,21 +225,19 @@ class SimpleModal extends React.Component {
 			closeButtonBody,
 			closeButtonPosition,
 			backgroundShade,
-			emitter,
 			children
 		} = this.props
 		return (
 			<Body
 				onMount={(body) => {
-					emitter.emit("SIMPLE_MODAL/DISABLE_SCROLLING", this)
-					console.log(this.mountPoint.props.instances.length)
-					// addStyle(body, {
-					// 	zIndex: this.getLayerIndex()
-					// })
+					this.disableScrolling(body)
+					addStyle(body, {
+						zIndex: this.getLayerIndex()
+					})
 					onOpen()
 				}}
 				onUnmount={(body) => {
-					emitter.emit("SIMPLE_MODAL/ENABLE_SCROLLING", this)
+					this.enableScrolling()
 				}}
 				containerClassName={containerClassName}
 				onClickCloseButton={onClose}
@@ -172,11 +253,14 @@ class SimpleModal extends React.Component {
 	}
 
 	render() {
-		const { isVisible, emitter } = this.props
+		const { isVisible } = this.props
 		if (isVisible) {
-			return ReactDOM.createPortal(this.renderBody(), this.mountPoint)
+			const element = this.renderBody()
+			if(documentExists){
+				return ReactDOM.createPortal(element, document.body)
+			}
 		}
-		emitter.emit("SIMPLE_MODAL/ENABLE_SCROLLING")
+		this.enableScrolling()
 		return null
 	}
 }
