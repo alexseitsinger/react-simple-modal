@@ -10,6 +10,9 @@ export const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	${props => props.zIndex && css`
+		z-index: ${props.zIndex};
+	`}
 `
 
 export const Background = styled.div`

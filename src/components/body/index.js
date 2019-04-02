@@ -54,6 +54,7 @@ class Body extends React.Component {
 	render() {
 		const {
 			children,
+			zIndex,
 			backgroundShade,
 			onClickBackground,
 			closeButtonPosition,
@@ -65,8 +66,13 @@ class Body extends React.Component {
 		const renderedWindowCloseButton =
 			closeButtonPosition === "window" ? renderedCloseButton : null
 		return (
-			<Container ref={this.elementRef} className={containerClassName}>
-				<Background shade={backgroundShade} onClick={onClickBackground} />
+			<Container
+				ref={this.elementRef}
+				zIndex={zIndex}
+				className={containerClassName}>
+				<Background
+					shade={backgroundShade}
+					onClick={onClickBackground}/>
 				<Foreground>
 					{renderedForegroundCloseButton}
 					<Window>
