@@ -21,6 +21,8 @@ import {
 } from "../../utils"
 import Body from "../body"
 
+let instances = []
+
 /**
  * @name SimpleModal
  * @description A modal that can be used with react redux.
@@ -106,12 +108,10 @@ class SimpleModal extends React.Component {
 
 	componentWillUnmount() {
 		removeEventListener("keydown", this.handleKeyDown)
-		// instances.splice(instances.indexOf(this), 1)
 	}
 
 	componentDidMount() {
 		addEventListener("keydown", this.handleKeyDown)
-		// instances.push(this)
 	}
 
 	getLayerIndex = () => {
@@ -259,6 +259,7 @@ class SimpleModal extends React.Component {
 			if(documentExists){
 				return ReactDOM.createPortal(element, document.body)
 			}
+			return element
 		}
 		this.enableScrolling()
 		return null
