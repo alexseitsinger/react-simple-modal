@@ -21,8 +21,6 @@ import {
 } from "../../utils"
 import Body from "../body"
 
-let instances = []
-
 /**
  * @name SimpleModal
  * @description A modal that can be used with react redux.
