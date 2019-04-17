@@ -1,8 +1,19 @@
+# Source
 src/
+
+# Tests
 tests/
-test.js
+jest.config.js
+jest.setup.js
+jest.assetTransformer.js
+
+# Dependencies
 node_modules/
+
+# Compiler
 .babelrc
 webpack.config.js
+
+# Package Manager
 yarn-error.log
 yarn.lock
