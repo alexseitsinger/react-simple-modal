@@ -1,9 +1,9 @@
 import React from "react"
 import { shallow, mount, render } from "enzyme"
 
-import SimpleModal from "./src"
-import CloseButton from "./src/components/close-button"
-import { Window, Foreground } from "./src/components/body/elements"
+import SimpleModal from "../src"
+import CloseButton from "../src/components/close-button"
+import { Window, Foreground } from "../src/components/body/elements"
 
 
 const defaultProps = {
