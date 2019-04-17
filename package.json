@@ -1,6 +1,6 @@
 {
 	"name": "@alexseitsinger/simple-modal",
-	"version": "0.2.15",
+	"version": "0.2.16",
 	"description": "A simple modal",
 	"main": "dist/index.js",
 	"homepage": "https://github.com/alexseitsinger/simple-modal#readme",
