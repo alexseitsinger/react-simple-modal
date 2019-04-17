@@ -6,7 +6,8 @@
 	"homepage": "https://github.com/alexseitsinger/simple-modal#readme",
 	"author": {
 		"name": "Alex Seitsinger",
-		"email": "contact@alexseitsinger.com"
+		"email": "contact@alexseitsinger.com",
+		"url": "https://github.com/alexseitsinger"
 	},
 	"license": "BSD-2-Clause",
 	"repository": {
@@ -14,9 +15,10 @@
 		"url": "https://github.com/alexseitsinger/simple-modal.git"
 	},
 	"files": [
-		"dist/",
+		"dist/index.js",
 		"package.json",
-		"README.md"
+		"README.md",
+		"LICENSE"
 	],
 	"devDependencies": {
 		"@babel/core": "7.4.0",
