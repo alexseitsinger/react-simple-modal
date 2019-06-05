@@ -226,7 +226,7 @@ export class SimpleModal extends React.Component {
 			children
 		} = this.props
 		return (
-			<Body
+			<SimpleModalBody
 				onMount={(body) => {
 					this.disableScrolling(body)
 					addStyle(body, {
@@ -246,7 +246,7 @@ export class SimpleModal extends React.Component {
 				closeButtonPosition={closeButtonPosition}
 				backgroundShade={backgroundShade}>
 				{children}
-			</Body>
+			</SimpleModalBody>
 		)
 	}
 
