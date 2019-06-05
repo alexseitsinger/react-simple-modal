@@ -1,8 +1,9 @@
 import React from "react"
+import { shallow, mount, render } from "enzyme"
 
-import { SimpleModal } from "../src"
-import { SimpleModalCloseButton } from "../src/components/simple-modal-close-button"
-import { Window, Foreground } from "../src/components/simple-modal-body/elements"
+import { SimpleModal } from "../src/simple-modal"
+import { SimpleModalCloseButton } from "../src/simple-modal-close-button"
+import { Window, Foreground } from "../src/simple-modal-body/elements"
 
 
 const defaultProps = {
@@ -55,7 +56,7 @@ describe("<SimpleModal/>", () => {
 			isVisible: true,
 			closeButtonVisible: false
 		})
-		expect(wrapper.find(CloseButton)).toHaveLength(0)
+		expect(wrapper.find(SimpleModalCloseButton)).toHaveLength(0)
 	})
 	test("renders a close button in window", () => {
 		const wrapper = setup({
@@ -63,7 +64,7 @@ describe("<SimpleModal/>", () => {
 			closeButtonVisible: true,
 			closeButtonPosition: "window"
 		})
-		const closeButton = wrapper.find(CloseButton)
+		const closeButton = wrapper.find(SimpleModalCloseButton)
 		const parent = closeButton.parents().first()
 		expect(parent.containsMatchingElement(Window)).toEqual(true)
 	})
@@ -73,7 +74,7 @@ describe("<SimpleModal/>", () => {
 			closeButtonVisible: true,
 			closeButtonPosition: "foreground"
 		})
-		const closeButton = wrapper.find(CloseButton)
+		const closeButton = wrapper.find(SimpleModalCloseButton)
 		const parent = closeButton.parents().first()
 		expect(parent.containsMatchingElement(Foreground)).toEqual(true)
 	})
