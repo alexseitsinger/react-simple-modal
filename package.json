@@ -1,22 +1,22 @@
 {
 	"name": "@alexseitsinger/react-simple-modal",
-	"version": "0.2.16",
+	"version": "0.3.0",
 	"description": "A simple react modal",
 	"main": "dist/main.js",
-  "homepage": "https://www.alexseitsinger.com/packages/node/react-simple-modal",
+	"homepage": "https://www.alexseitsinger.com/packages/node/react-simple-modal",
 	"author": {
 		"name": "Alex Seitsinger",
 		"email": "software@alexseitsinger.com",
-    "url": "https://www.alexseitsinger.com"
+		"url": "https://www.alexseitsinger.com"
 	},
 	"license": "BSD-2-Clause",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/alexseitsinger/react-simple-modal.git"
 	},
-  "bugs": {
-    "url": "https://github.com/alexseitsinger.com/react-simple-modal/issues"
-  },
+	"bugs": {
+		"url": "https://github.com/alexseitsinger.com/react-simple-modal/issues"
+	},
 	"keywords": [
 		"react",
 		"modal"
