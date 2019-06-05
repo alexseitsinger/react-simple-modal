@@ -1,2 +1,3 @@
-import "core-js"
-export default from "./components/instance"
+import "core-js/stable"
+
+export { SimpleModal } from "./simple-modal"

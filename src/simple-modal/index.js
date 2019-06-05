@@ -18,8 +18,8 @@ import {
 	addEventListener,
 	removeEventListener,
 	scrollTo
-} from "../../utils"
-import Body from "../body"
+} from "./utils"
+import { SimpleModalBody } from "../simple-modal-body"
 
 /**
  * @name SimpleModal
@@ -54,7 +54,7 @@ import Body from "../body"
  *   <div>An example modal body</div>
  * </SimpleModal>
  */
-class SimpleModal extends React.Component {
+export class SimpleModal extends React.Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([
 			PropTypes.arrayOf(PropTypes.node),
@@ -263,5 +263,3 @@ class SimpleModal extends React.Component {
 		return null
 	}
 }
-
-export default SimpleModal

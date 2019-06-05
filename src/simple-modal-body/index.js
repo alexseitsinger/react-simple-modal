@@ -2,9 +2,9 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import { Container, Foreground, Background, Window } from "./elements"
-import CloseButton from "../close-button"
+import { SimpleModalCloseButton } from "../simple-modal-close-button"
 
-class Body extends React.Component {
+export class SimpleModalBody extends React.Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([
 			PropTypes.arrayOf(PropTypes.node),
@@ -42,13 +42,13 @@ class Body extends React.Component {
 			closeButtonBody
 		} = this.props
 		return closeButtonVisible ? (
-			<CloseButton
+			<SimpleModalCloseButton
 				position={closeButtonPosition}
 				shade={backgroundShade}
 				style={closeButtonStyle}
 				onClick={onClickCloseButton}>
 				{closeButtonBody}
-			</CloseButton>
+			</SimpleModalCloseButton>
 		) : null
 	}
 	render() {
@@ -85,4 +85,3 @@ class Body extends React.Component {
 	}
 }
 
-export default Body
