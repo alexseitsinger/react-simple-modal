@@ -1,28 +1,28 @@
 {
-	"name": "@alexseitsinger/simple-modal",
+	"name": "@alexseitsinger/react-simple-modal",
 	"version": "0.2.16",
 	"description": "A simple modal",
-	"main": "dist/index.js",
-	"homepage": "https://github.com/alexseitsinger/simple-modal#readme",
+	"main": "dist/main.js",
+  "homepage": "https://www.alexseitsinger.com/packages/node/react-simple-modal",
 	"author": {
 		"name": "Alex Seitsinger",
-		"email": "contact@alexseitsinger.com",
-		"url": "https://github.com/alexseitsinger"
+		"email": "software@alexseitsinger.com",
+    "url": "https://www.alexseitsinger.com"
 	},
 	"license": "BSD-2-Clause",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/alexseitsinger/simple-modal.git"
+		"url": "https://github.com/alexseitsinger/react-simple-modal.git"
 	},
-	"urls": {
-		"bugs": "https://github.com/alexseitsinger/simple-modal/issues"
-	},
+  "bugs": {
+    "url": "https://github.com/alexseitsinger.com/react-simple-modal/issues"
+  },
 	"keywords": [
 		"react",
 		"modal"
 	],
 	"files": [
-		"dist/index.js",
+		"dist/main.js",
 		"package.json",
 		"README.md",
 		"LICENSE"
@@ -60,11 +60,11 @@
 		"prop-types": "15.7.2"
 	},
 	"peerDependencies": {
-		"react": "16.8.6",
-		"react-dom": "16.8.6"
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6"
 	},
 	"scripts": {
-		"build": "./node_modules/.bin/webpack --config=webpack.config.js",
+		"build": "./node_modules/.bin/webpack",
 		"test": "./node_modules/.bin/jest"
 	}
 }
