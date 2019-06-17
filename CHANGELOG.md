@@ -1,3 +1,14 @@
+<a name="v0.4.1"></a>
+## [v0.4.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.0...v0.4.1)
+
+
+<a name="v0.4.0"></a>
+## [v0.4.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.3.1...v0.4.0) (2019-06-17)
+
+### Code Refactoring
+- Adds globals. ([8fba10a](https://github.com/alexseitsinger/react-simple-modal/commit/8fba10a19e822fad49dc7500e280f1667e88d638))
+
+
 <a name="v0.3.1"></a>
 ## [v0.3.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.3.0...v0.3.1) (2019-06-05)
 
