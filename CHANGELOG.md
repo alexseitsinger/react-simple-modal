@@ -1,5 +1,8 @@
 <a name="v0.4.1"></a>
-## [v0.4.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.0...v0.4.1)
+## [v0.4.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.0...v0.4.1) (2019-08-28)
+
+### Bug Fixes
+- Escape key checks visibility. ([2e19bed](https://github.com/alexseitsinger/react-simple-modal/commit/2e19bed6ed8dcc80ee8d1cdeef802b2149b61167))
 
 
 <a name="v0.4.0"></a>
