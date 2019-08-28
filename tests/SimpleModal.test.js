@@ -4,7 +4,6 @@ import { SimpleModal } from "../src/simple-modal"
 import { SimpleModalCloseButton } from "../src/simple-modal-close-button"
 import { Window, Foreground } from "../src/simple-modal-body/elements"
 
-
 const defaultProps = {
   backgroundShade: "dark",
   closeButtonStyle: {},
