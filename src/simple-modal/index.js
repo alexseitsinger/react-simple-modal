@@ -98,9 +98,13 @@ export class SimpleModal extends React.Component {
   // When the document has a keydown event, debounce the event until the last
   // one. Then, check if it's the ESC key. If it is, check if we got a prop
   // called onEscapeKey, and invoke it if so.
-  handleKeyDown = debounce((event) => {
-    if (isEscapeKey(event.which)) {
-      this.props.onEscapeKey()
+  handleKeyDown = debounce(e => {
+    const { isVisible, onEscapeKey } = this.props
+
+    if (isEscapeKey(e.which)) {
+      if (isVisible === true) {
+        onEscapeKey()
+      }
     }
   }, 500)
 
