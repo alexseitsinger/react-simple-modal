@@ -15,8 +15,8 @@ import {
   getElements,
   getElement,
   isEscapeKey,
-  addEventListener,
-  removeEventListener,
+  addEvent,
+  removeEvent,
   scrollTo
 } from "./utils"
 import { SimpleModalBody } from "../simple-modal-body"
@@ -122,11 +122,11 @@ export class SimpleModal extends React.Component {
   }, 500)
 
   componentWillUnmount() {
-    removeEventListener("keydown", this.handleKeyDown)
+    removeEvent("keydown", this.handleKeyDown)
   }
 
   componentDidMount() {
-    addEventListener("keydown", this.handleKeyDown)
+    addEvent("keydown", this.handleKeyDown)
   }
 
   getLayerIndex = () => {
@@ -229,10 +229,25 @@ export class SimpleModal extends React.Component {
     this.disableScrollingOnOtherInstances(instance)
   }
 
+  handleMountBody = debounce(body => {
+    const { onOpen } = this.props
+
+    this.disableScrolling(body)
+
+    addStyle(body, {
+      zIndex: this.getLayerIndex()
+    })
+
+    onOpen()
+  }, 400)
+
+  handleUnmountBody = debounce(body => {
+    this.enableScrolling()
+  }, 400)
+
   renderBody = () => {
     const {
       containerClassName,
-      onOpen,
       onClose,
       onClickBackground,
       closeButtonVisible,
@@ -244,16 +259,8 @@ export class SimpleModal extends React.Component {
     } = this.props
     return (
       <SimpleModalBody
-        onMount={(body) => {
-          this.disableScrolling(body)
-          addStyle(body, {
-            zIndex: this.getLayerIndex()
-          })
-          onOpen()
-        }}
-        onUnmount={(body) => {
-          this.enableScrolling()
-        }}
+        onMount={this.handleMountBody}
+        onUnmount={this.handleUnmountBody}
         containerClassName={containerClassName}
         onClickCloseButton={onClose}
         onClickBackground={onClickBackground}
@@ -270,11 +277,11 @@ export class SimpleModal extends React.Component {
   render() {
     const { isVisible } = this.props
     if (isVisible) {
-      const element = this.renderBody()
+      const renderedBody = this.renderBody()
       if(documentExists){
-        return ReactDOM.createPortal(element, document.body)
+        return ReactDOM.createPortal(renderedBody, document.body)
       }
-      return element
+      return renderedBody
     }
     this.enableScrolling()
     return null
