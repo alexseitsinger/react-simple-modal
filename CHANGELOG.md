@@ -1,3 +1,13 @@
+<a name="v0.4.2"></a>
+## [v0.4.2](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.1...v0.4.2) (2019-08-30)
+
+### Bug Fixes
+- Debounces mount/unmount. ([8c7b7d5](https://github.com/alexseitsinger/react-simple-modal/commit/8c7b7d5f4eb383c6836c291bd9b14ba671415fe1))
+
+### Code Refactoring
+- Wraps single event handler. ([a2c8189](https://github.com/alexseitsinger/react-simple-modal/commit/a2c818988c09ddd1e35d66edc18ee961d57a9e76))
+
+
 <a name="v0.4.1"></a>
 ## [v0.4.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.0...v0.4.1) (2019-08-28)
 
