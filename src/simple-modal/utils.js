@@ -128,18 +128,36 @@ export function isEscapeKey(keyCode) {
   }
 }
 
-export function addEventListener(name, callback) {
-  if (!documentExists) {
-    return
-  }
-  document.addEventListener(name, callback, false)
+const events = {}
+const eventHandler = e => {
+  const type = e.type.toLowercase()
+  const fns = events[type]
+  fns.forEach(fn => fn(e))
 }
 
-export function removeEventListener(name, callback) {
+export function addEvent(name, callback) {
   if (!documentExists) {
     return
   }
-  document.removeEventListener(name, callback, false)
+  name = name.toLowerCase()
+  if (!( name in events )) {
+    events[name] = []
+    document.addEventListener(name, eventHandler, false)
+  }
+  events[name].push(callback)
+}
+
+export function removeEvent(name, callback) {
+  if (!documentExists) {
+    return
+  }
+  name = name.toLowerCase()
+  const fns = events[name]
+  const i = fns.indexOf(callback)
+  fns.splice(i, 1)
+  if (!( fns.length )) {
+    document.removeEventListener(name, eventHandler, false)
+  }
 }
 
 export function scrollTo(position) {
