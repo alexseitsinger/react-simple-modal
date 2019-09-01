@@ -4,6 +4,8 @@ import { SimpleModal } from "../src/simple-modal"
 import { SimpleModalCloseButton } from "../src/simple-modal-close-button"
 import { Window, Foreground } from "../src/simple-modal-body/elements"
 
+// TODO: Add test for DOM event adding/removing correctly.
+
 const defaultProps = {
   backgroundShade: "dark",
   closeButtonStyle: {},
