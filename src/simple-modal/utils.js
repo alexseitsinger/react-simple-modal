@@ -130,33 +130,34 @@ export function isEscapeKey(keyCode) {
 
 const events = {}
 const eventHandler = e => {
-  const type = e.type.toLowercase()
-  const fns = events[type]
-  fns.forEach(fn => fn(e))
+  if (e.type) {
+    const type = e.type.toLowerCase()
+    events[type].forEach(f => f(e))
+  }
 }
 
 export function addEvent(name, callback) {
   if (!documentExists) {
     return
   }
-  name = name.toLowerCase()
-  if (!( name in events )) {
-    events[name] = []
-    document.addEventListener(name, eventHandler, false)
+  const type = name.toLowerCase()
+  if (!( type in events )) {
+    events[type] = []
+    document.addEventListener(type, eventHandler, false)
   }
-  events[name].push(callback)
+  events[type].push(callback)
 }
 
 export function removeEvent(name, callback) {
   if (!documentExists) {
     return
   }
-  name = name.toLowerCase()
-  const fns = events[name]
+  const type = name.toLowerCase()
+  const fns = events[type]
   const i = fns.indexOf(callback)
   fns.splice(i, 1)
   if (!( fns.length )) {
-    document.removeEventListener(name, eventHandler, false)
+    document.removeEventListener(type, eventHandler, false)
   }
 }
 
