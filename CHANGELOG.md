@@ -1,3 +1,10 @@
+<a name="v0.5.0"></a>
+## [v0.5.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.2...v0.5.0) (2019-09-13)
+
+### Code Refactoring
+- Updates event listeners. ([e2086ad](https://github.com/alexseitsinger/react-simple-modal/commit/e2086add55c458193fd629d3bc833a37415efdb7))
+
+
 <a name="v0.4.2"></a>
 ## [v0.4.2](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.1...v0.4.2) (2019-08-30)
 
