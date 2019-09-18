@@ -19,7 +19,7 @@ import {
   removeEvent,
   scrollTo
 } from "./utils"
-import { SimpleModalBody } from "../simple-modal-body"
+import { SimpleModalBody } from "./simpleModalBody"
 
 /**
  * @description
@@ -239,11 +239,11 @@ export class SimpleModal extends React.Component {
     })
 
     onOpen()
-  }, 400)
+  }, 100)
 
   handleUnmountBody = debounce(body => {
     this.enableScrolling()
-  }, 400)
+  }, 100)
 
   renderBody = () => {
     const {
@@ -257,6 +257,7 @@ export class SimpleModal extends React.Component {
       backgroundShade,
       children
     } = this.props
+
     return (
       <SimpleModalBody
         onMount={this.handleMountBody}

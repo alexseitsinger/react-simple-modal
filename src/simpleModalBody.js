@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { Container, Foreground, Background, Window } from "./elements"
-import { SimpleModalCloseButton } from "../simple-modal-close-button"
+import { Container, Background, Foreground, Content } from "./elements"
+import { SimpleModalCloseButton } from "./simpleModalCloseButton"
 
 export class SimpleModalBody extends React.Component {
   static propTypes = {
@@ -24,14 +24,18 @@ export class SimpleModalBody extends React.Component {
     ]).isRequired,
     containerClassName: PropTypes.string.isRequired
   }
+
   elementRef = React.createRef()
+
   componentDidMount() {
     // invoke the mount callback after a timeout to allow for DOM updates.
     this.props.onMount(this.elementRef.current)
   }
+
   componentWillUnmount() {
     this.props.onUnmount(this.elementRef.current)
   }
+
   renderCloseButton = () => {
     const {
       closeButtonVisible,
@@ -41,6 +45,7 @@ export class SimpleModalBody extends React.Component {
       onClickCloseButton,
       closeButtonBody
     } = this.props
+
     return closeButtonVisible ? (
       <SimpleModalCloseButton
         position={closeButtonPosition}
@@ -51,6 +56,7 @@ export class SimpleModalBody extends React.Component {
       </SimpleModalCloseButton>
     ) : null
   }
+
   render() {
     const {
       children,
@@ -60,25 +66,27 @@ export class SimpleModalBody extends React.Component {
       closeButtonPosition,
       containerClassName
     } = this.props
+
     const renderedCloseButton = this.renderCloseButton()
     const renderedForegroundCloseButton =
       closeButtonPosition === "foreground" ? renderedCloseButton : null
     const renderedWindowCloseButton =
       closeButtonPosition === "window" ? renderedCloseButton : null
+
     return (
       <Container
         ref={this.elementRef}
         zIndex={zIndex}
         className={containerClassName}>
         <Background
-          shade={backgroundShade}
-          onClick={onClickBackground}/>
+          backgroundShade={backgroundShade}
+          onClick={onClickBackground} />
         <Foreground>
           {renderedForegroundCloseButton}
-          <Window>
+          <Content>
             {renderedWindowCloseButton}
             {children}
-          </Window>
+          </Content>
         </Foreground>
       </Container>
     )

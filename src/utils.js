@@ -1,6 +1,6 @@
-export const documentExists = typeof document !== "undefined" ? true : null
+export const documentExists = typeof document !== "undefined"
 
-const windowExists = typeof window !== "undefined" ? true : null
+const windowExists = typeof window !== "undefined"
 
 export function getTopOffset(el) {
   const cs = getComputedStyle(el)
@@ -11,7 +11,7 @@ export function getTopOffset(el) {
 }
 
 export function getYOffset() {
-  if (!windowExists) {
+  if (windowExists === false) {
     return 0
   }
   return Math.abs(Number.parseInt(window.pageYOffset))
@@ -72,7 +72,7 @@ function getSiblings(el, filter) {
 }
 
 function getComputedStyle(el) {
-  if (!windowExists) {
+  if (windowExists === false) {
     return
   }
   return window.getComputedStyle(el)
@@ -108,14 +108,14 @@ export function removeStyle(element, style) {
 }
 
 export function getElements(selector) {
-  if (!documentExists) {
+  if (documentExists === false) {
     return []
   }
   return [].slice.call(document.querySelectorAll(selector))
 }
 
 export function getElement(selector) {
-  if (!documentExists) {
+  if (documentExists === false) {
     return
   }
   return document.querySelector(selector)
@@ -137,33 +137,39 @@ const eventHandler = e => {
 }
 
 export function addEvent(name, callback) {
-  if (!documentExists) {
+  if (documentExists === false) {
     return
   }
+
   const type = name.toLowerCase()
   if (!( type in events )) {
     events[type] = []
     document.addEventListener(type, eventHandler, false)
   }
+
   events[type].push(callback)
 }
 
 export function removeEvent(name, callback) {
-  if (!documentExists) {
+  if (documentExists === false) {
     return
   }
+
   const type = name.toLowerCase()
   const fns = events[type]
   const i = fns.indexOf(callback)
+
   fns.splice(i, 1)
+
   if (!( fns.length )) {
     document.removeEventListener(type, eventHandler, false)
   }
 }
 
 export function scrollTo(position) {
-  if (!windowExists) {
+  if (windowExists === false) {
     return
   }
+
   window.scrollTo(0, position)
 }

@@ -1,3 +1,3 @@
 import "core-js/stable"
 
-export { SimpleModal } from "./simple-modal"
+export { SimpleModal } from "./simpleModal"
