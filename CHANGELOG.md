@@ -1,3 +1,10 @@
+<a name="v0.6.0"></a>
+## [v0.6.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.5.0...v0.6.0) (2019-09-18)
+
+### Code Refactoring
+- Moves modules. ([e4a0755](https://github.com/alexseitsinger/react-simple-modal/commit/e4a07558725ee0f7dc27db8d032e65ef68d7354f))
+
+
 <a name="v0.5.0"></a>
 ## [v0.5.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.4.2...v0.5.0) (2019-09-13)
 
