@@ -1,3 +1,11 @@
+<a name="v0.7.0"></a>
+## [v0.7.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.6.0...v0.7.0) (2019-10-07)
+
+### Features
+- Adds (dark|light)/er/est shades. ([d5b826b](https://github.com/alexseitsinger/react-simple-modal/commit/d5b826b72b8f97c4823b003297860e6ec9b597c8))
+- Change package entry point. ([c60e6c4](https://github.com/alexseitsinger/react-simple-modal/commit/c60e6c4970efa366527a218f1cfec45359e740ba))
+
+
 <a name="v0.6.0"></a>
 ## [v0.6.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.5.0...v0.6.0) (2019-09-18)
 
