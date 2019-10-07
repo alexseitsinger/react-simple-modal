@@ -76,5 +76,5 @@
     "build": "yarn run build:development && yarn run build:production",
     "test": "./node_modules/.bin/jest"
   },
-  "version": "0.6.0"
+  "version": "0.7.0"
 }
