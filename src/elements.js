@@ -22,11 +22,23 @@ export const Background = styled.div`
   width: 100%;
   min-height: 100%;
   z-index: 3;
-  ${(props) => props.backgroundShade === "dark" && css`
+  ${props => props.backgroundShade === "dark" && css`
     background-color: rgba(22, 22, 22, 0.5);
   `}
-  ${(props) => props.backgroundShade === "light" && css`
+  ${props => props.backgroundShade === "darker" && css`
+    background-color: rgba(22, 22, 22, 0.7);
+  `}
+  ${props => props.backgroundShade === "darkest" && css`
+    background-color: rgba(22, 22, 22, 0.9);
+  `}
+  ${props => props.backgroundShade === "light" && css`
     background-color: rgba(255, 255, 255, 0.5);
+  `}
+  ${props => props.backgroundShade === "lighter" && css`
+    background-color: rgba(255, 255, 255, 0.70);
+  `}
+  ${props => props.backgroundShade === "lightest" && css`
+    background-color: rgba(255, 255, 255, 0.90);
   `}
 `
 
