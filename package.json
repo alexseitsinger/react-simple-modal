@@ -11,8 +11,9 @@
     "@emotion/core": "10.0.21",
     "@emotion/styled": "10.0.17",
     "core-js": "3.2.1",
-    "debounce": "1.2.0",
-    "prop-types": "15.7.2"
+    "prop-types": "15.7.2",
+    "react-focus-lock": "^2.2.1",
+    "underscore": "^1.9.1"
   },
   "description": "A simple react modal",
   "devDependencies": {
@@ -74,7 +75,8 @@
     "build:development": "./node_modules/.bin/webpack --config=./webpack.config.dev.js",
     "build:production": "./node_modules/.bin/webpack --config=./webpack.config.js",
     "build": "yarn run build:development && yarn run build:production",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest --noStackTrace --silent",
+    "test:watch": "./node_modules/.bin/jest --noStackTrace --silent --watchAll"
   },
   "version": "0.7.0"
 }
