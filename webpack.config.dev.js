@@ -1,4 +1,5 @@
 const path = require("path")
+const nodeExternals = require("webpack-node-externals")
 
 module.exports = {
   entry: "./src/index.js",
@@ -15,9 +16,23 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        include: [path.resolve("./src")],
         use: "babel-loader",
       },
     ],
   },
+  resolve: {
+    alias: {
+      src: path.resolve("./src"),
+      tests: path.resolve("./tests"),
+    },
+  },
+  externals: [
+    nodeExternals({
+      modulesFromFile: {
+        exclude: ["dependencies"],
+        include: ["devDependencies", "peerDependencies"],
+      },
+    }),
+  ],
 }

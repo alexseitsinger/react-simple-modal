@@ -6,5 +6,7 @@ module.exports = {
     "\\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
       "<rootDir>/jest.assetTransformer.js",
     "\\.(css|less)$": "<rootDir>/jest.assetTransformer.js",
+    "^tests(.*)$": "<rootDir>/tests$1",
+    "^src(.*)$": "<rootDir>/src$1",
   },
 }
