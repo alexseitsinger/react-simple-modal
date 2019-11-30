@@ -1,8 +1,7 @@
 import React from "react"
 
-import { SimpleModal } from "../src/simpleModal"
-import { SimpleModalCloseButton } from "../src/simpleModalCloseButton"
-import { Content, Foreground } from "../src/elements"
+import { SimpleModal } from "src/SimpleModal"
+import { Content, Foreground } from "src/elements"
 
 // TODO: Add test for DOM event adding/removing correctly.
 
@@ -56,7 +55,7 @@ describe("<SimpleModal/>", () => {
       isVisible: true,
       closeButtonVisible: false,
     })
-    expect(wrapper.find(SimpleModalCloseButton)).toHaveLength(0)
+    expect(wrapper.find("button")).toHaveLength(0)
   })
   test("renders a close button in window", () => {
     const wrapper = setup({
@@ -64,7 +63,7 @@ describe("<SimpleModal/>", () => {
       closeButtonVisible: true,
       closeButtonPosition: "window",
     })
-    const closeButton = wrapper.find(SimpleModalCloseButton)
+    const closeButton = wrapper.find("button")
     const parent = closeButton.parents().first()
     expect(parent.containsMatchingElement(Content)).toEqual(true)
   })
@@ -74,7 +73,7 @@ describe("<SimpleModal/>", () => {
       closeButtonVisible: true,
       closeButtonPosition: "foreground",
     })
-    const closeButton = wrapper.find(SimpleModalCloseButton)
+    const closeButton = wrapper.find("button")
     const parent = closeButton.parents().first()
     expect(parent.containsMatchingElement(Foreground)).toEqual(true)
   })
