@@ -1,3 +1,10 @@
+<a name="v0.8.0"></a>
+## [v0.8.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.7.0...v0.8.0) (2019-11-30)
+
+### Code Refactoring
+- Renames module and condeses them. ([f7273ca](https://github.com/alexseitsinger/react-simple-modal/commit/f7273ca13ed964eab4b9909af051ed9a47119576))
+
+
 <a name="v0.7.0"></a>
 ## [v0.7.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.6.0...v0.7.0) (2019-10-07)
 
