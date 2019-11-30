@@ -93,15 +93,15 @@ export function isAbsolute(el) {
 }
 
 export function addStyle(element, style) {
-  for (var key in style) {
-    if (style.hasOwnProperty(key)) {
+  Object.keys(style).forEach(key => {
+    if(style.hasOwnProperty(key)) {
       element.style[key] = style[key]
     }
-  }
+  })
 }
 
 export function removeStyle(element, style) {
-  Object.keys(style).forEach((key) => {
+  Object.keys(style).forEach(key => {
     const name = toHyphenCase(key)
     element.style.removeProperty(name)
   })
@@ -111,7 +111,7 @@ export function getElements(selector) {
   if (documentExists === false) {
     return []
   }
-  return [].slice.call(document.querySelectorAll(selector))
+  return [...document.querySelectorAll(selector)]
 }
 
 export function getElement(selector) {

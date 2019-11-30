@@ -1,7 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
-import { debounce } from "debounce"
+import FocusLock from "react-focus-lock"
+import { debounce, uniq, throttle } from "underscore"
 
 import {
   documentExists,
@@ -19,54 +20,14 @@ import {
   removeEvent,
   scrollTo
 } from "./utils"
-import { SimpleModalBody } from "./simpleModalBody"
+import {
+  Container,
+  Background,
+  Foreground,
+  Content,
+  Button,
+} from "./elements"
 
-/**
- * @description
- * A modal that can be used with react redux.
- *
- * @param {object} props
- * @param {node|array} props.children
- * The child elements to render.
- * @param {string} [props.backgroundShade=dark]
- * The background shade to use.
- * @param {boolean} [props.closeButtonVisible=true]
- * Determine if the close button is visible.
- * @param {object} [props.closeButtonStyle={}]
- * Extra style to apply to the close button.
- * @param {string} [props.closeButtonPosition=foreground]
- * The position of the close button.
- * @param {node|array} [props.closeButtonBody=close]
- * The body of the close button.
- * @param {function} props.onClose
- * The function to invoke when the modal closes.
- * @param {function} [props.onOpen=() => {}]
- * The function to invoke when the modal opens.
- * @param {boolean} props.isVisible
- * Determines if the modal is rendered into the DOM.
- * @param {function} [props.onEscapeKey=() => {}]
- * The function to invoke when then esacpe key is pressed.
- * @param {function} [props.onClickBackground=() => {}]
- * The function to invoke when the background of the modal is clicked.
- * @param {string} [props.containerClassName=SimpleModal]
- * The classname to use for the modal container element.
- * @param {string} [props.layerPosition=above]
- * The layer position to use for the zIndex.
- * @param {number} [props.defaultIndex=100]
- * The default zIndex to start from.
- * @param {string} [props.mainElementSelector=main]
- * The selector to use to find the main element in the DOM.
- *
- * @example
- * <SimpleModal
- *   isVisible={true}
- *   closeButtonPosition={"window"}
- *   onClose={doClose}
- *   onClickBackground={doClose}
- *   onEscapeKey={doClose}>
- *   <div>An example modal body</div>
- * </SimpleModal>
- */
 export class SimpleModal extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([
@@ -90,10 +51,12 @@ export class SimpleModal extends React.Component {
     layerPosition: PropTypes.string,
     defaultIndex: PropTypes.number,
     mainElementSelector: PropTypes.string,
+    mountPointSelector: PropTypes.string,
   }
 
   static defaultProps = {
     isVisible: true,
+    mountPointSelector: null,
     mainElementSelector: "main",
     containerClassName: "SimpleModal",
     backgroundShade: "dark",
@@ -119,14 +82,18 @@ export class SimpleModal extends React.Component {
         onEscapeKey()
       }
     }
-  }, 500)
+  }, 250)
+
+  elementRef = React.createRef()
 
   componentWillUnmount() {
     removeEvent("keydown", this.handleKeyDown)
+    this.handleUnmountBody()
   }
 
   componentDidMount() {
     addEvent("keydown", this.handleKeyDown)
+    this.handleMountBody()
   }
 
   getLayerIndex = () => {
@@ -189,8 +156,14 @@ export class SimpleModal extends React.Component {
   }
 
   getInstances = () => {
+    if (!documentExists){
+      return
+    }
     const { containerClassName } = this.props
-    return getElements(("." + containerClassName))
+    return uniq([
+      ...getElements(".SimpleModal"),
+      ...getElements(`.${containerClassName}`),
+    ])
   }
 
   disableScrollingOnOtherInstances = (exclude) => {
@@ -229,50 +202,99 @@ export class SimpleModal extends React.Component {
     this.disableScrollingOnOtherInstances(instance)
   }
 
-  handleMountBody = debounce(body => {
+  handleMountBody = throttle(() => {
     const { onOpen } = this.props
+    const { current } = this.elementRef
+    if (!current) {
+      return
+    }
 
-    this.disableScrolling(body)
+    this.disableScrolling(current)
 
-    addStyle(body, {
+    addStyle(current, {
       zIndex: this.getLayerIndex()
     })
 
     onOpen()
-  }, 100)
+  }, 500)
 
-  handleUnmountBody = debounce(body => {
+  handleUnmountBody = throttle(() => {
+    const { current } = this.elementRef
+    if (!current) {
+      return
+    }
     this.enableScrolling()
-  }, 100)
+  }, 500)
+
+  renderCloseButton = () => {
+    const {
+      closeButtonVisible,
+      closeButtonPosition,
+      backgroundShade,
+      closeButtonStyle,
+      onClickCloseButton,
+      closeButtonBody
+    } = this.props
+
+    return closeButtonVisible ? (
+      <Button
+        position={closeButtonPosition}
+        shade={backgroundShade}
+        style={closeButtonStyle}
+        onClick={onClickCloseButton}>
+        {closeButtonBody}
+      </Button>
+    ) : null
+  }
 
   renderBody = () => {
     const {
-      containerClassName,
-      onClose,
-      onClickBackground,
-      closeButtonVisible,
-      closeButtonStyle,
-      closeButtonBody,
-      closeButtonPosition,
+      children,
+      zIndex,
       backgroundShade,
-      children
+      onClickBackground,
+      closeButtonPosition,
+      containerClassName
     } = this.props
 
+    const renderedCloseButton = this.renderCloseButton()
+    const renderedForegroundCloseButton =
+      closeButtonPosition === "foreground" ? renderedCloseButton : null
+    const renderedWindowCloseButton =
+      closeButtonPosition === "window" ? renderedCloseButton : null
+
     return (
-      <SimpleModalBody
-        onMount={this.handleMountBody}
-        onUnmount={this.handleUnmountBody}
-        containerClassName={containerClassName}
-        onClickCloseButton={onClose}
-        onClickBackground={onClickBackground}
-        closeButtonVisible={closeButtonVisible}
-        closeButtonStyle={closeButtonStyle}
-        closeButtonBody={closeButtonBody}
-        closeButtonPosition={closeButtonPosition}
-        backgroundShade={backgroundShade}>
-        {children}
-      </SimpleModalBody>
+      <FocusLock>
+        <Container
+          ref={this.elementRef}
+          zIndex={zIndex}
+          className={containerClassName}>
+          <Background
+            backgroundShade={backgroundShade}
+            onClick={onClickBackground} />
+          <Foreground>
+            {renderedForegroundCloseButton}
+            <Content>
+              {renderedWindowCloseButton}
+              {children}
+            </Content>
+          </Foreground>
+        </Container>
+      </FocusLock>
     )
+  }
+
+  getMountPoint = () => {
+    if (documentExists) {
+      const { mountPointSelector } = this.props
+      if (mountPointSelector) {
+        const mountPoint = document.querySelector(mountPointSelector)
+        if (mountPoint) {
+          return mountPoint
+        }
+      }
+      return document.body
+    }
   }
 
   render() {
@@ -280,7 +302,8 @@ export class SimpleModal extends React.Component {
     if (isVisible) {
       const renderedBody = this.renderBody()
       if(documentExists){
-        return ReactDOM.createPortal(renderedBody, document.body)
+        const mountPoint = this.getMountPoint()
+        return ReactDOM.createPortal(renderedBody, mountPoint)
       }
       return renderedBody
     }
