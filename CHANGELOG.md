@@ -1,3 +1,10 @@
+<a name="v0.8.1"></a>
+## [v0.8.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.8.0...v0.8.1) (2019-11-30)
+
+### Bug Fixes
+- Fixes getInstances. ([2cdd6be](https://github.com/alexseitsinger/react-simple-modal/commit/2cdd6be6d1b6ec86ce139d251beca39801ceeeae))
+
+
 <a name="v0.8.0"></a>
 ## [v0.8.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.7.0...v0.8.0) (2019-11-30)
 
