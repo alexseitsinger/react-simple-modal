@@ -157,7 +157,7 @@ export class SimpleModal extends React.Component {
 
   getInstances = () => {
     if (!documentExists){
-      return
+      return []
     }
     const { containerClassName } = this.props
     return uniq([
