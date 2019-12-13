@@ -8,7 +8,7 @@ import { Content, Foreground } from "src/elements"
 const defaultProps = {
   backgroundShade: "dark",
   closeButtonStyle: {},
-  closeButtonVisible: true,
+  isCloseButtonVisible: true,
   closeButtonPosition: "window",
   closeButtonBody: "close",
   onClose: () => {
@@ -53,14 +53,14 @@ describe("<SimpleModal/>", () => {
   test("renders without a close button", () => {
     const wrapper = setup({
       isVisible: true,
-      closeButtonVisible: false,
+      isCloseButtonVisible: false,
     })
     expect(wrapper.find("button")).toHaveLength(0)
   })
   test("renders a close button in window", () => {
     const wrapper = setup({
       isVisible: true,
-      closeButtonVisible: true,
+      isCloseButtonVisible: true,
       closeButtonPosition: "window",
     })
     const closeButton = wrapper.find("button")
@@ -70,7 +70,7 @@ describe("<SimpleModal/>", () => {
   test("renders a close button in foreground", () => {
     const wrapper = setup({
       isVisible: true,
-      closeButtonVisible: true,
+      isCloseButtonVisible: true,
       closeButtonPosition: "foreground",
     })
     const closeButton = wrapper.find("button")
