@@ -4,6 +4,8 @@ import { SimpleModal } from "src/SimpleModal"
 import { Content, Foreground } from "src/elements"
 
 // TODO: Add test for DOM event adding/removing correctly.
+// TODO: add test to ensure main element is fixed when modal is rendered &
+// unfixed when modal is unmounted.
 
 const defaultProps = {
   backgroundShade: "dark",
