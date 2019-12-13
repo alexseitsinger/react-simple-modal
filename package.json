@@ -82,5 +82,5 @@
     "test": "./node_modules/.bin/jest --noStackTrace --silent",
     "test:watch": "./node_modules/.bin/jest --noStackTrace --silent --watchAll"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
