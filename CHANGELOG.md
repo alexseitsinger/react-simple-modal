@@ -1,3 +1,10 @@
+<a name="v1.0.0"></a>
+## [v1.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.8.1...v1.0.0) (2019-12-13)
+
+### Code Refactoring
+- Changes boolean var name. ([5d32e93](https://github.com/alexseitsinger/react-simple-modal/commit/5d32e9312469931970a1fb819a78a096104a02be))
+
+
 <a name="v0.8.1"></a>
 ## [v0.8.1](https://github.com/alexseitsinger/react-simple-modal/compare/v0.8.0...v0.8.1) (2019-11-30)
 
