@@ -1,13 +1,15 @@
+import computedStyle from "computed-style"
+
 export const documentExists = typeof document !== "undefined"
 
 const windowExists = typeof window !== "undefined"
 
 export function getTopOffset(el) {
-  const cs = getComputedStyle(el)
-  if (!cs || cs.top === "auto") {
+  const top = computedStyle(el, "top")
+  if (top === "auto") {
     return 0
   }
-  return Math.abs(Number.parseInt(cs.top))
+  return Math.abs(Number.parseInt(top))
 }
 
 export function getYOffset() {
@@ -36,11 +38,11 @@ export function getFixedStyle(el) {
 }
 
 function getMaxWidth(el) {
-  const parentCs = getComputedStyle(el.parentNode)
+  const parentCs = computedStyle(el.parentNode, "width")
   var maxWidth = parseInt(parentCs.width)
   getSiblings(el).forEach((sib) => {
     if (isFixed(sib) || isAbsolute(sib)) {
-      const sibCs = getComputedStyle(sib)
+      const sibCs = computedStyle(sib, "width")
       maxWidth -= parseInt(sibCs.width)
     }
   })
@@ -71,25 +73,14 @@ function getSiblings(el, filter) {
   return sibs
 }
 
-function getComputedStyle(el) {
-  if (windowExists === false) {
-    return
-  }
-  return window.getComputedStyle(el)
-}
-
 export function isFixed(el) {
-  const cs = getComputedStyle(el)
-  if (cs.position && cs.position === "fixed") {
-    return true
-  }
+  const position = computedStyle(el, "position")
+  return (position === "fixed")
 }
 
 export function isAbsolute(el) {
-  const cs = getComputedStyle(el)
-  if (cs.position && cs.position === "absolute") {
-    return true
-  }
+  const position = computedStyle(el, "position")
+  return (position === "absolute")
 }
 
 export function addStyle(element, style) {
