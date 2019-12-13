@@ -35,7 +35,7 @@ export class SimpleModal extends React.Component {
       PropTypes.node
     ]).isRequired,
     backgroundShade: PropTypes.string,
-    closeButtonVisible: PropTypes.bool,
+    isCloseButtonVisible: PropTypes.bool,
     closeButtonStyle: PropTypes.object,
     closeButtonPosition: PropTypes.string,
     closeButtonBody: PropTypes.oneOfType([
@@ -60,7 +60,7 @@ export class SimpleModal extends React.Component {
     mainElementSelector: "main",
     containerClassName: "SimpleModal",
     backgroundShade: "dark",
-    closeButtonVisible: true,
+    isCloseButtonVisible: true,
     closeButtonStyle: {},
     closeButtonPosition: "foreground",
     closeButtonBody: "close",
@@ -228,7 +228,7 @@ export class SimpleModal extends React.Component {
 
   renderCloseButton = () => {
     const {
-      closeButtonVisible,
+      isCloseButtonVisible,
       closeButtonPosition,
       backgroundShade,
       closeButtonStyle,
@@ -236,7 +236,7 @@ export class SimpleModal extends React.Component {
       closeButtonBody
     } = this.props
 
-    return closeButtonVisible ? (
+    return isCloseButtonVisible ? (
       <Button
         position={closeButtonPosition}
         shade={backgroundShade}
