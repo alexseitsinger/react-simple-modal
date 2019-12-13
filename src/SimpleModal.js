@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 import FocusLock from "react-focus-lock"
 import { debounce, uniq, throttle } from "underscore"
+import computedStyle from "computed-style"
 
 import {
   documentExists,
@@ -18,7 +19,7 @@ import {
   isEscapeKey,
   addEvent,
   removeEvent,
-  scrollTo
+  scrollTo,
 } from "./utils"
 import {
   Container,
@@ -88,12 +89,10 @@ export class SimpleModal extends React.Component {
 
   componentWillUnmount() {
     removeEvent("keydown", this.handleKeyDown)
-    this.handleUnmountBody()
   }
 
   componentDidMount() {
     addEvent("keydown", this.handleKeyDown)
-    this.handleMountBody()
   }
 
   getLayerIndex = () => {
@@ -218,13 +217,13 @@ export class SimpleModal extends React.Component {
     onOpen()
   }, 500)
 
-  handleUnmountBody = throttle(() => {
-    const { current } = this.elementRef
-    if (!current) {
-      return
+  getMinHeight = () => {
+    const el = this.getMainElement()
+    if (el) {
+      return computedStyle(el, "height")
     }
-    this.enableScrolling()
-  }, 500)
+    return "100%"
+  }
 
   renderCloseButton = () => {
     const {
@@ -256,6 +255,8 @@ export class SimpleModal extends React.Component {
       closeButtonPosition,
       containerClassName
     } = this.props
+
+    this.handleMountBody()
 
     const renderedCloseButton = this.renderCloseButton()
     const renderedForegroundCloseButton =
