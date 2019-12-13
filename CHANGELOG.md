@@ -1,3 +1,13 @@
+<a name="v1.0.1"></a>
+## [v1.0.1](https://github.com/alexseitsinger/react-simple-modal/compare/v1.0.0...v1.0.1) (2019-12-13)
+
+### Bug Fixes
+- Fixes fixing element on mount/unmount. ([6e964f2](https://github.com/alexseitsinger/react-simple-modal/commit/6e964f2cbdf9caa87c9a694f9e13ff214a985fc7))
+
+### Code Refactoring
+- Uses computedStyle. ([fd49231](https://github.com/alexseitsinger/react-simple-modal/commit/fd492317dbcb260135eaa0fb3bd42db5cdadee29))
+
+
 <a name="v1.0.0"></a>
 ## [v1.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v0.8.1...v1.0.0) (2019-12-13)
 
