@@ -3,7 +3,7 @@ const nodeExternals = require("webpack-node-externals")
 const TerserPlugin = require("terser-webpack-plugin")
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
   mode: "production",
   target: "node",
   devtool: false,
@@ -13,6 +13,7 @@ module.exports = {
     libraryTarget: "commonjs2",
   },
   resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
       src: path.resolve("./src"),
       tests: path.resolve("./tests"),
@@ -21,9 +22,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(t|j)sx?$/,
         include: [path.resolve("./src")],
-        use: "babel-loader",
+        //exclude: /\.test.tsx?$/,
+        use: ["babel-loader", "ts-loader"],
       },
     ],
   },
@@ -31,7 +33,11 @@ module.exports = {
     nodeExternals({
       modulesFromFile: {
         exclude: ["dependencies"],
-        include: ["devDependencies", "peerDependencies", "optionalDependencies"],
+        include: [
+          "devDependencies",
+          "peerDependencies",
+          "optionalDependencies",
+        ],
       },
     }),
   ],

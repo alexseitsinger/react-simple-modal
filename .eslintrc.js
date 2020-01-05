@@ -6,6 +6,7 @@ module.exports = {
     node: true,
     browser: true,
     jest: true,
+    commonjs: true,
   },
   globals: {
     window: true,
@@ -17,18 +18,22 @@ module.exports = {
     render: true,
     shallow: true,
   },
+  parser: "@typescript-eslint/parser",
   settings: {
-    "import/ignored": [
-      "node_modules",
-    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
     "import/resolver": {
       webpack: {
-        config: path.resolve("./webpack.config.dev.js")
+        paths: ["src", "tests"],
+        config: path.resolve("./webpack.config.dev.js"),
       },
     },
   },
-  extends: [
-    "@alexseitsinger/eslint-config-base",
-    "@alexseitsinger/eslint-config-react",
-  ]
-};
+  plugins: ["@typescript-eslint/eslint-plugin"],
+  rules: {
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+  },
+  extends: ["plugin:import/typescript", "@alexseitsinger/eslint-config"],
+}

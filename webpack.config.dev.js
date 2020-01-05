@@ -2,7 +2,7 @@ const path = require("path")
 const nodeExternals = require("webpack-node-externals")
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
   mode: "development",
   target: "node",
   devtool: "source-map",
@@ -15,13 +15,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(t|j)sx?$/,
         include: [path.resolve("./src")],
-        use: "babel-loader",
+        //exclude: /\.test.tsx?$/,
+        use: ["babel-loader", "ts-loader"],
       },
     ],
   },
   resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
       src: path.resolve("./src"),
       tests: path.resolve("./tests"),

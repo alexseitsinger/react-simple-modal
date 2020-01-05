@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowUnreachableCode": true,
+    "types": ["node"],
+    "esModuleInterop": true,
+    "rootDir": "./src",
+    "outDir": "./build",
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "lib": ["dom", "es2015"],
+    "target": "es5",
+    "module": "es6",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", ".yalc", "build", "tests"]
+}
