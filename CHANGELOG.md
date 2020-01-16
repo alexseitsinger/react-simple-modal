@@ -1,3 +1,15 @@
+<a name="v1.1.0"></a>
+## [v1.1.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.0.1...v1.1.0) (2020-01-16)
+
+### Code Refactoring
+- Updates for TS. ([ce0f52b](https://github.com/alexseitsinger/react-simple-modal/commit/ce0f52b34d0cc3e6bbc1d2e58c402f9b6b10baf3))
+- Updates src to TS. ([5401b01](https://github.com/alexseitsinger/react-simple-modal/commit/5401b01b996db0d418fbd22f64f6059439276681))
+- Updates tests for TS ([8e94d92](https://github.com/alexseitsinger/react-simple-modal/commit/8e94d92331073647c672e75643c6c9eb6224e76f))
+
+### Features
+- Adds type def. ([2d8fca2](https://github.com/alexseitsinger/react-simple-modal/commit/2d8fca2932bd15fe437f72e548d2b6e275ec2276))
+
+
 <a name="v1.0.1"></a>
 ## [v1.0.1](https://github.com/alexseitsinger/react-simple-modal/compare/v1.0.0...v1.0.1) (2019-12-13)
 
