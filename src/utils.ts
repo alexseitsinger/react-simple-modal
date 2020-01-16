@@ -1,6 +1,7 @@
 import { CSSObject } from "@emotion/core"
 // @ts-ignore
 import computedStyle from "computed-style"
+import { uniq } from "underscore"
 
 export const documentExists = typeof document !== "undefined"
 
@@ -25,41 +26,6 @@ export const defaultFixedStyle: CSSObject = {
   position: "fixed",
   width: "100%",
   maxWidth: "auto",
-}
-
-export function getFixedStyle(el: HTMLElement) {
-  var style = defaultFixedStyle
-  const maxWidth = getMaxWidth(el)
-  if (maxWidth > 0) {
-    style = {
-      ...style,
-      maxWidth: `${maxWidth}px`,
-    }
-  }
-  return style
-}
-
-function getMaxWidth(el: HTMLElement) {
-  const parentCs = computedStyle(el.parentNode, "width")
-  var maxWidth = parseInt(parentCs.width)
-  getSiblings(el).forEach((sib: HTMLElement) => {
-    if (isFixed(sib) || isAbsolute(sib)) {
-      const sibCs = computedStyle(sib, "width")
-      maxWidth -= parseInt(sibCs.width)
-    }
-  })
-  return maxWidth
-}
-
-function toCamelCase(string: string) {
-  return string.replace(
-    /(\w)(\w*)/g,
-    (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
-  )
-}
-
-function toHyphenCase(string: string) {
-  return string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 }
 
 function getSiblings(el: HTMLElement) {
@@ -87,6 +53,41 @@ export function isFixed(el: HTMLElement) {
 export function isAbsolute(el: HTMLElement) {
   const position = computedStyle(el, "position")
   return position === "absolute"
+}
+
+function getMaxWidth(el: HTMLElement) {
+  const parentCs = computedStyle(el.parentNode, "width")
+  var maxWidth = parseInt(parentCs.width)
+  getSiblings(el).forEach((sib: HTMLElement) => {
+    if (isFixed(sib) || isAbsolute(sib)) {
+      const sibCs = computedStyle(sib, "width")
+      maxWidth -= parseInt(sibCs.width)
+    }
+  })
+  return maxWidth
+}
+
+export function getFixedStyle(el: HTMLElement) {
+  var style = defaultFixedStyle
+  const maxWidth = getMaxWidth(el)
+  if (maxWidth > 0) {
+    style = {
+      ...style,
+      maxWidth: `${maxWidth}px`,
+    }
+  }
+  return style
+}
+
+function toCamelCase(string: string) {
+  return string.replace(
+    /(\w)(\w*)/g,
+    (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+  )
+}
+
+function toHyphenCase(string: string) {
+  return string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 }
 
 export function addStyle(element: HTMLElement, style: CSSObject) {
@@ -179,3 +180,121 @@ export function scrollWindow(position: number): void {
 
   window.scrollTo(0, position)
 }
+
+export const getMountPoint = (
+  mountPointSelector: string
+): HTMLElement | null => {
+  if (documentExists) {
+    if (mountPointSelector) {
+      const mountPoint = getElement(mountPointSelector)
+      if (mountPoint) {
+        return mountPoint
+      }
+    }
+    return document.body
+  }
+  return null
+}
+
+export const getMainElement = (
+  mainElementSelector: string
+): HTMLElement | null => {
+  if (mainElementSelector) {
+    return getElement(mainElementSelector)
+  }
+  return null
+}
+
+export const enableScrollingOnMainElement = (
+  mainElement: HTMLElement
+): void => {
+  if (mainElement) {
+    if (isFixed(mainElement)) {
+      // Record the current top position of the main element.
+      // NOTE: Must be before everything else to capture the top position offset.)
+      const topPos = getTopOffset(mainElement)
+      // Remove the styles for the fixed els.
+      removeStyle(mainElement, getFixedStyle(mainElement))
+      // Apply the style for top position reset.
+      addStyle(mainElement, {
+        top: "0px",
+      })
+      // Force the window to re-scroll to the original position.
+      // NOTE: Must be the last thing to run in order to reset scrolling.
+      scrollWindow(topPos)
+    }
+  }
+}
+
+export const disableScrollingOnMainElement = (mainEl: HTMLElement): void => {
+  if (mainEl) {
+    if (!isFixed(mainEl)) {
+      // Record the window position before we fix the element.
+      const yOffset = getYOffset()
+      // Fix the main element to remove scrolling.
+      addStyle(mainEl, getFixedStyle(mainEl))
+      // Get the top position of the main element.
+      const topPos = getTopOffset(mainEl)
+      // If the top position is not greater than 0, apply a negative top offset to move it up when the modal is opened.
+      if (!(topPos > 0)) {
+        addStyle(mainEl, {
+          top: `-${yOffset}px`,
+        })
+      }
+    }
+  }
+}
+
+export const getInstances = (
+  containerClassName: string
+): HTMLElement[] | [] => {
+  if (!documentExists) {
+    return []
+  }
+  return uniq([
+    ...getElements(".SimpleModal"),
+    ...getElements(`.${containerClassName}`),
+  ])
+}
+
+const getOtherInstances = (containerClassName: string, exclude?: HTMLElement) => {
+  const instances = getInstances(containerClassName)
+  return instances.filter(inst => inst !== exclude)
+}
+
+export const disableScrollingOnOtherInstances = (
+  containerClassName: string,
+  exclude?: HTMLElement
+) => getOtherInstances(containerClassName, exclude)
+  .forEach(inst => {
+    // const el = ReactDOM.findDOMNode(inst)
+    if (!isFixed(inst)) {
+      addStyle(inst, defaultFixedStyle)
+    }
+  })
+
+export const enableScrollingOnOtherInstances = (
+  containerClassName: string,
+  exclude?: HTMLElement
+) => getOtherInstances(containerClassName, exclude)
+  .forEach(inst => {
+    // const el = ReactDOM.findDOMNode(inst)
+    if (isFixed(inst)) {
+      removeStyle(inst, defaultFixedStyle)
+    }
+  })
+
+export const getLayerIndex = (layerPosition: string, defaultIndex: number, containerClassName: string): number => {
+  const totalInstances = getInstances(containerClassName).length
+  if (totalInstances === 0) {
+    return defaultIndex
+  }
+  if (layerPosition === "above") {
+    return defaultIndex + totalInstances
+  }
+  if (layerPosition === "below") {
+    return defaultIndex - totalInstances
+  }
+  return defaultIndex!
+}
+

@@ -19,8 +19,8 @@ export const Container = styled("div")(
   (props: ContainerProps) => ({
     ...(props.zIndex
       ? {
-          zIndex: props.zIndex,
-        }
+        zIndex: props.zIndex,
+      }
       : {}),
   })
 )
