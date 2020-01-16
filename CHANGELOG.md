@@ -1,3 +1,10 @@
+<a name="v1.2.0"></a>
+## [v1.2.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.1.0...v1.2.0) (2020-01-16)
+
+### Code Refactoring
+- Compresses renderBody. ([3f79011](https://github.com/alexseitsinger/react-simple-modal/commit/3f7901160326b7689bd13e9aa5eda5b3f6a6365b))
+
+
 <a name="v1.1.0"></a>
 ## [v1.1.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.0.1...v1.1.0) (2020-01-16)
 
