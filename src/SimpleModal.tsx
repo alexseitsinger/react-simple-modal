@@ -161,10 +161,10 @@ export class SimpleModal extends React.Component<SimpleModalProps> {
         {closeButtonBody}
       </Button>
     ) : null
-    const renderedForegroundCloseButton =
-      closeButtonPosition === "foreground" ? renderedCloseButton : null
-    const renderedWindowCloseButton =
-      closeButtonPosition === "window" ? renderedCloseButton : null
+    const renderedForegroundCloseButton
+      = closeButtonPosition === "foreground" ? renderedCloseButton : null
+    const renderedWindowCloseButton
+      = closeButtonPosition === "window" ? renderedCloseButton : null
     const zIndex = getLayerIndex(
       layerPosition,
       defaultIndex,
