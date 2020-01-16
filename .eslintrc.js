@@ -1,39 +1,36 @@
 const path = require("path")
+const typescriptConfig = require("./.eslintrc.typescript")
 
 module.exports = {
   root: true,
-  env: {
-    node: true,
-    browser: true,
-    jest: true,
-    commonjs: true,
+  parserOptions: {
+    ecmaVersion: 9,
+    sourceType: "module",
   },
-  globals: {
-    window: true,
-    document: true,
-    describe: true,
-    it: true,
-    test: true,
-    mount: true,
-    render: true,
-    shallow: true,
-  },
-  parser: "@typescript-eslint/parser",
   settings: {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
-    },
     "import/resolver": {
       webpack: {
-        paths: ["src", "tests"],
         config: path.resolve("./webpack.config.dev.js"),
       },
     },
   },
-  plugins: ["@typescript-eslint/eslint-plugin"],
-  rules: {
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-  },
-  extends: ["plugin:import/typescript", "@alexseitsinger/eslint-config"],
+  extends: [
+    "@alexseitsinger/eslint-config/eslint",
+    "@alexseitsinger/eslint-config/react",
+    "@alexseitsinger/eslint-config/node",
+    "@alexseitsinger/eslint-config/import",
+    "@alexseitsinger/eslint-config/package-json",
+    "@alexseitsinger/eslint-config/jest",
+    "@alexseitsinger/eslint-config/jest-formatting",
+    "@alexseitsinger/eslint-config/simple-import-sort",
+    "prettier",
+    "prettier/babel",
+    "prettier/react",
+  ],
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      ...typescriptConfig,
+    },
+  ],
 }
