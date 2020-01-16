@@ -1,25 +1,53 @@
 {
+  "name": "@alexseitsinger/react-simple-modal",
+  "version": "1.0.1",
+  "description": "A simple react modal",
+  "main": "index.js",
+  "files": [
+    "index.d.ts",
+    "index.js",
+    "dist/main.js",
+    "dist/main.dev.js",
+    "dist/main.dev.js.map",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "yarn run build:development && yarn run build:production",
+    "build:development": "yarn webpack --config=./webpack.config.dev.js",
+    "build:production": "yarn webpack",
+    "test": "yarn jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexseitsinger/react-simple-modal.git"
+  },
+  "keywords": [
+    "react",
+    "modal"
+  ],
   "author": {
     "email": "software@alexseitsinger.com",
     "name": "Alex Seitsinger"
   },
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/alexseitsinger/react-simple-modal/issues"
   },
+  "homepage": "https://github.com/alexseitsinger/react-simple-modal",
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.7.6",
     "@emotion/core": "10.0.22",
     "@emotion/styled": "10.0.23",
     "computed-style": "^0.3.0",
     "core-js": "3.5.0",
     "prop-types": "15.7.2",
     "react-focus-lock": "^2.2.1",
+    "react-style-proptype": "^3.2.2",
     "underscore": "^1.9.1"
   },
-  "description": "A simple react modal",
   "devDependencies": {
-    "@alexseitsinger/eslint-config-base": "^0.22.0",
-    "@alexseitsinger/eslint-config-react": "^0.12.0",
+    "@alexseitsinger/eslint-config": "^1.2.0",
     "@babel/core": "7.7.5",
     "@babel/plugin-proposal-class-properties": "7.7.4",
     "@babel/plugin-proposal-export-default-from": "7.7.4",
@@ -29,7 +57,16 @@
     "@babel/plugin-transform-runtime": "7.7.6",
     "@babel/preset-env": "7.7.6",
     "@babel/preset-react": "7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
     "@emotion/babel-preset-css-prop": "^10.0.23",
+    "@types/enzyme": "^3.10.4",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.25",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/underscore": "^1.9.4",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
@@ -38,49 +75,30 @@
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
     "eslint": "6.7.2",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-import-resolver-webpack": "0.12.0",
     "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-jest-formatting": "^1.2.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-package-json": "^0.1.4",
     "eslint-plugin-react": "7.17.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
+    "eslint-plugin-simple-import-sort": "^5.0.0",
     "jest": "24.9.0",
     "jest-emotion": "10.0.26",
+    "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
     "webpack": "4.41.2",
     "webpack-cli": "3.3.10",
     "webpack-node-externals": "1.7.2"
   },
-  "files": [
-    "index.js",
-    "dist/main.js",
-    "dist/main.dev.js",
-    "dist/main.dev.js.map",
-    "package.json",
-    "README.md",
-    "LICENSE"
-  ],
-  "homepage": "https://github.com/alexseitsinger/react-simple-modal",
-  "keywords": [
-    "react",
-    "modal"
-  ],
-  "license": "BSD-2-Clause",
-  "main": "index.js",
-  "name": "@alexseitsinger/react-simple-modal",
   "peerDependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alexseitsinger/react-simple-modal.git"
-  },
-  "scripts": {
-    "build:development": "./node_modules/.bin/webpack --config=./webpack.config.dev.js",
-    "build:production": "./node_modules/.bin/webpack --config=./webpack.config.js",
-    "build": "yarn run build:development && yarn run build:production",
-    "test": "./node_modules/.bin/jest --noStackTrace --silent",
-    "test:watch": "./node_modules/.bin/jest --noStackTrace --silent --watchAll"
-  },
-  "version": "1.0.1"
+  }
 }
