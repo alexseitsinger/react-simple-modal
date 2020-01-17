@@ -66,7 +66,7 @@ export class SimpleModal extends React.Component<SimpleModalProps> {
     onEscapeKey: () => {},
     onClickBackground: () => {},
     layerPosition: "above",
-    defaultIndex: 100,
+    defaultIndex: 200,
   }
 
   componentDidMount(): void {
