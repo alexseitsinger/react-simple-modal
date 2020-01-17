@@ -1,3 +1,10 @@
+<a name="v1.3.0"></a>
+## [v1.3.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.2.0...v1.3.0) (2020-01-17)
+
+### Code Refactoring
+- Changes zIndex. ([fd333b4](https://github.com/alexseitsinger/react-simple-modal/commit/fd333b48bcd0607c4e93f7af00d67291f45c8f3e))
+
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.1.0...v1.2.0) (2020-01-16)
 
