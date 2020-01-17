@@ -24,7 +24,6 @@ module.exports = {
       {
         test: /\.(t|j)sx?$/,
         include: [path.resolve("./src")],
-        //exclude: /\.test.tsx?$/,
         use: ["babel-loader", "ts-loader"],
       },
     ],
