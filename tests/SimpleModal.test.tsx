@@ -8,9 +8,9 @@ import React from "react"
 import { SimpleModal } from "../src"
 import { Content, Foreground } from "../src/elements"
 
-// TODO: Add test for DOM event adding/removing correctly.
-// TODO: add test to ensure main element is fixed when modal is rendered &
-// unfixed when modal is unmounted.
+// - Check that mainElement is fixed when modal is rendered and isVisible is
+// true.
+// - Check that mainElement is not fixed when modal is not visible.
 
 const onClose = () => {}
 
