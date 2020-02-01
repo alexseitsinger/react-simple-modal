@@ -16,6 +16,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
+    "outDir": "dist",
+    "declaration": true,
+
     "jsx": "preserve",
 
     "lib": ["dom", "es2015"],
