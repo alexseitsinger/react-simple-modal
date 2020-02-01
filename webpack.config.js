@@ -1,6 +1,7 @@
 const path = require("path")
 const nodeExternals = require("webpack-node-externals")
 const TerserPlugin = require("terser-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
 module.exports = {
   entry: "./src/index.ts",
@@ -55,4 +56,9 @@ module.exports = {
       }),
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin({
+      dry: false,
+    }),
+  ],
 }
