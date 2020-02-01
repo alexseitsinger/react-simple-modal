@@ -297,4 +297,3 @@ export const getLayerIndex = (layerPosition: string, defaultIndex: number, conta
   }
   return defaultIndex!
 }
-

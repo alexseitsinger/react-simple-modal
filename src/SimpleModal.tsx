@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react"
+import React, { ReactElement, ReactNode } from "react"
 import ReactDOM from "react-dom"
 import FocusLock from "react-focus-lock"
 // @ts-ignore
@@ -20,9 +20,29 @@ import {
   getMountPoint,
   isEscapeKey,
   removeEvent,
+  removeStyle,
 } from "./utils"
+import { CSSObject } from "@emotion/core"
 
-import { SimpleModalProps } from ".."
+export interface SimpleModalProps {
+  children: ReactNode | ReactNode[];
+  backgroundShade?: string;
+  isCloseButtonVisible?: boolean;
+  closeButtonStyle?: CSSObject;
+  closeButtonPosition?: string;
+  closeButtonBody?: ReactNode | ReactNode[];
+  onClose: () => void;
+  onOpen?: () => void;
+  isVisible?: boolean;
+  onEscapeKey?: () => void;
+  onClickBackground?: () => void;
+  containerClassName?: string;
+  layerPosition?: string;
+  defaultIndex?: number;
+  mainElementSelector?: string;
+  mountPointSelector?: string;
+  onClickCloseButton?: () => void;
+}
 
 export class SimpleModal extends React.Component<SimpleModalProps> {
   static propTypes = {
@@ -74,6 +94,7 @@ export class SimpleModal extends React.Component<SimpleModalProps> {
   }
 
   componentWillUnmount(): void {
+    this.enableScrolling()
     removeEvent("keydown", this.handleKeyDown)
   }
 
@@ -118,21 +139,23 @@ export class SimpleModal extends React.Component<SimpleModalProps> {
   }, 500)
 
   enableScrolling = (instance?: HTMLElement) => {
-    const { mainElementSelector, containerClassName } = this.props
-    const mainElement = getMainElement(mainElementSelector)
-    if (mainElement) {
-      enableScrollingOnMainElement(mainElement)
-    }
-    enableScrollingOnOtherInstances(containerClassName, instance)
+      const { mainElementSelector, containerClassName } = this.props
+      const mainElement = getMainElement(mainElementSelector)
+      if (mainElement) {
+        enableScrollingOnMainElement(mainElement)
+      }
+      enableScrollingOnOtherInstances(containerClassName, instance)
   }
 
   disableScrolling = (instance?: HTMLElement) => {
-    const { mainElementSelector, containerClassName } = this.props
-    const mainElement = getMainElement(mainElementSelector)
-    if (mainElement) {
-      disableScrollingOnMainElement(mainElement)
-    }
-    disableScrollingOnOtherInstances(containerClassName, instance)
+    setTimeout(() => {
+      const { mainElementSelector, containerClassName } = this.props
+      const mainElement = getMainElement(mainElementSelector)
+      if (mainElement) {
+        disableScrollingOnMainElement(mainElement)
+      }
+      disableScrollingOnOtherInstances(containerClassName, instance)
+    }, 100)
   }
 
   renderBody = () => {
