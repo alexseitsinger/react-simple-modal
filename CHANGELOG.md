@@ -1,3 +1,13 @@
+<a name="v1.3.1"></a>
+## [v1.3.1](https://github.com/alexseitsinger/react-simple-modal/compare/v1.3.0...v1.3.1) (2020-02-01)
+
+### Bug Fixes
+- Fixes fixed style not being removed. ([b247798](https://github.com/alexseitsinger/react-simple-modal/commit/b2477985d187056818916f9ed2beffe171937c57))
+
+### Code Refactoring
+- Generates defs instead. ([0b86706](https://github.com/alexseitsinger/react-simple-modal/commit/0b86706f9835ff843111c4a2f2cc9387b8cdf5f7))
+
+
 <a name="v1.3.0"></a>
 ## [v1.3.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.2.0...v1.3.0) (2020-01-17)
 
