@@ -21,6 +21,17 @@ export class SimpleModalProvider extends React.Component<Props, State> {
 
   mainRef = React.createRef<HTMLElement>()
 
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    const propsChanged = nextProps !== this.props
+    const { isFixed } = this.state
+    const stateChanged = nextState.isFixed !== isFixed
+    const shouldUpdate = (propsChanged && stateChanged)
+    if (shouldUpdate) {
+      return true
+    }
+    return false
+  }
+
   setFree = (): void => {
     const { isFixed } = this.state
     if (isFixed === false) {
