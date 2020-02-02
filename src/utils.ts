@@ -11,9 +11,9 @@ export function isDefined(o?: any): boolean {
   return isNullish(o) === false
 }
 
-export const isDOM = isDefined(document)
+export const isDOM = typeof document !== "undefined"
 
-const hasWindow = isDefined(window)
+const hasWindow = typeof window !== "undefined"
 
 export function getTopOffset(el: HTMLElement): number {
   const topPos = computedStyle(el, "top")
