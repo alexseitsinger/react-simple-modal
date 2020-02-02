@@ -1,1 +1,2 @@
-export { SimpleModal } from "./SimpleModal"
+export { SimpleModalWithContext as SimpleModal } from "./SimpleModalWithContext"
+export { SimpleModalProvider } from "./SimpleModalProvider"

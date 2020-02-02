@@ -1,11 +1,12 @@
-/** @jsx jsx */
 import styled from "@emotion/styled"
+
+import { isDefined } from "./utils"
 
 export interface ContainerProps {
   zIndex?: number;
 }
 
-export const Container = styled("div")(
+export const Container = styled.div(
   {
     position: "absolute",
     minHeight: "100%",
@@ -17,10 +18,10 @@ export const Container = styled("div")(
     justifyContent: "center",
   },
   (props: ContainerProps) => ({
-    ...(props.zIndex
+    ...(isDefined(props.zIndex)
       ? {
-        zIndex: props.zIndex,
-      }
+          zIndex: props.zIndex,
+        }
       : {}),
   })
 )
@@ -69,6 +70,9 @@ export const Background = styled("div")(
         return {
           backgroundColor: "rgba(255, 255, 255, 0.9)",
         }
+      }
+      default: {
+        return {}
       }
     }
   }
@@ -130,5 +134,6 @@ export const Button = styled("button")(
         }
       }
     }
+    return {}
   }
 )
