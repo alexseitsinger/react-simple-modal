@@ -1,82 +1,72 @@
+import React, { ReactElement, ReactNode } from "react"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
+import waitForExpect from "wait-for-expect"
 
 configure({ adapter: new Adapter() })
 
-import React from "react"
+import { SimpleModal, SimpleModalProvider } from "src"
+import { SimpleModalInner } from "src/SimpleModalInner"
 
-import { SimpleModal } from "../src"
-import { Content, Foreground } from "../src/elements"
+/**
+ * To test:
+ * - Confirm that onClose & onOpen are called at the right time.
+ */
 
-// - Check that mainElement is fixed when modal is rendered and isVisible is
-// true.
-// - Check that mainElement is not fixed when modal is not visible.
+const onClose = (): void => {
+  console.log("close")
+}
 
-const onClose = () => {}
+interface Props {
+  isVisible: boolean;
+  onClose: () => void;
+  isCloseButtonVisible?: boolean;
+}
+
+const ModalContent = (): ReactElement => {
+  return <div>Content</div>
+}
+
+const App = (props: Props): ReactElement => (
+  <SimpleModalProvider>
+    <div id={"app"}>
+      <div id={"content"}>Regular content</div>
+      <SimpleModal mountPointSelector={"document.body"} {...props}>
+        <ModalContent />
+      </SimpleModal>
+    </div>
+  </SimpleModalProvider>
+)
 
 describe("SimpleModal", () => {
-  it("renders nothing when not visible", () => {
-    const wrapper = mount(
-      <SimpleModal isVisible={false} onClose={onClose}>
-        <div>Test</div>
-      </SimpleModal>
-    )
+  it("should render null when isVisible is false", () => {
+    const wrapper = mount(<App isVisible={false} onClose={onClose} />)
 
-    expect(wrapper.isEmptyRender()).toStrictEqual(true)
+    expect(wrapper.find(App)).toHaveLength(1)
+    expect(wrapper.find(SimpleModalInner)).toHaveLength(0)
   })
 
-  it("renders without a close button", () => {
+  it("should add/remove fixed styles to main element when isVisible changes", () => {
     const wrapper = mount(
-      <SimpleModal
-        isVisible={true}
-        isCloseButtonVisible={false}
-        onClose={onClose}>
-        <div>Test</div>
-      </SimpleModal>
+      <App isVisible={true} onClose={onClose} isCloseButtonVisible={false} />
     )
 
-    expect(wrapper.find("button")).toHaveLength(0)
-  })
+    expect(wrapper.find(App)).toHaveLength(1)
+    expect(wrapper.find(SimpleModalInner)).toHaveLength(1)
 
-  it("renders a close button in window", () => {
-    const wrapper = mount(
-      <SimpleModal
-        isVisible={true}
-        isCloseButtonVisible={true}
-        closeButtonPosition={"window"}
-        onClose={onClose}>
-        <div>Test</div>
-      </SimpleModal>
-    )
-    const closeButton = wrapper.find("button")
-    const parentNode = closeButton.parents().first()
-
-    expect(parentNode.containsMatchingElement(Content)).toStrictEqual(true)
-  })
-
-  it("renders a close button in foreground", () => {
-    const wrapper = mount(
-      <SimpleModal
-        isVisible={true}
-        isCloseButtonVisible={true}
-        closeButtonPosition={"foreground"}
-        onClose={onClose}>
-        <div>Test</div>
-      </SimpleModal>
-    )
-    const closeButton = wrapper.find("button")
-    const parent = closeButton.parents().first()
-
-    expect(parent.containsMatchingElement(Foreground)).toStrictEqual(true)
-  })
-
-  it("renders test content in the window", () => {
-    const wrapper = mount(
-      <SimpleModal isVisible={true} onClose={onClose}>
-        <div>Test</div>
-      </SimpleModal>
+    expect(wrapper.find("#app").prop("style")).toHaveProperty(
+      "position",
+      "fixed"
     )
 
-    expect(wrapper.find(Content).contains(<div>Test</div>)).toStrictEqual(true)
+    // Then check that the fixed styl eis removed when isVisible changes.
+    wrapper.setProps({
+      isVisible: false,
+    })
+
+    wrapper.update()
+
+    expect(wrapper.find(SimpleModalInner)).toHaveLength(0)
+    expect(wrapper.find("#app").prop("style")).toStrictEqual({ top: 0 })
   })
 })
