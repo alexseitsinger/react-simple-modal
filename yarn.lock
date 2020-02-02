@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alexseitsinger/eslint-config@^2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config/-/eslint-config-2.12.0.tgz#e9d587519fdda39605d165fabcd5348c3088b7c9"
-  integrity sha512-XQlgX/hl2z5kwg9bLISyiJ1wcHVd/WVQvnaBE2jYiGGryg3+KUsSjlaDJoyX5FOVQTLhNxv3dD2BsNqYsIpoTA==
+"@alexseitsinger/eslint-config@^2.12.1":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config/-/eslint-config-2.12.1.tgz#37ddb64dbbacf268a54ac94dcb4bd97b461c804c"
+  integrity sha512-IqInrr/ggxdGlHgHKg4bb4qkmL85kHFVo3hMHwzM/aXBb4QOdIzSmnecf5eWz0jjO1Iis0qL9fw4CqUyPni5LQ==
   dependencies:
     confusing-browser-globals "^1.0.7"
   optionalDependencies:
@@ -3169,7 +3169,7 @@ eslint-config-prettier@^6.9.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-import-resolver-jest@^3:
+eslint-import-resolver-jest@^3, eslint-import-resolver-jest@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-jest/-/eslint-import-resolver-jest-3.0.0.tgz#fd61da30fe58f4c1074af1f069b4267c70a91fd6"
   integrity sha512-dCrepGDfaI5cK1QeUhUSbrkDalFkFGXyvjsfWyDxg1uPWiwsGpGmK6GFVPS4mn/IAYLipquB9AHonGQP/iaOAQ==
@@ -8006,6 +8006,11 @@ w3c-hr-time@^1.0.1:
   integrity sha1-gqwr/2PZUOqeMYmlimViX+3xkEU=
   dependencies:
     browser-process-hrtime "^0.1.2"
+
+wait-for-expect@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/wait-for-expect/-/wait-for-expect-3.0.1.tgz#ec204a76b0038f17711e575720aaf28505ac7185"
+  integrity sha512-3Ha7lu+zshEG/CeHdcpmQsZnnZpPj/UsG3DuKO8FskjuDbkx3jE3845H+CuwZjA2YWYDfKMU2KhnCaXMLd3wVw==
 
 walker@^1.0.7, walker@~1.0.5:
   version "1.0.7"
