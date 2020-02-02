@@ -1,3 +1,11 @@
+<a name="v2.0.1"></a>
+## [v2.0.1](https://github.com/alexseitsinger/react-simple-modal/compare/v2.0.0...v2.0.1) (2020-02-02)
+
+### Bug Fixes
+- Fixes document not found error. ([78b99c4](https://github.com/alexseitsinger/react-simple-modal/commit/78b99c48be9fc0eb18b32d068c4224e3e8f0ef19))
+- Fixes infinite loop. ([8e3a7ab](https://github.com/alexseitsinger/react-simple-modal/commit/8e3a7abeb425ddbb3840a58557f72d22118bb544))
+
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.3.1...v2.0.0) (2020-02-02)
 
