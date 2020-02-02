@@ -1,3 +1,10 @@
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v1.3.1...v2.0.0) (2020-02-02)
+
+### Code Refactoring
+- Refactors modal to use context. ([cdefc83](https://github.com/alexseitsinger/react-simple-modal/commit/cdefc83c7c102731a3e3c26efa9328589f7953d1))
+
+
 <a name="v1.3.1"></a>
 ## [v1.3.1](https://github.com/alexseitsinger/react-simple-modal/compare/v1.3.0...v1.3.1) (2020-02-01)
 
