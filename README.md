@@ -1,55 +1,68 @@
-## SimpleModal
+# SimpleModal
 
-A simple modal.
+A simple modal
 
-### Props
+## Installation
 
-1. __backgroundShade__
-    The background color to use for the modal background.
-2. __isCloseButtonVisible__
-    Determines if the close button is visible.
-3. __closeButtonStyle__
-    Extra css style to apply to the close button.
-4. __closeButtonPosition__
-    Determines where the close button should be rendered within the modal.
-5. __closeButtonBody__
-    The elements to use for the close button.
-6. __onClose__
-    Function to invoke when the modal is closed.
-7. __onOpen__
-    Function to invoke when the modal is opened.
-8. __isVisible__
-    Boolean to determine if the modal is visible in the DOM.
-9. __onEscapeKey__
-    Function to invoke when the escape key is pressed.
-10. __onClickBackground__
-    Function to invoke when the modal's background is clicked.
-11. __containerClassName__
-    A custom classname to use for the modal element.
-12. __layerPosition__
-    The position that the modal should use.
-13. __defaultIndex__
-    The default z-index to use for the modals.
-14. __mainElementSelector__
-    The selector to use to find the DOM element to modify when the modal is
-    rendered.
-15. __mountPointSelector__
-    The selector to use to find the element to mount the modal within.
+```bash
+yarn add @alexseitsinger/react-simple-modal
+```
 
-### Example
+## Props
+
+Name                 | Description                                             | Default       | Required
+---                  | ---                                                     | ---           | ---
+isVisible            | Is the modal visible?                                   | true          | true
+onClose              | Invoked whenever isVisible changes to false.            | undefined     | true
+onOpen               | Invoked whenever isVisible changes to true.             | undefined     | false
+backgroundShade      | The background color to use for the modal's background. | "dark"        | false
+isCloseButtonVisible | Show the close button                                   | false         | false
+closeButtonStyle     | Additional css to apply to the close button             | undefined     | false
+closeButtonBody      | The node to render for the close button                 | undefined     | false
+onEscapeKey          | Invoked whenever the escape key is pressed.             | undefined     | false
+onClickBackground    | Invoked whenever the background is clicked.             | undefined     | false
+containerClassName   | Custom classname to use for the modal.                  | "SimpleModal" | false
+layerPosition        | Should the modal be above or below the main element?    | "above"       | false
+defaultIndex         | The default z-index to use for the modal                | 200           | false
+mountPointSelector   | The selector to use to mount the modal under.           | document.body | false
+
+## Example
 
 ```javascript
+// Within App root
+//
+// NOTE:
+// 'SimpleModalProvider' must wrap your apps top-most DOM element because it
+// changes this elements style from 'fixed' to 'static' as each modal is made
+// visible.
+//
+import { SimpleModalProvider } from "@alexseitsinger/react-simple-modal"
+
+function App({ store, history }) {
+  return (
+	  <Provider store={store}>
+		  <ConnectedRouter history={history}>
+			  <SimpleModalProvider>
+					<div id={"app"}>
+						<Route patch={"/"} exact component={HomePage} />
+					</div>
+				</SimpleModalProvider>
+			</ConnectedRouter>
+		</Provider>
+	)
+}
+```
+
+```javascript
+// Within app page
 import { SimpleModal } from "@alexseitsinger/react-simple-modal"
 
-function App(props) {
+function HomePage({ handleCloseModal, isModalVisible }) {
   return (
     <SimpleModal
-      isVisible={true}
-      closeButtonPosition={"window"}
-      onClose={props.doClose}
-      onClickBackground={props.doClose}
-      onEscapeKey={props.doClose}>
-      <div>An example modal body</div>
+      isVisible={isModalVisible}
+			onClose={handleCloseModal}>
+			<div>Some modal content.</div>
     </SimpleModal>
   )
 }
