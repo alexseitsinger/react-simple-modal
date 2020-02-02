@@ -40,16 +40,16 @@ import { SimpleModalProvider } from "@alexseitsinger/react-simple-modal"
 
 function App({ store, history }) {
   return (
-	  <Provider store={store}>
-		  <ConnectedRouter history={history}>
-			  <SimpleModalProvider>
-					<div id={"app"}>
-						<Route patch={"/"} exact component={HomePage} />
-					</div>
-				</SimpleModalProvider>
-			</ConnectedRouter>
-		</Provider>
-	)
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <SimpleModalProvider>
+          <div id={"app"}>
+            <Route patch={"/"} exact component={HomePage} />
+          </div>
+        </SimpleModalProvider>
+      </ConnectedRouter>
+    </Provider>
+  )
 }
 ```
 
@@ -61,8 +61,8 @@ function HomePage({ handleCloseModal, isModalVisible }) {
   return (
     <SimpleModal
       isVisible={isModalVisible}
-			onClose={handleCloseModal}>
-			<div>Some modal content.</div>
+      onClose={handleCloseModal}>
+      <div>Some modal content.</div>
     </SimpleModal>
   )
 }
