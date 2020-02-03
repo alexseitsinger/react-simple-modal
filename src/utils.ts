@@ -1,7 +1,89 @@
 import { CSSObject } from "@emotion/core"
 // @ts-ignore
 import computedStyle from "computed-style"
-import { uniq } from "underscore"
+import { debounce, uniq } from "underscore"
+
+type FunctionType = () => void
+
+interface CreateCheckerArgs {
+  delay: number;
+  check: () => boolean;
+  complete: () => void;
+  modalName: string;
+}
+
+interface CheckerMethodCache {
+  [key: string]: FunctionType;
+}
+
+const checkerMethodCache: CheckerMethodCache = {}
+
+export const createChecker = ({
+  delay,
+  check,
+  complete,
+  modalName,
+}: CreateCheckerArgs): FunctionType => {
+  const create = (): FunctionType => {
+    return debounce(() => {
+      if (check() === true) {
+        complete()
+      }
+    }, delay)
+  }
+
+  if (!(modalName in checkerMethodCache)) {
+    checkerMethodCache[modalName] = create()
+  }
+
+  return checkerMethodCache[modalName]
+}
+
+interface CreateCancellableArgs {
+  modalName: string;
+  delay: number;
+  handler: () => void;
+}
+
+interface CancellableMethodCache {
+  [key: string]: FunctionType[];
+}
+
+const cancellableMethodCache: CancellableMethodCache = {}
+
+export const createCancellable = ({
+  modalName,
+  delay,
+  handler,
+}: CreateCancellableArgs): FunctionType[] => {
+  const create = (): FunctionType[] => {
+    let isCancelled = false
+
+    const method = debounce((): void => {
+      if (isCancelled === true) {
+        return
+      }
+
+      handler()
+    }, delay)
+
+    const cancel = (): void => {
+      isCancelled = true
+    }
+
+    const reset = (): void => {
+      isCancelled = false
+    }
+
+    return [method, cancel, reset]
+  }
+
+  if (!(modalName in cancellableMethodCache)) {
+    cancellableMethodCache[modalName] = create()
+  }
+
+  return cancellableMethodCache[modalName]
+}
 
 export function isNullish(o?: any): boolean {
   return o === null || typeof o === "undefined"

@@ -1,15 +1,17 @@
-import React from "react"
+import React, { ReactElement } from "react"
 
 export interface ContextProps {
-  setFixed?: () => void;
-  setFree?: () => void;
-  isFixed: boolean;
+  renderModal: (n: string, el: ReactElement) => void;
+  removeModal: (n: string) => void;
 }
 
 const defaultContext: ContextProps = {
-  setFixed: undefined,
-  setFree: undefined,
-  isFixed: false,
+  renderModal: () => {
+    console.log("renderModal() not implemented.")
+  },
+  removeModal: () => {
+    console.log("removeModal() not implemented.")
+  },
 }
 
 export const Context = React.createContext(defaultContext)

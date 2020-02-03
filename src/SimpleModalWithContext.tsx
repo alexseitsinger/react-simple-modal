@@ -1,12 +1,10 @@
 import React, { ReactElement, ReactNode } from "react"
 import { CSSObject } from "@emotion/core"
 
+import { SimpleModal } from "./SimpleModal"
 import { Context, ContextProps } from "./SimpleModalContext"
-import { SimpleModalOuter } from "./SimpleModalOuter"
 
 const defaultProps = {
-  mountPointSelector: "document.body",
-  //mainElementSelector: "main",
   containerClassName: "SimpleModal",
   backgroundShade: "dark",
   isCloseButtonVisible: true,
@@ -14,11 +12,13 @@ const defaultProps = {
   closeButtonBody: "close",
   layerPosition: "above",
   defaultIndex: 200,
+  isVisible: true,
 }
 
 type DefaultProps = Readonly<typeof defaultProps>
 
 export type SimpleModalWithContextProps = {
+  modalName: string,
   onClose: () => void,
   closeButtonStyle?: CSSObject,
   onClickCloseButton?: () => void,
@@ -26,16 +26,13 @@ export type SimpleModalWithContextProps = {
   onEscapeKey?: () => void,
   onClickBackground?: () => void,
   isVisible: boolean,
-  mountPointSelector: string,
-  //mainElement: ReactElement,
-  //mainElementSelector: string,
-  containerClassName: string,
-  backgroundShade: string,
-  isCloseButtonVisible: boolean,
-  closeButtonPosition: string,
-  closeButtonBody: ReactNode,
-  layerPosition: string,
-  defaultIndex: number,
+  containerClassName?: string,
+  backgroundShade?: string,
+  isCloseButtonVisible?: boolean,
+  closeButtonPosition?: string,
+  closeButtonBody?: ReactNode,
+  layerPosition?: string,
+  defaultIndex?: number,
   children: ReactNode | ReactNode[],
 } & Partial<DefaultProps>
 
@@ -44,12 +41,11 @@ export function SimpleModalWithContext(
 ): ReactElement {
   return (
     <Context.Consumer>
-      {({ isFixed, setFixed, setFree }: ContextProps): ReactElement => (
-        <SimpleModalOuter
+      {({ renderModal, removeModal }: ContextProps): ReactElement => (
+        <SimpleModal
           {...props}
-          isFixed={isFixed}
-          setFixed={setFixed}
-          setFree={setFree}
+          renderModal={renderModal}
+          removeModal={removeModal}
         />
       )}
     </Context.Consumer>
