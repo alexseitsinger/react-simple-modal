@@ -56,12 +56,11 @@ function App({ store, history }) {
 // Within app page
 import { SimpleModal } from "@alexseitsinger/react-simple-modal"
 
-function HomePage({ handleCloseModal, isModalVisible }) {
+function HomePage({ onCloseModal }) {
   return (
     <SimpleModal
       modalName={"home-page-modal"}
-      isVisible={isModalVisible}
-      onClose={handleCloseModal}>
+      onClose={onCloseModal}>
       <div>Some modal content.</div>
     </SimpleModal>
   )
