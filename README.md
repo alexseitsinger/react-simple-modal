@@ -12,7 +12,7 @@ yarn add @alexseitsinger/react-simple-modal
 
 Name                 | Description                                             | Default       | Required
 ---                  | ---                                                     | ---           | ---
-isVisible            | Is the modal visible?                                   | true          | true
+modalName            | The unique name of the modal.                           | undefined     | true
 onClose              | Invoked whenever isVisible changes to false.            | undefined     | true
 onOpen               | Invoked whenever isVisible changes to true.             | undefined     | false
 backgroundShade      | The background color to use for the modal's background. | "dark"        | false
@@ -24,7 +24,6 @@ onClickBackground    | Invoked whenever the background is clicked.             |
 containerClassName   | Custom classname to use for the modal.                  | "SimpleModal" | false
 layerPosition        | Should the modal be above or below the main element?    | "above"       | false
 defaultIndex         | The default z-index to use for the modal                | 200           | false
-mountPointSelector   | The selector to use to mount the modal under.           | document.body | false
 
 ## Example
 
@@ -60,6 +59,7 @@ import { SimpleModal } from "@alexseitsinger/react-simple-modal"
 function HomePage({ handleCloseModal, isModalVisible }) {
   return (
     <SimpleModal
+      modalName={"home-page-modal"}
       isVisible={isModalVisible}
       onClose={handleCloseModal}>
       <div>Some modal content.</div>
