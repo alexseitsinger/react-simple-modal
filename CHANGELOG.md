@@ -1,3 +1,10 @@
+<a name="v3.0.0"></a>
+## [v3.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v2.0.1...v3.0.0) (2020-02-03)
+
+### Features
+- New API for modal mounting. ([029d606](https://github.com/alexseitsinger/react-simple-modal/commit/029d606fb1f3dfd0c8b5047f39576223b5f0877a))
+
+
 <a name="v2.0.1"></a>
 ## [v2.0.1](https://github.com/alexseitsinger/react-simple-modal/compare/v2.0.0...v2.0.1) (2020-02-02)
 
