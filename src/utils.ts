@@ -269,7 +269,12 @@ export function removeEvent(
 
 export function scrollWindow(position: number): void {
   if (isDOM && hasWindow && isDefined(window.scrollTo)) {
-    window.scrollTo(0, position)
+    try {
+      // Since JSDOM doesn't have scrollTo implemented, we wrap this call in a
+      // try/catch block to prevent jest from clogging up the log with this error each time
+      // this function is invoked.
+      window.scrollTo(0, position)
+    } catch (e) {}
   }
 }
 
