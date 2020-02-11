@@ -14,22 +14,24 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "dist/types/",
     "jsx": "preserve",
     "lib": ["dom", "es2016"],
     "target": "es2016",
     "module": "esnext",
     "baseUrl": ".",
     "paths": {
-      "tests/*": ["tests/*"],
       "src/*": ["src/*"]
     }
   },
   "include": [
-    "src", "tests"
+    "src"
   ],
   "exclude": [
     "node_modules",
     ".yalc",
-    "dist"
+    "dist",
+    "tests"
   ]
 }

@@ -8,21 +8,16 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "strictNullChecks": false,
-
     "removeComments": true,
     "sourceMap": false,
-
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-
     "jsx": "react",
-
     "lib": ["dom", "es2016"],
     "target": "es2016",
     "module": "esnext",
-
     "baseUrl": ".",
     "paths": {
       "tests/*": ["tests/*"],
