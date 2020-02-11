@@ -1,35 +1,25 @@
 import React, { ReactElement } from "react"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
-//import waitForExpect from "wait-for-expect"
+import { matchers } from "jest-emotion"
+
+expect.extend(matchers)
 
 configure({ adapter: new Adapter() })
 
 import { SimpleModal, SimpleModalProvider } from "src"
+import { SimpleModalWithContextProps } from "src/SimpleModalWithContext"
 
-/**
- * To test:
- * - Confirm that onClose & onOpen are called at the right time.
- */
+const ModalContent = (): ReactElement => <div>Modal Content</div>
 
-const onClose = (): void => {
-  console.log("close")
-}
+const MainContent = (): ReactElement => <div>Main Content</div>
 
-interface Props {
-  onClose: () => void;
-  isCloseButtonVisible?: boolean;
-  modalName: string;
-}
-
-const ModalContent = (): ReactElement => {
-  return <div>Content</div>
-}
-
-const App = (props: Props): ReactElement => (
+const App = (props: SimpleModalWithContextProps): ReactElement => (
   <SimpleModalProvider>
     <div id={"app"}>
-      <div id={"content"}>Regular content</div>
+      <div id={"main"}>
+        <MainContent />
+      </div>
       <SimpleModal {...props}>
         <ModalContent />
       </SimpleModal>
@@ -38,19 +28,56 @@ const App = (props: Props): ReactElement => (
 )
 
 describe("SimpleModal", () => {
-  it.only("should add fixed styles to main element when mounted", () => {
+  it("should add fixed styles to main element when mounted", () => {
     const wrapper = mount(
-      <App
-        modalName={"toggled-modal"}
-        onClose={onClose}
-        isCloseButtonVisible={false}
-      />
+      <App modalName={"toggled-modal"} containerClassName={"ToggledModal"} />
     )
 
     expect(wrapper.find(App)).toHaveLength(1)
     expect(wrapper.find("#app").prop("style")).toHaveProperty(
       "position",
       "fixed"
+    )
+    expect(wrapper.find(MainContent)).toHaveLength(1)
+    expect(wrapper.find(ModalContent)).toHaveLength(1)
+    expect(wrapper.find("div.ToggledModal")).toHaveStyleRule("z-index", "200")
+  })
+
+  it("should use the specified z-index & have no close button by default", () => {
+    const wrapper = mount(
+      <App
+        containerClassName={"ContainerLayerModal"}
+        containerLayer={201}
+        modalName={"container-layer-modal"}
+      />
+    )
+
+    expect(wrapper.find(App)).toHaveLength(1)
+    expect(wrapper.find(MainContent)).toHaveLength(1)
+    expect(wrapper.find(ModalContent)).toHaveLength(1)
+    expect(wrapper.find("div.ContainerLayerModal")).toHaveStyleRule(
+      "z-index",
+      "201"
+    )
+    expect(wrapper.find("button.SimpleModal-CloseButton")).toHaveLength(0)
+  })
+
+  it("should render a close button when specified", () => {
+    const wrapper = mount(
+      <App
+        modalName={"close-button-modal"}
+        containerClassName={"CloseButtonModal"}
+        closeButtonClassName={"CloseButtonModal-CloseButton"}
+        isCloseButtonVisible={true}
+        renderCloseButton={(): ReactElement => {
+          return <div>Close Button</div>
+        }}
+      />
+    )
+
+    expect(wrapper.find("button.CloseButtonModal-CloseButton")).toHaveLength(1)
+    expect(wrapper.find("button.CloseButtonModal-CloseButton").html()).toMatch(
+      "<div>Close Button</div>"
     )
   })
 })
