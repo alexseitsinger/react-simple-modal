@@ -6,34 +6,50 @@ import { Context, ContextProps } from "./SimpleModalContext"
 
 const defaultProps = {
   containerClassName: "SimpleModal",
+  containerLayer: 200,
   backgroundShade: "dark",
-  isCloseButtonVisible: true,
+  closeButtonClassName: "SimpleModal-CloseButton",
   closeButtonPosition: "foreground",
-  closeButtonBody: "close",
-  layerPosition: "above",
-  defaultIndex: 200,
-  isVisible: true,
+  isCloseButtonVisible: false,
 }
 
 type DefaultProps = Readonly<typeof defaultProps>
 
+type BackgroundShades =
+  | "dark"
+  | "darker"
+  | "darkest"
+  | "light"
+  | "lighter"
+  | "lightest"
+
+type CloseButtonPositions = "foreground" | "window"
+
 export type SimpleModalWithContextProps = {
+  // Required
   modalName: string,
-  onClose: () => void,
-  closeButtonStyle?: CSSObject,
-  onClickCloseButton?: () => void,
-  onOpen?: () => void,
-  onEscapeKey?: () => void,
-  onClickBackground?: () => void,
-  isVisible: boolean,
+
+  // Container
   containerClassName?: string,
-  backgroundShade?: string,
+  containerLayer?: number,
+
+  // Background
+  backgroundShade?: BackgroundShades,
+  onClickBackground?: () => void,
+
+  // Close Button
   isCloseButtonVisible?: boolean,
-  closeButtonPosition?: string,
-  closeButtonBody?: ReactNode,
-  layerPosition?: string,
-  defaultIndex?: number,
-  children: ReactNode | ReactNode[],
+  closeButtonClassName?: string,
+  closeButtonStyle?: CSSObject,
+  closeButtonPosition?: CloseButtonPositions,
+  onClickCloseButton?: () => void,
+  renderCloseButton?: () => ReactElement,
+
+  // Escape Key Callback
+  onEscapeKey?: () => void,
+
+  // Modal Content
+  children?: ReactNode | ReactNode[],
 } & Partial<DefaultProps>
 
 export function SimpleModalWithContext(

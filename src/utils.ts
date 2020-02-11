@@ -268,7 +268,7 @@ export function removeEvent(
 }
 
 export function scrollWindow(position: number): void {
-  if (hasWindow) {
+  if (isDOM && hasWindow && isDefined(window.scrollTo)) {
     window.scrollTo(0, position)
   }
 }
@@ -382,4 +382,51 @@ export const getLayerIndex = (
     return defaultIndex - totalInstances
   }
   return defaultIndex
+}
+
+export const handleKeyDownEvent = debounce(
+  (keyCode: number, f: FunctionType): void => {
+    if (isEscapeKey(keyCode)) {
+      if (isDefined(f)) {
+        f()
+      }
+    }
+  },
+  250
+)
+
+const getShadeOpacity = (shade: string): number => {
+  const defaultOpacity = 0.5
+  switch (shade) {
+    default:
+    case "dark":
+    case "light": {
+      return defaultOpacity
+    }
+    case "darker":
+    case "lighter": {
+      return defaultOpacity + 0.2
+    }
+    case "darkest":
+    case "lightest": {
+      return defaultOpacity + 0.4
+    }
+  }
+}
+
+export const getShadeColor = (shade: string): string => {
+  const opacity = getShadeOpacity(shade)
+  switch (shade) {
+    default:
+    case "dark":
+    case "darker":
+    case "darkest": {
+      return `rgba(22, 22, 22, ${opacity})`
+    }
+    case "light":
+    case "lighter":
+    case "lightest": {
+      return `rgba(225, 225, 225, ${opacity})`
+    }
+  }
 }

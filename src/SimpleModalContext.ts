@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react"
 
 export interface ContextProps {
-  renderModal: (n: string, el: ReactElement) => void;
-  removeModal: (n: string) => void;
+  renderModal: (name: string, element: ReactElement) => void;
+  removeModal: (name: string) => void;
 }
 
 const defaultContext: ContextProps = {
