@@ -1,3 +1,10 @@
+<a name="v4.0.0"></a>
+## [v4.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v3.1.0...v4.0.0) (2020-02-11)
+
+### Code Refactoring
+- Wraps with try/catch. ([503373b](https://github.com/alexseitsinger/react-simple-modal/commit/503373ba9f57f71b0f2919337c7cc00879646a9a))
+
+
 <a name="v3.1.0"></a>
 ## [v3.1.0](https://github.com/alexseitsinger/react-simple-modal/compare/v3.0.0...v3.1.0) (2020-02-11)
 
