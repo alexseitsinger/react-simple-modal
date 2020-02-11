@@ -10,20 +10,19 @@ yarn add @alexseitsinger/react-simple-modal
 
 ## Props
 
-Name                 | Description                                             | Default       | Required
----                  | ---                                                     | ---           | ---
-modalName            | The unique name of the modal.                           | undefined     | true
-onClose              | Invoked whenever isVisible changes to false.            | undefined     | true
-onOpen               | Invoked whenever isVisible changes to true.             | undefined     | false
-backgroundShade      | The background color to use for the modal's background. | "dark"        | false
-isCloseButtonVisible | Show the close button                                   | false         | false
-closeButtonStyle     | Additional css to apply to the close button             | undefined     | false
-closeButtonBody      | The node to render for the close button                 | undefined     | false
-onEscapeKey          | Invoked whenever the escape key is pressed.             | undefined     | false
-onClickBackground    | Invoked whenever the background is clicked.             | undefined     | false
-containerClassName   | Custom classname to use for the modal.                  | "SimpleModal" | false
-layerPosition        | Should the modal be above or below the main element?    | "above"       | false
-defaultIndex         | The default z-index to use for the modal                | 200           | false
+Name                 | Description                                             | Default                   | Required
+---                  | ---                                                     | ---                       | ---
+modalName            | The unique name of the modal.                           | undefined                 | true
+containerClassName   | Custom classname to use for the modal.                  | "SimpleModal"             | false
+containerLayer       | The default z-index to use for the modal                | 200                       | false
+backgroundShade      | The background color to use for the modal's background. | "dark"                    | false
+onClickBackground    | Invoked when the background is clicked.                 | undefined                 | false
+closeButtonClassName | The class name to use for the close button.             | "SimpleModal-CloseButton" | false
+isCloseButtonVisible | Show the close button                                   | false                     | false
+closeButtonStyle     | Additional css to apply to the close button             | undefined                 | false
+renderCloseButton    | Invoked to render the button body                       | undefined                 | false
+onEscapeKey          | Invoked whenever the escape key is pressed.             | undefined                 | false
+children             | The content to render in the modal                      | undefined                 | false
 
 ## Example
 
@@ -56,11 +55,10 @@ function App({ store, history }) {
 // Within app page
 import { SimpleModal } from "@alexseitsinger/react-simple-modal"
 
-function HomePage({ onCloseModal }) {
+function HomePage() {
   return (
     <SimpleModal
-      modalName={"home-page-modal"}
-      onClose={onCloseModal}>
+      modalName={"home-page-modal"}>
       <div>Some modal content.</div>
     </SimpleModal>
   )
