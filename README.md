@@ -28,12 +28,6 @@ children             | The content to render in the modal                      |
 
 ```javascript
 // Within App root
-//
-// NOTE:
-// 'SimpleModalProvider' must wrap your apps top-most DOM element because it
-// changes this elements style from 'fixed' to 'static' as each modal is made
-// visible.
-//
 import { SimpleModalProvider } from "@alexseitsinger/react-simple-modal"
 
 function App({ store, history }) {
@@ -41,9 +35,7 @@ function App({ store, history }) {
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <SimpleModalProvider>
-          <div id={"app"}>
-            <Route patch={"/"} exact component={HomePage} />
-          </div>
+          <Route patch={"/"} exact component={HomePage} />
         </SimpleModalProvider>
       </ConnectedRouter>
     </Provider>
