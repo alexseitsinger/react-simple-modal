@@ -3,6 +3,11 @@ import styled from "@emotion/styled"
 
 import { getShadeColor } from "src/utils"
 
+export const MainElement = styled.div`
+  min-height: 100%;
+  height: 100%;
+`
+
 export const Container = styled.div`
   position: absolute;
   min-height: 100%;

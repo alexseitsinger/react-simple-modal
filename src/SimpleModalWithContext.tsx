@@ -57,9 +57,14 @@ export function SimpleModalWithContext(
 ): ReactElement {
   return (
     <Context.Consumer>
-      {({ renderModal, removeModal }: ContextProps): ReactElement => (
+      {({
+        renderModal,
+        removeModal,
+        shouldRender,
+      }: ContextProps): ReactElement => (
         <SimpleModal
           {...props}
+          shouldRender={shouldRender}
           renderModal={renderModal}
           removeModal={removeModal}
         />

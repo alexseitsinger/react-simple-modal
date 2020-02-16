@@ -1,6 +1,8 @@
 import React, { ReactElement } from "react"
 import FocusLock from "react-focus-lock"
+import { isEqual } from "underscore"
 
+//import { debounce, isEqual } from "underscore"
 import {
   Background,
   Button,
@@ -22,33 +24,58 @@ import {
 type Props = SimpleModalWithContextProps & ContextProps
 
 export class SimpleModal extends React.Component<Props> {
-  check: () => void
+  handleUnmount: () => void
 
   constructor(props: Props) {
     super(props)
 
     const { modalName, removeModal } = props
 
-    this.check = createChecker({
+    this.handleUnmount = createChecker({
       modalName,
       delay: 600,
       check: (): boolean => {
         return !hasBeenMounted(modalName)
       },
-      complete: () => {
+      fail: () => {
+        console.log("modal was re-mounted")
+      },
+      pass: () => {
         removeModal(modalName)
       },
     })
   }
 
   componentDidMount(): void {
-    const { renderModal, modalName } = this.props
+    const { renderModal, modalName, shouldRender } = this.props
 
     addMounted(modalName)
 
-    renderModal(modalName, this.renderModal())
+    /**
+     * To prevent an infinte loop, our provider passes down a boolean prop that
+     * changes to false whenever we run its renderModal() method.
+     */
+    if (shouldRender) {
+      renderModal(modalName, this.renderModal())
+    }
 
     addEvent("keydown", this.handleKeyDown)
+  }
+
+  componentDidUpdate(prevProps: Props): void {
+    /**
+     * To prevent an infinite loop, we need to check to make sure the props have
+     * changed before calling our provided renderModal() method.
+     */
+    if (isEqual(prevProps, this.props)) {
+      return
+    }
+    /**
+     * If the props have changed, go ahead and render a new element in the
+     * provider.
+     */
+    const { modalName, renderModal } = this.props
+    renderModal(modalName, this.renderModal())
   }
 
   componentWillUnmount(): void {
@@ -56,7 +83,7 @@ export class SimpleModal extends React.Component<Props> {
 
     removeMounted(modalName)
 
-    this.check()
+    this.handleUnmount()
 
     removeEvent("keydown", this.handleKeyDown)
   }

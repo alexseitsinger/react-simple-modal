@@ -8,7 +8,8 @@ type FunctionType = () => void
 interface CreateCheckerArgs {
   delay: number;
   check: () => boolean;
-  complete: () => void;
+  pass: () => void;
+  fail: () => void;
   modalName: string;
 }
 
@@ -21,13 +22,16 @@ const checkerMethodCache: CheckerMethodCache = {}
 export const createChecker = ({
   delay,
   check,
-  complete,
+  pass,
+  fail,
   modalName,
 }: CreateCheckerArgs): FunctionType => {
   const create = (): FunctionType => {
     return debounce(() => {
       if (check() === true) {
-        complete()
+        pass()
+      } else {
+        fail()
       }
     }, delay)
   }
@@ -271,7 +275,7 @@ export function scrollWindow(position: number): void {
   if (isDOM && hasWindow && isDefined(window.scrollTo)) {
     try {
       // Since JSDOM doesn't have scrollTo implemented, we wrap this call in a
-      // try/catch block to prevent jest from clogging up the log with this error each time
+      // try/catch block to prevent jest from reporting this error each time
       // this function is invoked.
       window.scrollTo(0, position)
     } catch (e) {}

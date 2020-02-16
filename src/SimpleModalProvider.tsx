@@ -1,6 +1,9 @@
 import React, { ReactElement, ReactNode } from "react"
 import { CSSObject } from "@emotion/core"
 
+import { MainElement } from "src/elements"
+
+//import { isFunction } from "underscore"
 //import { uniqueId } from "underscore"
 import { Context, ContextProps } from "./SimpleModalContext"
 import {
@@ -17,9 +20,10 @@ interface Props {
 }
 
 interface State {
-  renderedModal: ReactElement | null;
+  renderedModal: ReactElement;
   style: CSSObject;
   renderedModalName: string;
+  shouldRender: boolean;
 }
 
 export class SimpleModalProvider extends React.Component<Props, State> {
@@ -27,12 +31,15 @@ export class SimpleModalProvider extends React.Component<Props, State> {
     renderedModal: null,
     renderedModalName: null,
     style: { top: 0 },
+    shouldRender: true,
   }
 
-  element = React.createRef<HTMLDivElement>()
+  mainRef = React.createRef<HTMLDivElement>()
+
+  portalRef = React.createRef<HTMLDivElement>()
 
   removeModal = (modalName: string): void => {
-    const { current } = this.element
+    const { current } = this.mainRef
     const { renderedModalName } = this.state
 
     const isName = (
@@ -50,6 +57,7 @@ export class SimpleModalProvider extends React.Component<Props, State> {
         style: { top: 0 },
         renderedModal: null,
         renderedModalName: null,
+        shouldRender: true,
       })
 
       // Force the window to re-scroll to the original position.
@@ -58,13 +66,9 @@ export class SimpleModalProvider extends React.Component<Props, State> {
     }
   }
 
-  renderModal = (modalName: string, el: ReactElement): void => {
-    const { renderedModal } = this.state
-    const { current } = this.element
-
-    if (isDefined(renderedModal)) {
-      return
-    }
+  renderModal = (modalName: string, element: ReactElement): void => {
+    //const { renderedModal } = this.state
+    const { current } = this.mainRef
 
     let style = defaultFixedStyle
 
@@ -80,37 +84,29 @@ export class SimpleModalProvider extends React.Component<Props, State> {
 
     this.setState({
       style,
-      renderedModal: el,
       renderedModalName: modalName,
+      renderedModal: element,
+      shouldRender: false,
     })
   }
 
   render(): ReactElement {
     const { renderModal, removeModal } = this
-    const { renderedModal, style, } = this.state
+    const { renderedModal, style, shouldRender } = this.state
     const { children } = this.props
     const value: ContextProps = {
       removeModal,
       renderModal,
-    }
-
-    const child = React.Children.only(children)
-    const MainElement = (props: any): ReactElement => {
-      if (React.isValidElement(child)) {
-        return React.cloneElement(child, {
-          ...props,
-          ref: this.element,
-          style,
-        })
-      }
-      return <>{child}</>
+      shouldRender,
     }
 
     return (
       <>
-        <Context.Provider value={value}>
-          <MainElement />
-        </Context.Provider>
+        <MainElement ref={this.mainRef} css={style}>
+          <Context.Provider value={value}>
+            {children}
+          </Context.Provider>
+        </MainElement>
         {renderedModal}
       </>
     )
