@@ -9,7 +9,7 @@ interface CreateCheckerArgs {
   delay: number;
   check: () => boolean;
   pass: () => void;
-  fail: () => void;
+  fail?: () => void;
   modalName: string;
 }
 

@@ -3,23 +3,16 @@ import FocusLock from "react-focus-lock"
 import { isEqual } from "underscore"
 
 //import { debounce, isEqual } from "underscore"
-import {
-  Background,
-  Button,
-  Container,
-  Content,
-  Foreground,
-} from "src/elements"
-import { addMounted, hasBeenMounted, removeMounted } from "src/mounted"
-import { ContextProps } from "src/SimpleModalContext"
-import { SimpleModalWithContextProps } from "src/SimpleModalWithContext"
-
+import { Background, Button, Container, Content, Foreground } from "./elements"
+import { ContextProps } from "./SimpleModalContext"
+import { SimpleModalWithContextProps } from "./SimpleModalWithContext"
 import {
   addEvent,
   createChecker,
   handleKeyDownEvent,
   removeEvent,
-} from "./utils"
+} from "./utils/general"
+import { addMounted, hasMounted, removeMounted } from "./utils/mounting"
 
 type Props = SimpleModalWithContextProps & ContextProps
 
@@ -35,10 +28,7 @@ export class SimpleModal extends React.Component<Props> {
       modalName,
       delay: 600,
       check: (): boolean => {
-        return !hasBeenMounted(modalName)
-      },
-      fail: () => {
-        console.log("modal was re-mounted")
+        return !hasMounted(modalName)
       },
       pass: () => {
         removeModal(modalName)

@@ -1,8 +1,7 @@
 import React, { ReactElement, ReactNode } from "react"
 import { CSSObject } from "@emotion/core"
 
-import { MainElement } from "src/elements"
-
+import { MainElement } from "./elements"
 //import { isFunction } from "underscore"
 //import { uniqueId } from "underscore"
 import { Context, ContextProps } from "./SimpleModalContext"
@@ -13,7 +12,7 @@ import {
   isDefined,
   //isNullish,
   scrollWindow,
-} from "./utils"
+} from "./utils/general"
 
 interface Props {
   children: ReactNode | ReactNode[];

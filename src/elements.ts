@@ -1,7 +1,7 @@
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
 
-import { getShadeColor } from "src/utils"
+import { getShadeColor } from "./utils/general"
 
 export const MainElement = styled.div`
   min-height: 100%;
