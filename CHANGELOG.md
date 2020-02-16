@@ -1,3 +1,10 @@
+<a name="v5.0.0"></a>
+## [v5.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v4.0.0...v5.0.0) (2020-02-16)
+
+### Code Refactoring
+- Adds DOM node within provider. ([a461455](https://github.com/alexseitsinger/react-simple-modal/commit/a461455a48bb8125419131e44cdc05c48cd0f03b))
+
+
 <a name="v4.0.0"></a>
 ## [v4.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v3.1.0...v4.0.0) (2020-02-11)
 
