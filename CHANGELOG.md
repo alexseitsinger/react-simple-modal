@@ -1,3 +1,10 @@
+<a name="v5.1.0"></a>
+## [v5.1.0](https://github.com/alexseitsinger/react-simple-modal/compare/v5.0.0...v5.1.0) (2020-02-16)
+
+### Code Refactoring
+- Removes log statements. ([02e55df](https://github.com/alexseitsinger/react-simple-modal/commit/02e55dfd5e2e81cb25bcccc863995629520738c8))
+
+
 <a name="v5.0.0"></a>
 ## [v5.0.0](https://github.com/alexseitsinger/react-simple-modal/compare/v4.0.0...v5.0.0) (2020-02-16)
 
