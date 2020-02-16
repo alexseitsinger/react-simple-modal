@@ -8,7 +8,7 @@ expect.extend(matchers)
 configure({ adapter: new Adapter() })
 
 import { SimpleModal, SimpleModalProvider } from "src"
-import { MainElement } from "src/elements"
+//import { MainElement } from "src/elements"
 import { SimpleModalWithContextProps } from "src/SimpleModalWithContext"
 
 const ModalContent = (): ReactElement => <div>Modal Content</div>
