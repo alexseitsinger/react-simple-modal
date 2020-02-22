@@ -1,3 +1,13 @@
+<a name="v5.1.1"></a>
+## [v5.1.1](https://github.com/alexseitsinger/react-simple-modal/compare/v5.1.0...v5.1.1) (2020-02-22)
+
+### Bug Fixes
+- Fixes yOffset/topPos setting. ([0fb0f7d](https://github.com/alexseitsinger/react-simple-modal/commit/0fb0f7db4cfae18ada4eaa53bd4b7dd04ddd792f))
+
+### Code Refactoring
+- Renames elements. ([4560956](https://github.com/alexseitsinger/react-simple-modal/commit/4560956644eb4864fb610114e051e48305ba4f12))
+
+
 <a name="v5.1.0"></a>
 ## [v5.1.0](https://github.com/alexseitsinger/react-simple-modal/compare/v5.0.0...v5.1.0) (2020-02-16)
 
