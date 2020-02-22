@@ -44,7 +44,7 @@
     "underscore": "^1.9.2"
   },
   "devDependencies": {
-    "@alexseitsinger/eslint-config": "^2.17.0",
+    "@alexseitsinger/eslint-config": "^2.18.0",
     "@babel/core": "7.8.4",
     "@babel/plugin-proposal-class-properties": "7.8.3",
     "@babel/plugin-proposal-export-default-from": "7.8.3",
@@ -88,6 +88,7 @@
     "jest": "25.1.0",
     "jest-emotion": "^10.0.27",
     "prettier": "^1.19.1",
+    "prettier-eslint": "^9.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "terser-webpack-plugin": "^2.3.4",
