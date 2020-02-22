@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from "react"
 import { CSSObject } from "@emotion/core"
 
-import { MainElement } from "./elements"
+import { SimpleModalPageContainer } from "./elements"
 //import { isFunction } from "underscore"
 //import { uniqueId } from "underscore"
 import { Context, ContextProps } from "./SimpleModalContext"
@@ -105,11 +105,11 @@ export class SimpleModalProvider extends React.Component<Props, State> {
     }
     return (
       <>
-        <MainElement ref={this.mainRef} css={style}>
+        <SimpleModalPageContainer ref={this.mainRef} css={style}>
           <Context.Provider value={value}>
             {children}
           </Context.Provider>
-        </MainElement>
+        </SimpleModalPageContainer>
         {renderedModal}
       </>
     )

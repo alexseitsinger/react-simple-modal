@@ -3,12 +3,11 @@ import styled from "@emotion/styled"
 
 import { getShadeColor } from "./utils/general"
 
-export const MainElement = styled.div`
+export const SimpleModalPageContainer = styled.div`
   min-height: 100%;
-  height: 100%;
 `
 
-export const Container = styled.div`
+export const SimpleModalContainer = styled.div`
   position: absolute;
   min-height: 100%;
   width: 100%;
@@ -24,7 +23,7 @@ export const Container = styled.div`
   }}
 `
 
-export const Background = styled.div`
+export const SimpleModalBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -38,7 +37,7 @@ export const Background = styled.div`
   }}
 `
 
-export const Foreground = styled.div`
+export const SimpleModalForeground = styled.div`
   z-index: 4;
   display: flex;
   flex-direction: row;
@@ -47,14 +46,14 @@ export const Foreground = styled.div`
   height: 100%;
 `
 
-export const Content = styled.div`
+export const SimpleModalContent = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
   z-index: 5;
 `
 
-export const Button = styled.button`
+export const SimpleModalButton = styled.button`
   top: 0;
   right: 0;
   z-index: 2;

@@ -3,7 +3,13 @@ import FocusLock from "react-focus-lock"
 import { isEqual } from "underscore"
 
 //import { debounce, isEqual } from "underscore"
-import { Background, Button, Container, Content, Foreground } from "./elements"
+import {
+  SimpleModalBackground,
+  SimpleModalButton,
+  SimpleModalContainer,
+  SimpleModalContent,
+  SimpleModalForeground,
+} from "./elements"
 import { ContextProps } from "./SimpleModalContext"
 import { SimpleModalWithContextProps } from "./SimpleModalWithContext"
 import {
@@ -103,32 +109,32 @@ export class SimpleModal extends React.Component<Props> {
     } = this.props
 
     const renderedCloseButton = isCloseButtonVisible ? (
-      <Button
+      <SimpleModalButton
         type={"button"}
         className={closeButtonClassName}
         css={closeButtonStyle}
         onClick={onClickCloseButton}>
         {renderCloseButton()}
-      </Button>
+      </SimpleModalButton>
     ) : null
 
     return (
       <FocusLock>
-        <Container
+        <SimpleModalContainer
           className={containerClassName}
           containerLayer={containerLayer}>
-          <Background
+          <SimpleModalBackground
             onClick={onClickBackground}
             backgroundShade={backgroundShade}
           />
-          <Foreground>
+          <SimpleModalForeground>
             {closeButtonPosition === "foreground" ? renderedCloseButton : null}
-            <Content>
+            <SimpleModalContent>
               {closeButtonPosition === "window" ? renderedCloseButton : null}
               {children}
-            </Content>
-          </Foreground>
-        </Container>
+            </SimpleModalContent>
+          </SimpleModalForeground>
+        </SimpleModalContainer>
       </FocusLock>
     )
   }
