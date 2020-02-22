@@ -62,7 +62,7 @@ export class SimpleModal extends React.Component<Props> {
     }
     /**
      * If the props have changed, go ahead and render a new element in the
-     * provider.
+     * provider. This lets RHL update including this component.
      */
     const { modalName, renderModal } = this.props
     renderModal(modalName, this.renderModal())
