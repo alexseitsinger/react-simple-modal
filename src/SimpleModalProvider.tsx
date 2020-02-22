@@ -65,24 +65,29 @@ export class SimpleModalProvider extends React.Component<Props, State> {
     }
   }
 
-  renderModal = (modalName: string, element: ReactElement): void => {
-    //const { renderedModal } = this.state
+  getContainerStyle = (modalName: string): CSSObject => {
     const { current } = this.mainRef
-
-    let style = defaultFixedStyle
-
-    if (isDefined(current)) {
-      // If the top position is not greater than 0, apply a negative top offset
-      // to move it up when the modal is opened.
-      const yOffset = getYOffset()
-      const topPos = getTopOffset(current)
-      if (!(topPos > 0)) {
-        style = { ...style, top: `-${yOffset}px` }
-      }
+    /**
+     * If our modal is alredy rendered, and we're just rendering a new, updated
+     * version, we need to re-use the style that's already there. Otherwise, the
+     * style will get reset and use the wrong yoffset/top.
+     */
+    const { style: currentStyle, renderedModalName } = this.state
+    if (renderedModalName === modalName) {
+      return currentStyle
     }
 
+    let newStyle = defaultFixedStyle
+    if (isDefined(current)) {
+      const yOffset = getYOffset()
+      newStyle = { ...newStyle, top: `-${yOffset}px` }
+    }
+    return newStyle
+  }
+
+  renderModal = (modalName: string, element: ReactElement): void => {
     this.setState({
-      style,
+      style: this.getContainerStyle(modalName),
       renderedModalName: modalName,
       renderedModal: element,
       shouldRender: false,
@@ -98,7 +103,6 @@ export class SimpleModalProvider extends React.Component<Props, State> {
       renderModal,
       shouldRender,
     }
-
     return (
       <>
         <MainElement ref={this.mainRef} css={style}>
