@@ -38,9 +38,7 @@
     "@emotion/styled": "10.0.27",
     "computed-style": "^0.3.0",
     "core-js": "3.6.4",
-    "prop-types": "15.7.2",
     "react-focus-lock": "^2.2.1",
-    "react-style-proptype": "^3.2.2",
     "underscore": "^1.9.2"
   },
   "devDependencies": {
