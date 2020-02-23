@@ -58,3 +58,10 @@ export const SimpleModalButton = styled.button`
   right: 0;
   z-index: 2;
 `
+
+export const SimpleModalWindow = styled.div`
+  background-color: #ffffff;
+  border: 1px solid #999999;
+  border-radius: 0.333em;
+  padding: 1.5em;
+`
