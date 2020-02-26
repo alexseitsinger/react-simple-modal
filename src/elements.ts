@@ -1,11 +1,11 @@
-import { css } from "@emotion/core"
+import { css, SerializedStyles } from "@emotion/core"
 import styled from "@emotion/styled"
 
 import { getShadeColor } from "./utils/general"
 
-export const SimpleModalPageContainer = styled.div`
-  min-height: 100%;
-`
+export const SimpleModalPageContainer = styled.div``
+
+export const SimpleModalPortalContainer = styled.div``
 
 export const SimpleModalContainer = styled.div`
   position: absolute;
@@ -16,7 +16,7 @@ export const SimpleModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${({ containerLayer }: { containerLayer: number }): any => {
+  ${({ containerLayer }: { containerLayer: number }): SerializedStyles => {
     return css`
       z-index: ${containerLayer};
     `
@@ -30,7 +30,7 @@ export const SimpleModalBackground = styled.div`
   width: 100%;
   min-height: 100%;
   z-index: 3;
-  ${({ backgroundShade }: { backgroundShade: string }): any => {
+  ${({ backgroundShade }: { backgroundShade: string }): SerializedStyles => {
     return css`
       background-color: ${getShadeColor(backgroundShade)};
     `

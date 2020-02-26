@@ -1,8 +1,6 @@
-import React, { ReactElement } from "react"
+import React, { Component, ReactElement, ReactNode } from "react"
 import FocusLock from "react-focus-lock"
-import { isEqual } from "underscore"
 
-//import { debounce, isEqual } from "underscore"
 import {
   SimpleModalBackground,
   SimpleModalButton,
@@ -12,74 +10,23 @@ import {
 } from "./elements"
 import { ContextProps } from "./SimpleModalContext"
 import { SimpleModalWithContextProps } from "./SimpleModalWithContext"
-import {
-  addEvent,
-  createChecker,
-  handleKeyDownEvent,
-  removeEvent,
-} from "./utils/general"
-import { addMounted, hasMounted, removeMounted } from "./utils/mounting"
+import { addEvent, handleKeyDownEvent, removeEvent } from "./utils/general"
 
-type Props = SimpleModalWithContextProps & ContextProps
+export type SimpleModalProps = SimpleModalWithContextProps & ContextProps
 
-export class SimpleModal extends React.Component<Props> {
-  handleUnmount: () => void
-
-  constructor(props: Props) {
-    super(props)
-
-    const { modalName, removeModal } = props
-
-    this.handleUnmount = createChecker({
-      modalName,
-      delay: 600,
-      check: (): boolean => {
-        return !hasMounted(modalName)
-      },
-      pass: () => {
-        removeModal(modalName)
-      },
-    })
-  }
-
+export class SimpleModal extends Component<SimpleModalProps> {
   componentDidMount(): void {
-    const { renderModal, modalName, shouldRender } = this.props
+    const { modalName, handleMount } = this.props
 
-    addMounted(modalName)
-
-    /**
-     * To prevent an infinte loop, our provider passes down a boolean prop that
-     * changes to false whenever we run its renderModal() method.
-     */
-    if (shouldRender) {
-      renderModal(modalName, this.renderModal())
-    }
+    handleMount(modalName)
 
     addEvent("keydown", this.handleKeyDown)
   }
 
-  componentDidUpdate(prevProps: Props): void {
-    /**
-     * To prevent an infinite loop, we need to check to make sure the props have
-     * changed before calling our provided renderModal() method.
-     */
-    if (isEqual(prevProps, this.props)) {
-      return
-    }
-    /**
-     * If the props have changed, go ahead and render a new element in the
-     * provider. This lets RHL update including this component.
-     */
-    const { modalName, renderModal } = this.props
-    renderModal(modalName, this.renderModal())
-  }
-
   componentWillUnmount(): void {
-    const { modalName } = this.props
+    const { modalName, handleUnmount } = this.props
 
-    removeMounted(modalName)
-
-    this.handleUnmount()
+    handleUnmount(modalName)
 
     removeEvent("keydown", this.handleKeyDown)
   }
@@ -139,7 +86,8 @@ export class SimpleModal extends React.Component<Props> {
     )
   }
 
-  render(): ReactElement {
-    return null
+  render(): ReactNode {
+    const { handleRender } = this.props
+    return handleRender(this.renderModal())
   }
 }

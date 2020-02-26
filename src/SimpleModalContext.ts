@@ -1,19 +1,9 @@
-import React, { ReactElement } from "react"
+import React, { ReactElement, ReactNode } from "react"
 
 export interface ContextProps {
-  renderModal: (name: string, element: ReactElement) => void;
-  removeModal: (name: string) => void;
-  shouldRender: boolean;
+  handleRender: (e: ReactElement) => ReactNode;
+  handleUnmount: (n: string) => void;
+  handleMount: (n: string) => void;
 }
 
-const defaultContext: ContextProps = {
-  shouldRender: true,
-  renderModal: () => {
-    console.log("renderModal() not implemented.")
-  },
-  removeModal: () => {
-    console.log("removeModal() not implemented.")
-  },
-}
-
-export const Context = React.createContext(defaultContext)
+export const Context = React.createContext({})

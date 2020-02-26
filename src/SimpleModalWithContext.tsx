@@ -52,25 +52,25 @@ export type SimpleModalWithContextProps = {
   children?: ReactNode | ReactNode[],
 } & Partial<DefaultProps>
 
-export function SimpleModalWithContext(
-  props: SimpleModalWithContextProps
-): ReactElement {
-  return (
-    <Context.Consumer>
-      {({
-        renderModal,
-        removeModal,
-        shouldRender,
-      }: ContextProps): ReactElement => (
+type Props = SimpleModalWithContextProps
+
+export const SimpleModalWithContext = (props: Props): ReactElement => (
+  <Context.Consumer>
+    {({
+      handleRender,
+      handleMount,
+      handleUnmount,
+    }: ContextProps): ReactElement => {
+      return (
         <SimpleModal
           {...props}
-          shouldRender={shouldRender}
-          renderModal={renderModal}
-          removeModal={removeModal}
+          handleRender={handleRender}
+          handleMount={handleMount}
+          handleUnmount={handleUnmount}
         />
-      )}
-    </Context.Consumer>
-  )
-}
+      )
+    }}
+  </Context.Consumer>
+)
 
 SimpleModalWithContext.defaultProps = defaultProps

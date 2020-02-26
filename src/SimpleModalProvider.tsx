@@ -1,16 +1,15 @@
-import React, { ReactElement, ReactNode } from "react"
+import React, { Component, ReactElement, ReactNode } from "react"
+import { createPortal } from "react-dom"
 import { CSSObject } from "@emotion/core"
 
-import { SimpleModalPageContainer } from "./elements"
-//import { isFunction } from "underscore"
-//import { uniqueId } from "underscore"
+import { SimpleModalPageContainer,SimpleModalPortalContainer } from "./elements"
 import { Context, ContextProps } from "./SimpleModalContext"
 import {
   defaultFixedStyle,
   getTopOffset,
   getYOffset,
   isDefined,
-  //isNullish,
+  isDOM,
   scrollWindow,
 } from "./utils/general"
 
@@ -19,61 +18,56 @@ interface Props {
 }
 
 interface State {
-  renderedModal: ReactElement;
+  modalName: string;
   style: CSSObject;
-  renderedModalName: string;
-  shouldRender: boolean;
 }
 
-export class SimpleModalProvider extends React.Component<Props, State> {
+export class SimpleModalProvider extends Component<Props, State> {
   state: State = {
-    renderedModal: null,
-    renderedModalName: null,
+    modalName: "",
     style: { top: 0 },
-    shouldRender: true,
   }
 
   mainRef = React.createRef<HTMLDivElement>()
 
   portalRef = React.createRef<HTMLDivElement>()
 
-  removeModal = (modalName: string): void => {
+  handleUnmount = (currentModalName: string): void => {
+    const { modalName } = this.state
     const { current } = this.mainRef
-    const { renderedModalName } = this.state
-
-    const isName = (
-      isDefined(renderedModalName)
-      && renderedModalName === modalName
-    )
-    if (isName) {
-      // Record the current top position of the main element.
-      //
-      // NOTE:
-      // Must be before everything else to capture the top position offset.)
+    if (isDefined(modalName) && currentModalName === modalName) {
       const topPos = isDefined(current) ? getTopOffset(current) : 0
 
       this.setState({
+        modalName: "",
         style: { top: 0 },
-        renderedModal: null,
-        renderedModalName: null,
-        shouldRender: true,
       })
 
-      // Force the window to re-scroll to the original position.
-      // NOTE: Must be the last thing to run in order to reset scrolling.
       scrollWindow(topPos)
     }
   }
 
+  handleMount = (modalName: string): void => {
+    this.setState({
+      modalName,
+      style: this.getContainerStyle(modalName),
+    })
+  }
+
+  handleRender = (el: ReactElement): ReactElement => {
+    const { current } = this.portalRef
+    if (isDefined(current) && isDOM) {
+      return createPortal(el, current)
+    }
+    // If we're on the server, just the DOM element so its visible in the
+    // ssr source.
+    return el
+  }
+
   getContainerStyle = (modalName: string): CSSObject => {
     const { current } = this.mainRef
-    /**
-     * If our modal is alredy rendered, and we're just rendering a new, updated
-     * version, we need to re-use the style that's already there. Otherwise, the
-     * style will get reset and use the wrong yoffset/top.
-     */
-    const { style: currentStyle, renderedModalName } = this.state
-    if (renderedModalName === modalName) {
+    const { style: currentStyle, modalName: currentModalName } = this.state
+    if (currentModalName === modalName) {
       return currentStyle
     }
 
@@ -85,33 +79,21 @@ export class SimpleModalProvider extends React.Component<Props, State> {
     return newStyle
   }
 
-  renderModal = (modalName: string, element: ReactElement): void => {
-    this.setState({
-      style: this.getContainerStyle(modalName),
-      renderedModalName: modalName,
-      renderedModal: element,
-      shouldRender: false,
-    })
-  }
-
   render(): ReactElement {
-    const { renderModal, removeModal } = this
-    const { renderedModal, style, shouldRender } = this.state
+    const { style } = this.state
     const { children } = this.props
     const value: ContextProps = {
-      removeModal,
-      renderModal,
-      shouldRender,
+      handleRender: this.handleRender,
+      handleUnmount: this.handleUnmount,
+      handleMount: this.handleMount,
     }
+
     return (
-      <>
+      <SimpleModalPortalContainer ref={this.portalRef}>
         <SimpleModalPageContainer ref={this.mainRef} css={style}>
-          <Context.Provider value={value}>
-            {children}
-          </Context.Provider>
+          <Context.Provider value={value}>{children}</Context.Provider>
         </SimpleModalPageContainer>
-        {renderedModal}
-      </>
+      </SimpleModalPortalContainer>
     )
   }
 }
