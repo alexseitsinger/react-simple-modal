@@ -1,4 +1,4 @@
-import React, { Component, ReactElement, ReactNode } from "react"
+import React, { PureComponent, ReactElement, ReactNode } from "react"
 import { createPortal } from "react-dom"
 import { CSSObject } from "@emotion/core"
 
@@ -9,8 +9,8 @@ import {
   getTopOffset,
   getYOffset,
   isDefined,
-  isDOM,
   scrollWindow,
+  isDOM,
 } from "./utils/general"
 
 interface Props {
@@ -22,7 +22,7 @@ interface State {
   style: CSSObject;
 }
 
-export class SimpleModalProvider extends Component<Props, State> {
+export class SimpleModalProvider extends PureComponent<Props, State> {
   state: State = {
     modalName: "",
     style: { top: 0 },
