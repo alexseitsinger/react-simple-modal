@@ -7,6 +7,13 @@ expect.extend(matchers)
 
 configure({ adapter: new Adapter() })
 
+/**
+ * TODO: Add test to verify top is set to yoffset when rendered, and removed
+ * when unrendered.
+ * TODO: Test that the fixed style (with correct top position) gets re-set after
+ * an update (ala RHL).
+ */
+
 import { SimpleModal, SimpleModalProvider } from "src"
 //import { MainElement } from "src/elements"
 import { SimpleModalWithContextProps } from "src/SimpleModalWithContext"
