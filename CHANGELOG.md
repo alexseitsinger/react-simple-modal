@@ -1,3 +1,13 @@
+<a name="v5.2.0"></a>
+## [v5.2.0](https://github.com/alexseitsinger/react-simple-modal/compare/v5.1.2...v5.2.0) (2020-02-26)
+
+### Code Refactoring
+- Uses PureComponent for provider. ([4557245](https://github.com/alexseitsinger/react-simple-modal/commit/4557245756d23c0b0e66370e1f1fc1066091586e))
+
+### Features
+- Moves types directory. ([91c7a7a](https://github.com/alexseitsinger/react-simple-modal/commit/91c7a7a0e3d4288a7639920ac55b30a28ecccdf3))
+
+
 <a name="v5.1.2"></a>
 ## [v5.1.2](https://github.com/alexseitsinger/react-simple-modal/compare/v5.1.1...v5.1.2) (2020-02-26)
 
