@@ -1,6 +1,6 @@
 {
   "name": "@alexseitsinger/react-simple-modal",
-  "version": "5.1.2",
+  "version": "5.2.0",
   "description": "A simple react modal",
   "main": "index.js",
   "types": "types/index.d.ts",
