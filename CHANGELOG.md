@@ -1,3 +1,13 @@
+<a name="v5.1.2"></a>
+## [v5.1.2](https://github.com/alexseitsinger/react-simple-modal/compare/v5.1.1...v5.1.2) (2020-02-26)
+
+### Bug Fixes
+- Changes render process to allow for updates. ([eedfe03](https://github.com/alexseitsinger/react-simple-modal/commit/eedfe03c99a5878b3479760e57409e95c1fd6337))
+
+### Features
+- Adds ModalWindow element. ([d2316d6](https://github.com/alexseitsinger/react-simple-modal/commit/d2316d6597ec4b36722d1b696f2b2a6c57164940))
+
+
 <a name="v5.1.1"></a>
 ## [v5.1.1](https://github.com/alexseitsinger/react-simple-modal/compare/v5.1.0...v5.1.1) (2020-02-22)
 
